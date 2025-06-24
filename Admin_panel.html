@@ -1,119 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Sidebar 07</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+<head>
+  <title>Sidebar 07</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
-      rel="stylesheet"
-    />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <!-- Font Awesome -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      rel="stylesheet"
-    />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet" />
 
-    <link rel="stylesheet" href="/assets/css/Admin_panel.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  </head>
-  <body>
-    <div class="wrapper d-flex align-items-stretch">
-      <nav id="sidebar" class="active">
-        <h1><a href="index.html" class="logo">A</a></h1>
-        <ul class="list-unstyled components mb-5">
-  <li class="active">
-    <a href="#" class="menu-link" data-content="dashboard"><span class="fa fa-home"></span> Dashboard</a>
-  </li>
-  <li>
-    <a href="#" class="menu-link" data-content="post"><span class="fa fa-paper-plane"></span> Post</a>
-  </li>
-  <li>
-    <a href="#" class="menu-link" data-content="tag"><span class="fa fa-tag"></span> Tag</a>
-  </li>
-  <li>
-    <a href="#" class="menu-link" data-content="pages"><span class="fa fa-file"></span> Pages</a>
-  </li>
-  <li>
-    <a href="#" class="menu-link" data-content="user"><span class="fa fa-user"></span> User</a>
-  </li>
-  <li>
-    <a href="#" class="menu-link" data-content="settings"><span class="fa fa-cogs"></span> Settings</a>
-  </li>
-  <li>
-    <a href="#" class="menu-link" data-content="profile"><span class="fa fa-user-circle"></span> Profile
-  </a>
-  </li>
-</ul>
-      </nav>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 
-      <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-3">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="container-fluid">
-            <button type="button" id="sidebarCollapse" class="btn btn-primary">
-              <i class="fa fa-bars"></i>
-              <span class="sr-only">Toggle Menu</span>
+  <link rel="stylesheet" href="/assets/css/Admin_panel.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+  <div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar" class="active">
+      <h1><a href="index.html" class="logo">A</a></h1>
+      <ul class="list-unstyled components mb-5 font-size">
+        <li class="active">
+          <a href="#" class="menu-link" data-content="dashboard"><span class="fa fa-home"></span> Dashboard</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link" data-content="post"><span class="fa fa-paper-plane"></span> Post</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link" data-content="tag"><span class="fa fa-tag"></span> Tag</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link" data-content="pages"><span class="fa fa-file"></span> Pages</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link" data-content="user"><span class="fa fa-user"></span> User</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link" data-content="settings"><span class="fa fa-cogs"></span> Settings</a>
+        </li>
+        <li>
+          <a href="#" class="menu-link" data-content="profile"><span class="fa fa-user-circle"></span> Profile
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-0">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <button type="button" id="sidebarCollapse" class="btn btn-focus">
+            <i class="fa fa-bars"></i>
+            <span class="sr-only">Toggle Menu</span>
+          </button>
+          <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="btn-group dropstart">
+            <button type="button" class="btn border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <img height="30" width="30" src="/assets/image/user-avatar.png" alt="" />
             </button>
-            <button
-              class="btn btn-dark d-inline-block d-lg-none ml-auto"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <i class="fa fa-bars"></i>
-            </button>
-            <div class="btn-group dropstart">
-              <button
-                type="button"
-                class="btn border-0 dropdown-toggle"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  height="30"
-                  width="30"
-                  src="/assets/image/user-avatar.png"
-                  alt=""
-                />
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">logout</a></li>
-              </ul>
-            </div>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">logout</a></li>
+            </ul>
           </div>
-        </nav>
+        </div>
+      </nav>
       <div id="content-area" class="mt-4">
-</div>
+      </div>
     </div>
     <script>
-  const contentMap = {
-    dashboard: `<h2>Dashboard</h2><p>
-      <div class="container text-center">
+      const contentMap = {
+        dashboard: `<h3 class="pl-3 fw-normal">Dashboard</h3>
+      <div class="container-fluid text-center ">
   <div class="row">
-    <div class="col-lg-3">
+    <div class="col-12 col-lg-3">
       <div class="border-0 shadow-sm card card-body-1">
   <div class="card-body">
     <h5 class="card-title">No. Of Post</h5>
@@ -121,7 +89,7 @@
   </div>
 </div>
       </div>
-    <div class="col-lg-3">
+    <div class="col-12 col-lg-3">
       <div class="card border-0 shadow-sm card-body-2">
   <div class="card-body">
     <h5 class="card-title">No. of Tag</h5>
@@ -129,7 +97,7 @@
   </div>
 </div>
       </div>
-    <div class="col-lg-3">
+    <div class="col-12 col-lg-3">
       <div class="border-0 shadow-sm card card-body-3">
   <div class="card-body">
     <h5 class="card-title">No. of Pages</h5>
@@ -137,7 +105,7 @@
   </div>
 </div>
       </div>
-    <div class="col-lg-3">
+    <div class="col-12 col-lg-3">
       <div class="border-0 shadow-sm card card-body-4">
   <div class="card-body">
     <h5 class="card-title">No. of User</h5>
@@ -146,8 +114,11 @@
 </div>
       </div>
   </div>
-      </p>`,
-    post: `<h2>Post</h2><p><table class="table caption-top">
+      `,
+        post: `<div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-lg-12">
+        <h2 class="fw-normal">Post</h2>
       <nav class="navbar navbar-light bg-light justify-content-between">
   <div class="d-flex">
     <form class="form-inline">
@@ -157,7 +128,7 @@
   <div>
     <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-orange"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
                 data-bs-whatever="@mdo"
@@ -165,6 +136,7 @@
                 Create Post
               </button>
   </div>
+ 
   <div
         class="modal fade"
         id="exampleModal"
@@ -213,15 +185,16 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-orange">Submit</button>
             </div>
           </div>
         </div>
       </div>
 </nav>
-
+<div class="table-responsive">
+  <table class="table table-striped table-hover  caption-top">
   <caption></caption>
-  <thead>
+  <thead class="table-dark"> 
     <tr>
       <th scope="col">So.#</th>
       <th scope="col">Title</th>
@@ -343,15 +316,17 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" form="editPostForm">Update Post</button>
+        <button type="submit" class="btn btn-orange" form="editPostForm">Update Post</button>
       </div>
 
     </div>
   </div>
 </div>
 
-</table></p>`,
-    tag: `<h2>Tags</h2><p><table class="table caption-top">
+</table>   </div>
+        </div>
+      </div></div>`,
+        tag: `<h2>Tags</h2><p><table class="table caption-top">
       <nav class="navbar navbar-light bg-light justify-content-between">
   <div class="d-flex">
     <form class="form-inline">
@@ -555,7 +530,7 @@
 </div>
 
 </table></p>`,
-    pages: `<h2>Pages</h2><p><table class="table caption-top">
+        pages: `<h2>Pages</h2><p><table class="table caption-top">
       <nav class="navbar navbar-light bg-light justify-content-between">
   <div class="d-flex">
     <form class="form-inline">
@@ -755,7 +730,7 @@
 </div>
 
 </table></p>`,
-    user: `<h2>User</h2><p><table class="table caption-top">
+        user: `<h2>User</h2><p><table class="table caption-top">
       <nav class="navbar navbar-light bg-light justify-content-between">
   <div class="d-flex">
     <form class="form-inline">
@@ -971,7 +946,7 @@
   </div>
 </div>
 </table></p>`,
-    settings: `<h2></h2><p><div class="cover-photo">
+        settings: `<h2></h2><p><div class="cover-photo">
   <img
     src="https://randomuser.me/api/portraits/men/75.jpg"
     alt="Profile Picture"
@@ -1053,7 +1028,7 @@
   </div>
 </div>
 </p>`,
-profile: `<h2>Profile</h2><p>
+        profile: `<h2>Profile</h2><p>
 <div class="cover-photo">
   <img
     src="https://randomuser.me/api/portraits/men/75.jpg"
@@ -1076,36 +1051,32 @@ profile: `<h2>Profile</h2><p>
 </div>
 </p>`
 
-};
+      };
 
-  document.querySelectorAll('.menu-link').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const key = link.getAttribute('data-content');
-      document.getElementById('content-area').innerHTML = contentMap[key];
+      document.querySelectorAll('.menu-link').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const key = link.getAttribute('data-content');
+          document.getElementById('content-area').innerHTML = contentMap[key];
 
-      // Optional: update active class
-      document.querySelectorAll('.components li').forEach(li => li.classList.remove('active'));
-      link.parentElement.classList.add('active');
-    });
-  });
-  document.getElementById('content-area').innerHTML = contentMap['dashboard'];
+          // Optional: update active class
+          document.querySelectorAll('.components li').forEach(li => li.classList.remove('active'));
+          link.parentElement.classList.add('active');
+        });
+      });
+      document.getElementById('content-area').innerHTML = contentMap['dashboard'];
 
-</script>
+    </script>
 
     <script src="js/bootstrap.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-    ></script>
+      crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/jquery.min.js"></script>
     <script src="js/popper.js"></script>
 
     <script src="/assets/js/Admin_panel.js"></script>
-  </body>
+</body>
+
 </html>
