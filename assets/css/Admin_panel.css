@@ -8356,7 +8356,6 @@ a[data-toggle="collapse"] {
   background-color: var(--accent-color);
   color: white;
   border-radius: 7px;
-  border-bottom: 3px solid black !important;
 }
 .card-body:hover{
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
@@ -8365,18 +8364,15 @@ a[data-toggle="collapse"] {
 .card-body-2{
   background-color: #f8f9fa;
   border-radius: 7px;
-  border-bottom: 3px solid var(--accent-color) !important;
 }
 .card-body-3{
   background-color: var(--accent-color);
   color: white;
   border-radius: 7px;
-  border-bottom: 3px solid black !important;
 }
 .card-body-4{
   background-color: #f8f9fa;
   border-radius: 7px;
-  border-bottom: 3px solid var(--accent-color) !important;
 }
 
 

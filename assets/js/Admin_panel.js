@@ -1,11 +1,15 @@
-(function($) {
+
+
+(function ($) {
+
+
 
 	"use strict";
 
-	var fullHeight = function() {
+	var fullHeight = function () {
 
 		$('.js-fullheight').css('height', $(window).height());
-		$(window).resize(function(){
+		$(window).resize(function () {
 			$('.js-fullheight').css('height', $(window).height());
 		});
 
@@ -13,7 +17,77 @@
 	fullHeight();
 
 	$('#sidebarCollapse').on('click', function () {
-      $('#sidebar').toggleClass('active');
-  });
+		$('#sidebar').toggleClass('active');
+	});
+
+	const cardData = [
+		{ title: 'No. Of Post', count: 10, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
+		{ title: 'No. Of Tag', count: 24, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
+		{ title: 'No. Of Pages', count: 58, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
+		{ title: 'No. Of User', count: 17, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
+	]
+
+	$(document).ready(function () {
+		cardData.forEach(function (item) {
+			const card = `
+			<div class="col-12 col-lg-3 mb-3">
+				<div class="border-0 shadow-sm card card-body-1" style="background-color: ${item.bgcolor}; border-bottom: 2px solid ${item.borderColor} !important">
+					<div class="card-body rounded">
+						<h5 class="card-title" style="color: ${item.textColor}">${item.title}</h5>
+						<h6 class="card-subtitle mb-2" style="color: ${item.textColor}">${item.count}</h6>
+					</div>
+				</div>
+			</div>
+		`;
+			$('#cardRow').append(card)
+		})
+	})
+
+	document.addEventListener('DOMContentLoaded', function () {
+		fetchPost()
+	})
+
+	const prefix = 'api/v1'
+	const baseUrl = `http://localhost:8000/${prefix}`
+
+	async function fetchPost() {
+		const res = await fetch(`${baseUrl}/getPost`)
+
+		const data = await res.json()
+
+		const post = data.data
+		
+		const list = document.getElementById('postlist')
+
+		list.innerHTML = '';
+
+		post.forEach((item, index) => {
+
+			list.innerHTML += `
+		<tr>
+			<th scope="row">${index + 1}</th>
+			<td>${item.title}</td>
+			<td>${item.description}</td>
+			<td>${item.status ? 'Published' : 'unPublished'}</td>
+			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+			<td><div class="dropdown">
+		<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			&#8942;
+		</button>
+		<ul class="dropdown-menu">
+			<li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPostModal">
+		<i class="fas fa-edit me-2 text-info"></i> Edit
+		</a>
+			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+		</ul>
+			</tr>
+		`;
+		})
+
+	}
 
 })(jQuery);
+
+
