@@ -10,6 +10,7 @@
   --purple: #6f42c1;
   --pink: #e83e8c;
   --red: #dc3545;
+  --accent-color: #f75815;
   --orange: #fd7e14;
   --yellow: #ffc107;
   --green: #28a745;
@@ -57,7 +58,14 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff; }
+  background-color: #fff; 
+  overflow-x: hidden;
+}
+
+.btn-close:hover {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+}
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -71,6 +79,14 @@ hr {
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 0.5rem; }
+
+  .btn-orange {
+    background-color: var(--accent-color) !important;
+    color: var(--white) !important;
+  }
+
+
+
 
 p {
   margin-top: 0;
@@ -1518,6 +1534,8 @@ pre {
   .table-hover .table-active:hover > td,
   .table-hover .table-active:hover > th {
     background-color: rgba(0, 0, 0, 0.075); }
+
+ 
 
 .table .thead-dark th {
   color: #fff;
@@ -8137,7 +8155,7 @@ body {
   font-size: 14px;
   line-height: 1.8;
   font-weight: normal;
-  background: #fafafa;
+  background: var(--white) !important;
   color: gray; }
 
 a {
@@ -8212,10 +8230,18 @@ h1, h2, h3, h4, h5,
 .wrapper {
   width: 100%; }
 
+  .btn-focus {
+    border: 0;
+  }
+
+  #sidebarCollapse {
+    color: var(--accent-color);
+  }
+
 #sidebar {
   min-width: 270px;
   max-width: 270px;
-  background: #3e64ff;
+  background: var(--accent-color);
   color: #fff;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
@@ -8327,10 +8353,9 @@ a[data-toggle="collapse"] {
     border-color: #3e64ff !important; }
 
 .card-body-1 { 
-  background-color: #007bff;
+  background-color: var(--accent-color);
   color: white;
   border-radius: 7px;
-  border-bottom: 3px solid black !important;
 }
 .card-body:hover{
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
@@ -8339,19 +8364,19 @@ a[data-toggle="collapse"] {
 .card-body-2{
   background-color: #f8f9fa;
   border-radius: 7px;
-  border-bottom: 3px solid #007bff !important;
 }
 .card-body-3{
-  background-color: #007bff;
+  background-color: var(--accent-color);
   color: white;
   border-radius: 7px;
-  border-bottom: 3px solid black !important;
 }
 .card-body-4{
   background-color: #f8f9fa;
   border-radius: 7px;
-  border-bottom: 3px solid #007bff !important;
 }
+
+
+
 body {
       background-color: #f0f2f5;
     }
