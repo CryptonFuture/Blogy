@@ -135,6 +135,10 @@
     selector: '.glightbox'
   });
 
+ 
+
+ 
+
   $(document).ready(function () {
     $('#openModal').on('click', function () {
       const ModalHtml = `
@@ -159,15 +163,15 @@
               ></button>
             </div>
             <div class="modal-body">
-              <form>
+              <form id="form-submit">
                 <div class="mb-3">
                   <label for="recipient-name" class="col-form-label"
                     >Email:</label
                   >
                   <input
+                    id="email"
                     type="email"
                     class="form-control"
-                    id="recipient-name"
                   />
                 </div>
                 <div class="mb-3">
@@ -175,9 +179,9 @@
                     >Password:</label
                   >
                   <input
+                    id="password"
                     type="password"
                     class="form-control"
-                    id="recipient-name"
                   />
                 </div>
               </form>
@@ -190,7 +194,7 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">Submit</button>
+              <button id="submit" onclick="login()" type="button" class="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
@@ -208,4 +212,27 @@
     })
   })
 
+  
+
 })();
+
+ const prefix = 'api/v1'
+	const baseUrl = `http://localhost:8000/${prefix}`
+
+ async function login() {
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
+
+     await fetch(`${baseUrl}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    })
+    email.value = ''
+    password.value = ''
+  }
