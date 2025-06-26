@@ -20,31 +20,11 @@
 		$('#sidebar').toggleClass('active');
 	});
 
-	const cardData = [
-		{ title: 'No. Of Post', count: 10, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
-		{ title: 'No. Of Tag', count: 24, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
-		{ title: 'No. Of Pages', count: 58, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
-		{ title: 'No. Of User', count: 17, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
-	]
 
-	$(document).ready(function () {
-		cardData.forEach(function (item) {
-			const card = `
-			<div class="col-12 col-lg-3 mb-3">
-				<div class="border-0 shadow-sm card card-body-1" style="background-color: ${item.bgcolor}; border-bottom: 2px solid ${item.borderColor} !important">
-					<div class="card-body rounded">
-						<h5 class="card-title" style="color: ${item.textColor}">${item.title}</h5>
-						<h6 class="card-subtitle mb-2" style="color: ${item.textColor}">${item.count}</h6>
-					</div>
-				</div>
-			</div>
-		`;
-			$('#cardRow').append(card)
-		})
-	})
 
 	document.addEventListener('DOMContentLoaded', function () {
 		fetchPost()
+		fetchDashboard()
 	})
 
 	const prefix = 'api/v1'
@@ -56,7 +36,7 @@
 		const data = await res.json()
 
 		const post = data.data
-		
+
 		const list = document.getElementById('postlist')
 
 		list.innerHTML = '';
@@ -87,6 +67,56 @@
 		})
 
 	}
+
+
+	async function fetchDashboard() {
+		const res = await fetch(`${baseUrl}/countAll`)
+
+		const data = await res.json()
+
+		const counts = data.count
+
+		Object.entries(counts).map(([key, item]) => {
+			const card = `
+			<div class="col-12 col-lg-3 mb-3">
+				<div class="border-0 shadow-sm card card-body-1" style="background-color: ${item.bgcolor}; border-bottom: 2px solid ${item.borderColor} !important">
+					<div class="card-body rounded">
+						<h5 class="card-title" style="color: ${item.textColor}">${item.title}</h5>
+						<h6 class="card-subtitle mb-2" style="color: ${item.textColor}">${item.total}</h6>
+					</div>
+				</div>
+			</div>
+		`;
+		document.getElementById('cardRow').insertAdjacentHTML('beforeend', card)
+		})
+	}
+
+
+
+	// const cardData = [
+	// 	{ title: 'No. Of Post', count: 10, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
+	// 	{ title: 'No. Of Tag', count: 24, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
+	// 	{ title: 'No. Of Pages', count: 58, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
+	// 	{ title: 'No. Of User', count: 17, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
+	// ]
+
+	// $(document).ready(function () {
+	// 	cardData.forEach(function (item) {
+	// 		const card = `
+	// 		<div class="col-12 col-lg-3 mb-3">
+	// 			<div class="border-0 shadow-sm card card-body-1" style="background-color: ${item.bgcolor}; border-bottom: 2px solid ${item.borderColor} !important">
+	// 				<div class="card-body rounded">
+	// 					<h5 class="card-title" style="color: ${item.textColor}">${item.title}</h5>
+	// 					<h6 class="card-subtitle mb-2" style="color: ${item.textColor}">${item.count}</h6>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	`;
+	// 		$('#cardRow').append(card)
+	// 	})
+	// })
+
+
 
 })(jQuery);
 
