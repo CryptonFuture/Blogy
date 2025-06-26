@@ -217,13 +217,13 @@
 })();
 
  const prefix = 'api/v1'
-	const baseUrl = `http://localhost:8000/${prefix}`
+ const baseUrl = `http://localhost:8000/${prefix}`
 
  async function login() {
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
-
-     await fetch(`${baseUrl}/login`, {
+  
+    const res = await fetch(`${baseUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -233,6 +233,40 @@
         password
       })
     })
-    email.value = ''
-    password.value = ''
+
+    const data = await res.json();
+    
+    if(res.ok) {
+
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', data.user.id);
+    localStorage.setItem('email', data.user.email);
+
+    $('#Modal').modal('hide');
+
+    document.getElementById('email').value = ""
+    document.getElementById('password').value = ""
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Successful',
+      text: data.message,
+      timer: 2000,
+      showConfirmButton: false,
+      timerProgressBar: true
+    }).then(() => {
+      window.location.href = 'Admin_panel.html';
+     
+    });
+
+    } else {
+       Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: data.message || 'Invalid credentials'
+      });
+    }
+  
+   
+
   }
