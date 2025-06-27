@@ -212,7 +212,11 @@
     })
   })
 
-  
+  const accessToken = localStorage.getItem('token')
+
+	if (accessToken) {
+		window.location.href = '/Admin_panel.html';
+	}
 
 })();
 
@@ -267,6 +271,5 @@
       });
     }
   
-   
 
   }
