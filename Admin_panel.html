@@ -160,54 +160,54 @@
                     <!-- Edit Post Modal -->
                     <div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel"
                       aria-hidden="true">
-                        <div class="modal-content">
+
                       <div class="modal-dialog">
+                        <div class="modal-content">
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editPostModalLabel">Edit Post</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
 
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="editPostModalLabel">Edit Post</h1>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <!-- Modal Body -->
-                        <div class="modal-body">
-                          <form id="editPostForm">
-                            <!-- Title -->
-                            <div class="mb-3">
-                              <label for="edit-post-title" class="col-form-label">Title:</label>
-                              <input type="text" class="form-control" id="edit-post-title" name="title" value="" />
-                            </div>
-
-                            <!-- Description -->
-                            <div class="mb-3">
-                              <label for="edit-post-description" class="col-form-label">Description:</label>
-                              <textarea class="form-control" id="edit-post-description" name="description"
-                                rows="3"></textarea>
-                            </div>
-
-                            <!-- Status -->
-                            <div class="mb-3">
-                              <label for="edit-post-status" class="col-form-label">Status:</label>
-                              <!-- Checkbox -->
-                              <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="publishCheck" name="publish">
-                                <label class="form-check-label" for="publishCheck">
-                                </label>
+                          <!-- Modal Body -->
+                          <div class="modal-body">
+                            <form id="editPostForm">
+                              <!-- Title -->
+                              <div class="mb-3">
+                                <label for="edit-post-title" class="col-form-label">Title:</label>
+                                <input type="text" class="form-control" id="edit-post-title" name="title" value="" />
                               </div>
-                          </form>
-                        </div>
 
-                        <!-- Modal Footer -->
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-orange" form="editPostForm">Update Post</button>
-                        </div>
+                              <!-- Description -->
+                              <div class="mb-3">
+                                <label for="edit-post-description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="edit-post-description" name="description"
+                                  rows="3"></textarea>
+                              </div>
 
+                              <!-- Status -->
+                              <div class="mb-3">
+                                <label for="edit-post-status" class="col-form-label">Status:</label>
+                                <!-- Checkbox -->
+                                <div class="form-check mb-3">
+                                  <input class="form-check-input" type="checkbox" id="publishCheck" name="publish">
+                                  <label class="form-check-label" for="publishCheck">
+                                  </label>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+
+                          <!-- Modal Footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-orange" form="editPostForm">Update Post</button>
+                          </div>
+
+                        </div>
                       </div>
                     </div>
-                    </div>
                 </div>
-
                 </table>
               </div>
             </div>

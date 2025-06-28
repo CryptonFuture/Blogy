@@ -135,9 +135,9 @@
     selector: '.glightbox'
   });
 
- 
 
- 
+
+
 
   $(document).ready(function () {
     $('#openModal').on('click', function () {
@@ -184,6 +184,14 @@
                     class="form-control"
                   />
                 </div>
+                 <div class="mb-3">
+                    <label for="edit-post-status" class="col-form-label">Remember me:</label>
+                      <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="publishCheck" name="publish">
+                          <label class="form-check-label" for="publishCheck">
+                          </label>
+                        </div>
+                        </div>
               </form>
             </div>
             <div class="modal-footer">
@@ -201,42 +209,42 @@
       </div>
         `;
 
-        $('body').append(ModalHtml)
+      $('body').append(ModalHtml)
 
-        const modal = new bootstrap.Modal(document.getElementById('Modal'))
-        modal.show()
+      const modal = new bootstrap.Modal(document.getElementById('Modal'))
+      modal.show()
 
-        $('#Modal').on('hidden.bs.modal', function () {
-          $(this).remove()
-        })
+      $('#Modal').on('hidden.bs.modal', function () {
+        $(this).remove()
+      })
     })
   })
 
-  
+
 
 })();
 
- const prefix = 'api/v1'
- const baseUrl = `http://localhost:8000/${prefix}`
+const prefix = 'api/v1'
+const baseUrl = `http://localhost:8000/${prefix}`
 
- async function login() {
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
-  
-    const res = await fetch(`${baseUrl}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
+async function login() {
+  const email = document.getElementById('email').value
+  const password = document.getElementById('password').value
+
+  const res = await fetch(`${baseUrl}/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email,
+      password
     })
+  })
 
-    const data = await res.json();
-    
-    if(res.ok) {
+  const data = await res.json();
+
+  if (res.ok) {
 
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', data.user.id);
@@ -256,17 +264,17 @@
       timerProgressBar: true
     }).then(() => {
       window.location.href = 'Admin_panel.html';
-     
+
     });
 
-    } else {
-       Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: data.message || 'Invalid credentials'
-      });
-    }
-  
-   
-
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Failed',
+      text: data.message || 'Invalid credentials'
+    });
   }
+
+
+
+}
