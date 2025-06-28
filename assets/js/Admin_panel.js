@@ -25,13 +25,23 @@
 	document.addEventListener('DOMContentLoaded', function () {
 		fetchPost()
 		fetchDashboard()
+		getSideBarRoutes()
 	})
 
 	const prefix = 'api/v1'
 	const baseUrl = `http://localhost:8000/${prefix}`
 
+	const tokenType = localStorage.getItem('tokenType')
+	const access_Token = localStorage.getItem('token')
+
 	async function fetchPost() {
-		const res = await fetch(`${baseUrl}/getPost`)
+		const res = await fetch(`${baseUrl}/getPost`, {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		})
 
 		const data = await res.json()
 
@@ -70,7 +80,13 @@
 
 
 	async function fetchDashboard() {
-		const res = await fetch(`${baseUrl}/countAll`)
+		const res = await fetch(`${baseUrl}/countAll`, {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		})
 
 		const data = await res.json()
 
@@ -89,6 +105,31 @@
 		`;
 			document.getElementById('cardRow').insertAdjacentHTML('beforeend', card)
 		})
+	}
+
+	async function getSideBarRoutes() {
+		const res = await fetch(`${baseUrl}/getSideBarRoutes`, {
+			method: "GET"
+		})
+
+		const data = await res.json()
+
+		const sideBarRoutes = data.data
+
+		const sideBarRouteslist = document.getElementById('sideBarRoutes')
+
+		sideBarRouteslist.innerHTML = '';
+
+		sideBarRoutes.forEach((item, index) => {
+			sideBarRouteslist.innerHTML += `
+			 <li class="active">
+          	  <a onclick="showPage('${item.paramName}')" href="#" class="menu-link" data-content="dashboard"><span
+              class="fa ${item.iconName}"></span>${item.routeName}</a>
+        	</li>
+			`
+		})
+
+
 	}
 
 	
