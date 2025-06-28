@@ -220,7 +220,11 @@
     })
   })
 
+  const accessToken = localStorage.getItem('token')
 
+	if (accessToken) {
+		window.location.href = '/Admin_panel.html';
+	}
 
 })();
 
@@ -267,13 +271,14 @@ async function login() {
 
     });
 
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Login Failed',
-      text: data.message || 'Invalid credentials'
-    });
-  }
+    } else {
+       Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: data.message || 'Invalid credentials'
+      });
+    }
+  
 
 
 
