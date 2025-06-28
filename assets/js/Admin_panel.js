@@ -109,7 +109,11 @@
 
 	async function getSideBarRoutes() {
 		const res = await fetch(`${baseUrl}/getSideBarRoutes`, {
-			method: "GET"
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
 		})
 
 		const data = await res.json()
