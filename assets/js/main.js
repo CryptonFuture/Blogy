@@ -253,6 +253,7 @@ async function login() {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', data.user.id);
     localStorage.setItem('email', data.user.email);
+    localStorage.setItem('tokenType', data.user.tokenType);
 
     $('#Modal').modal('hide');
 
@@ -267,6 +268,9 @@ async function login() {
       showConfirmButton: false,
       timerProgressBar: true
     }).then(() => {
+      // document.getElementById('openModal').style.display = 'none';
+      // document.getElementById('userDropdown').style.display = 'inline-block';
+
       window.location.href = 'Admin_panel.html';
 
     });
