@@ -81,6 +81,8 @@
 
 	}
 
+	
+
 	async function fetchTag() {
 		const res = await fetch(`${baseUrl}/getTag`, {
 			method: "GET",
@@ -201,9 +203,10 @@
 			list.innerHTML += `
 		<tr>
 			<th scope="row">${index + 1}</th>
-			<td>${item.firstname}</td>
-			<td>${item.lastname}</td>
+			<td>${item.firstname} ${item.lastname}</td>
 			<td>${item.email}</td>
+			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
 			<td><div class="dropdown">
 		<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			&#8942;
@@ -279,6 +282,8 @@
 
 	}
 
+
+
 	
 	// const cardData = [
 	// 	{ title: 'No. Of Post', count: 10, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
@@ -310,6 +315,8 @@
 	}
 
 }) (jQuery);
+
+
 
 const prefix = 'api/v1'
 	const baseUrl = `http://localhost:8000/${prefix}`
