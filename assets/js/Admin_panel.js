@@ -22,6 +22,38 @@
 
 
 
+	// const cardData = [
+	// 	{ title: 'No. Of Post', count: 10, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
+	// 	{ title: 'No. Of Tag', count: 24, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
+	// 	{ title: 'No. Of Pages', count: 58, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
+	// 	{ title: 'No. Of User', count: 17, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
+	// ]
+
+	// $(document).ready(function () {
+	// 	cardData.forEach(function (item) {
+	// 		const card = `
+	// 		<div class="col-12 col-lg-3 mb-3">
+	// 			<div class="border-0 shadow-sm card card-body-1" style="background-color: ${item.bgcolor}; border-bottom: 2px solid ${item.borderColor} !important">
+	// 				<div class="card-body rounded">
+	// 					<h5 class="card-title" style="color: ${item.textColor}">${item.title}</h5>
+	// 					<h6 class="card-subtitle mb-2" style="color: ${item.textColor}">${item.count}</h6>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	`;
+	// 		$('#cardRow').append(card)
+	// 	})
+	// })
+
+	const accessToken = localStorage.getItem('token')
+
+	if (!accessToken) {
+		window.location.href = '/';
+	}
+
+}) (jQuery);
+
+
 	document.addEventListener('DOMContentLoaded', function () {
 		fetchUser()
 		fetchPage()
@@ -73,7 +105,7 @@
 			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPostModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
-			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+			<li><a onclick="deletePost('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 		</ul>
 			</tr>
 		`;
@@ -81,7 +113,7 @@
 
 	}
 
-	
+
 
 	async function fetchTag() {
 		const res = await fetch(`${baseUrl}/getTag`, {
@@ -282,46 +314,7 @@
 
 	}
 
-
-
-	
-	// const cardData = [
-	// 	{ title: 'No. Of Post', count: 10, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
-	// 	{ title: 'No. Of Tag', count: 24, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
-	// 	{ title: 'No. Of Pages', count: 58, bgcolor: '#f75815', textColor: 'white', borderColor: 'black' },
-	// 	{ title: 'No. Of User', count: 17, bgcolor: 'white', textColor: 'black', borderColor: '#f75815' },
-	// ]
-
-	// $(document).ready(function () {
-	// 	cardData.forEach(function (item) {
-	// 		const card = `
-	// 		<div class="col-12 col-lg-3 mb-3">
-	// 			<div class="border-0 shadow-sm card card-body-1" style="background-color: ${item.bgcolor}; border-bottom: 2px solid ${item.borderColor} !important">
-	// 				<div class="card-body rounded">
-	// 					<h5 class="card-title" style="color: ${item.textColor}">${item.title}</h5>
-	// 					<h6 class="card-subtitle mb-2" style="color: ${item.textColor}">${item.count}</h6>
-	// 				</div>
-	// 			</div>
-	// 		</div>
-	// 	`;
-	// 		$('#cardRow').append(card)
-	// 	})
-	// })
-
-	const accessToken = localStorage.getItem('token')
-
-	if (!accessToken) {
-		window.location.href = '/';
-	}
-
-}) (jQuery);
-
-
-
-const prefix = 'api/v1'
-	const baseUrl = `http://localhost:8000/${prefix}`
-
-async function logout() {
+	async function logout() {
 		const userId = localStorage.getItem('user')
 
 		const res = await fetch(`${baseUrl}/logout?id=${userId}`, {
@@ -355,7 +348,45 @@ async function logout() {
 			Swal.fire({
 				icon: 'error',
 				title: 'Logout Failed',
-				text: data.message
+				text: data.error
 			});
+		}
+	}
+
+	async function deletePost(id) {
+		if(confirm('Are you sure you want to delete this post?')) {
+			const res = await fetch(`${baseUrl}/deletePost/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `${tokenType} ${access_Token}`
+				}
+			})
+
+			const data = await res.json()
+
+			if (res.ok) {
+				Swal.fire({
+				icon: 'success',
+				title: 'Delete Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				}).then(() => {
+					fetchPost(); 
+				});
+				
+			} else {
+				const err = await res.json();
+				Swal.fire({
+				icon: 'error',
+				title: `Failed to delete post: ${err.error || res.statusText}`,
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				})
+			}
 		}
 	}

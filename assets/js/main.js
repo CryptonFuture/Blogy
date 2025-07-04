@@ -303,7 +303,7 @@ async function login() {
        Swal.fire({
         icon: 'error',
         title: 'Login Failed',
-        text: data.message || 'Invalid credentials'
+        text: data.error || 'Invalid credentials'
       });
     }
   
