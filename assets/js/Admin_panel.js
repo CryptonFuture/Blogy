@@ -23,6 +23,9 @@
 
 
 	document.addEventListener('DOMContentLoaded', function () {
+		fetchUser()
+		fetchPage()
+		fetchTag()
 		fetchPost()
 		fetchDashboard()
 		getSideBarRoutes()
@@ -68,6 +71,146 @@
 		<ul class="dropdown-menu">
 			<li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
 			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPostModal">
+		<i class="fas fa-edit me-2 text-info"></i> Edit
+		</a>
+			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+		</ul>
+			</tr>
+		`;
+		})
+
+	}
+
+	async function fetchTag() {
+		const res = await fetch(`${baseUrl}/getTag`, {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		})
+
+		const data = await res.json()
+
+		const tag = data.data
+
+		console.log('FETCH TAG',tag);
+		
+
+		const list = document.getElementById('taglist')
+
+		list.innerHTML = '';
+
+		tag.forEach((item, index) => {
+
+			list.innerHTML += `
+		<tr>
+			<th scope="row">${index + 1}</th>
+			<td>${item.tagName}</td>
+			<td>${item.description}</td>
+			<td>${item.status ? 'Active' : 'InActive'}</td>
+			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+			<td><div class="dropdown">
+		<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			&#8942;
+		</button>
+		<ul class="dropdown-menu">
+			<li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edittagModal">
+		<i class="fas fa-edit me-2 text-info"></i> Edit
+		</a>
+			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+		</ul>
+			</tr>
+		`;
+		})
+
+	}
+
+
+	async function fetchPage() {
+		const res = await fetch(`${baseUrl}/getPages`, {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		})
+
+		const data = await res.json()
+
+		const page = data.data
+
+		console.log('FETCH PAGE',page);
+		
+
+		const list = document.getElementById('pagelist')
+
+		list.innerHTML = '';
+
+		page.forEach((item, index) => {
+
+			list.innerHTML += `
+		<tr>
+			<th scope="row">${index + 1}</th>
+			<td>${item.pageName}</td>
+			<td>${item.description}</td>
+			<td>${item.status ? 'Active' : 'InActive'}</td>
+			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+			<td><div class="dropdown">
+		<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			&#8942;
+		</button>
+		<ul class="dropdown-menu">
+			<li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPageModal">
+		<i class="fas fa-edit me-2 text-info"></i> Edit
+		</a>
+			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+		</ul>
+			</tr>
+		`;
+		})
+
+	}
+
+	async function fetchUser() {
+		const res = await fetch(`${baseUrl}/getUser`, {
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		})
+
+		const data = await res.json()
+
+		const user = data.data
+
+		console.log('FETCH USER',user);
+		
+
+		const list = document.getElementById('userlist')
+
+		list.innerHTML = '';
+
+		user.forEach((item, index) => {
+
+			list.innerHTML += `
+		<tr>
+			<th scope="row">${index + 1}</th>
+			<td>${item.firstname}</td>
+			<td>${item.lastname}</td>
+			<td>${item.email}</td>
+			<td><div class="dropdown">
+		<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			&#8942;
+		</button>
+		<ul class="dropdown-menu">
+			<li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
 			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>

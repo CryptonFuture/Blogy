@@ -188,32 +188,536 @@
       </div>
 
       <div id="tag" class="page">
-        <h2>Tag</h2>
-        <p>this is the tag page content.</p>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-lg-12">
+              <h2 class="fw-normal">Tag</h2>
+                <nav class="navbar navbar-light bg-light justify-content-between">
+                  <div class="d-flex">
+                    <form class="form-inline">
+                      <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#tagModal"
+                      data-bs-whatever="@mdo">
+                      Create Tag
+                    </button>
+                  </div>
+                  <div class="modal fade" id="tagModal" tabindex="-1" aria-labelledby="tagModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Add Tag
+                          </h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">TagName:</label>
+                              <input type="email" class="form-control" id="recipient-name" />
+                            </div>
+                            <div class="mb-3">
+                              <label for="message-text" class="col-form-label">Description :</label>
+                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                          </button>
+                          <button type="button" class="btn btn-orange">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover  caption-top">
+                    <caption></caption>
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">So.#</th>
+                        <th scope="col">TagName</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">status</th>
+                        <th scope="col">Created_at</th>
+                        <th scope="col">Update_at</th>
+                        <th scope="col">action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="taglist">
+
+                    </tbody>
+                    <!-- Edit Post Modal -->
+                    <div class="modal fade" id="edittagModal" tabindex="-1" aria-labelledby="edittagModalLabel"
+                      aria-hidden="true">
+
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="edittagModalLabel">Edit Tag</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+
+                          <!-- Modal Body -->
+                          <div class="modal-body">
+                            <form id="editPostForm">
+                              <!-- Title -->
+                              <div class="mb-3">
+                                <label for="edit-post-title" class="col-form-label">TagName:</label>
+                                <input type="text" class="form-control" id="edit-post-title" name="title" value="" />
+                              </div>
+
+                              <!-- Description -->
+                              <div class="mb-3">
+                                <label for="edit-post-description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="edit-post-description" name="description"
+                                  rows="3"></textarea>
+                              </div>
+
+                              <!-- Status -->
+                              <div class="mb-3">
+                                <label for="edit-post-status" class="col-form-label">Status:</label>
+                                <!-- Checkbox -->
+                                <div class="form-check mb-3">
+                                  <input class="form-check-input" type="checkbox" id="publishCheck" name="publish">
+                                  <label class="form-check-label" for="publishCheck">
+                                  </label>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+
+                          <!-- Modal Footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-orange" form="editPostForm">Save Changes</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </table>
+              </div>              
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="pages" class="page">
-        <h2>Pages</h2>
-        <p>this is the pages content.</p>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-lg-12">
+              <h2 class="fw-normal">Pages</h2>
+                <nav class="navbar navbar-light bg-light justify-content-between">
+                  <div class="d-flex">
+                    <form class="form-inline">
+                      <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#pagesModal"
+                      data-bs-whatever="@mdo">
+                      Create Page
+                    </button>
+                  </div>
+                  <div class="modal fade" id="pagesModal" tabindex="-1" aria-labelledby="pagesModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Add Page
+                          </h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">PageName:</label>
+                              <input type="email" class="form-control" id="recipient-name" />
+                            </div>
+                            <div class="mb-3">
+                              <label for="message-text" class="col-form-label">Description :</label>
+                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                          </button>
+                          <button type="button" class="btn btn-orange">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover  caption-top">
+                    <caption></caption>
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">So.#</th>
+                        <th scope="col">PageName</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">status</th>
+                        <th scope="col">Created_at</th>
+                        <th scope="col">Update_at</th>
+                        <th scope="col">action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="pagelist">
+
+                    </tbody>
+                    <!-- Edit Post Modal -->
+                    <div class="modal fade" id="editPageModal" tabindex="-1" aria-labelledby="editPageModalLabel"
+                      aria-hidden="true">
+
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editPageModalLabel">Edit Page</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+
+                          <!-- Modal Body -->
+                          <div class="modal-body">
+                            <form id="editPostForm">
+                              <!-- Title -->
+                              <div class="mb-3">
+                                <label for="edit-pages-title" class="col-form-label">PageName:</label>
+                                <input type="text" class="form-control" id="edit-pages-title" name="title" value="" />
+                              </div>
+
+                              <!-- Description -->
+                              <div class="mb-3">
+                                <label for="edit-post-description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="edit-post-description" name="description"
+                                  rows="3"></textarea>
+                              </div>
+
+                              <!-- Status -->
+                              <div class="mb-3">
+                                <label for="edit-post-status" class="col-form-label">Status:</label>
+                                <!-- Checkbox -->
+                                <div class="form-check mb-3">
+                                  <input class="form-check-input" type="checkbox" id="publishCheck" name="publish">
+                                  <label class="form-check-label" for="publishCheck">
+                                  </label>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+
+                          <!-- Modal Footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-orange" form="editPostForm">Save Changes</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </table>
+              </div>              
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="user" class="page">
-        <h2>User</h2>
-        <p>this is the user pages content.</p>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-lg-12">
+              <h2 class="fw-normal">User</h2>
+                <nav class="navbar navbar-light bg-light justify-content-between">
+                  <div class="d-flex">
+                    <form class="form-inline">
+                      <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#userModal"
+                      data-bs-whatever="@mdo">
+                      Create User
+                    </button>
+                  </div>
+                  <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add User</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <!-- First Row: First Name and Last Name -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="col-form-label">First Name:</label>
+                  <input type="text" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                  <label class="col-form-label">Last Name:</label>
+                  <input type="text" class="form-control" />
+                </div>
+              </div>
+
+              <!-- Second Row: Email and Password -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="col-form-label">Email:</label>
+                  <input type="email" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                  <label class="col-form-label">Password:</label>
+                  <input type="password" class="form-control" />
+                </div>
+              </div>
+
+              <!-- Third Row: Confirm Password -->
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <label class="col-form-label">Confirm Password:</label>
+                  <input type="password" class="form-control" />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Modal Footer with buttons aligned right -->
+          <div class="modal-footer justify-content-end">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-orange">Submit</button>
+          </div>
+        </div>
       </div>
+                </nav>
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover  caption-top">
+                    <caption></caption>
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">So.#</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>                        
+                        <th scope="col">action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="userlist">
+
+                    </tbody>
+                    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="editUserModalLabel">Edit User</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <form id="editUserForm">
+
+                <!-- First Row: First Name & Last Name -->
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName">
+                  </div>
+                </div>
+
+                <!-- Second Row: Email & Password -->
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="emailAddress" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="emailAddress">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password">
+                  </div>
+                </div>
+
+                <!-- Third Row: Confirm Password -->
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword">
+                  </div>
+                </div>
+
+                <!-- Fourth Row: Status & Admin -->
+                <div class="row mb-3">
+                  <!-- Status -->
+                  <div class="col-md-6">
+                    <label class="form-label d-block">Status</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="statusCheck">
+                    </div>
+                  </div>
+
+                  <!-- Admin -->
+                  <div class="col-md-6">
+                    <label class="form-label d-block">Admin</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="adminCheck">
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+
+            <div class="modal-footer justify-content-end">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-orange" form="editUserForm">Save Changes</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </table>
+              </div>              
+            </div>
+          </div>
+        </div>
+    </div>
+    
 
       <div id="settings" class="page">
-        <h2>Settings</h2>
-        <p>this is the settings pages content.</p>
+        <div class="container-fluid">
+        <h2>Setting</h2><p><div class="cover-photo">
+         <img
+          src="https://randomuser.me/api/portraits/men/75.jpg"
+          alt="Profile Picture"
+          class="profile-pic"
+        />
+      </div>
+
+      <div class="container bg-white shadow rounded mt-3">
+        <div class="profile-header">
+          <h3>John Doe</h3>
+          <p class="text-muted">Full Stack Developer | UI/UX Enthusiast</p>
+        </div>
+
+        <!-- Bootstrap Tabs -->
+        <ul class="nav nav-tabs mt-4" id="profileTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">Update Profile</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="setting-tab" data-bs-toggle="tab" data-bs-target="#setting" type="button" role="tab">Setting</button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content p-3" id="profileTabContent">
+          <!-- Update Profile Tab -->
+          <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+            <div class="">
+              <form>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email">
+                  </div>
+                </div>
+                <div class="text-end">
+                  <button type="submit" class="btn btn-orange">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Setting Tab -->
+          <div class="tab-pane fade" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+            <div class="">
+              <form>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="oldPassword" class="form-label">Old Password</label>
+                    <input type="password" class="form-control" id="oldPassword">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="newPassword">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword">
+                  </div>
+                </div>
+                <div class="text-end">
+                  <button type="submit" class="btn btn-orange">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </p>
       </div>
 
       <div id="profile" class="page">
-        <h2>Profile</h2>
-        <p>this is the profile pages content.</p>
+        <div class="container-fluid">
+        <h2>Profile</h2><p>
+      <div class="cover-photo">
+        <img
+          src="https://randomuser.me/api/portraits/men/75.jpg"
+          alt="Profile Picture"
+          class="profile-pic"
+        />
       </div>
-    </div>
-    <div>
-    </div>
+
+      <div class="container bg-white shadow rounded mt-3">
+        <div class="profile-header">
+          <h3>John Doe</h3>
+          <p class="text-muted">John_Doe@gmail.com</p>
+          <p class="text-muted">0312345678</p>
+          <p class="text-muted">Opposite Crecent Sugar Mills, Jhumra Road</p>
+
+          <button type="button" class="btn btn-danger mb-4">
+            <i class="fa fa-trash"></i> Delete Account
+          </button>
+        </div>
+      </div>
+      </p>
+      </div>
+      </div>
     <script>
       //       const contentMap = {
       //         dashboard: `<h3 class="pl-3 fw-normal">Dashboard</h3>
@@ -869,61 +1373,61 @@
       //     </tr>
       //   </thead>
       //   <tbody>
-      //     <tr>
-      //       <th scope="row">1</th>
-      //       <td>Mark</td>
-      //       <td>Otto</td>
-      //       <td>@mdo@gmail.com</td>
-      //       <td><div class="dropdown">
-      //   <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      //     &#8942;
-      //   </button>
-      //   <ul class="dropdown-menu">
-      //     <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
-      //     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
-      //   <i class="fas fa-edit me-2 text-info"></i> Edit
-      // </a>
-      //     <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
-      //   </ul>
-      // </div></td>
-      //     </tr>
-      //     <tr>
-      //       <th scope="row">2</th>
-      //       <td>Jacob</td>
-      //       <td>Thornton</td>
-      //       <td>@fat@gmail.com</td>
-      //       <td><div class="dropdown">
-      //   <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      //     &#8942;
-      //   </button>
-      //   <ul class="dropdown-menu">
-      //     <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
-      //     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
-      //   <i class="fas fa-edit me-2 text-info"></i> Edit
-      // </a>
-      //     <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
-      //   </ul>
-      //     </tr>
-      //     <tr>
-      //       <th scope="row">3</th>
-      //       <td>John</td>
-      //       <td>Doe</td>
-      //       <td>@social@gmail.com</td>
-      //       <td><div class="dropdown">
-      //   <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      //     &#8942;
-      //   </button>
-      //   <ul class="dropdown-menu">
-      //     <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
-      //     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
-      //   <i class="fas fa-edit me-2 text-info"></i> Edit
-      // </a>
-      //     <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
-      //   </ul>
-      //     </tr>
-      //   </tbody>
-      //   <!-- Edit User Modal -->
-      // <!-- Edit User Modal -->
+      // //     <tr>
+      // //       <th scope="row">1</th>
+      // //       <td>Mark</td>
+      // //       <td>Otto</td>
+      // //       <td>@mdo@gmail.com</td>
+      // //       <td><div class="dropdown">
+      // //   <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      // //     &#8942;
+      // //   </button>
+      // //   <ul class="dropdown-menu">
+      // //     <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+      // //     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
+      // //   <i class="fas fa-edit me-2 text-info"></i> Edit
+      // // </a>
+      // //     <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+      // //   </ul>
+      // // </div></td>
+      // //     </tr>
+      // //     <tr>
+      // //       <th scope="row">2</th>
+      // //       <td>Jacob</td>
+      // //       <td>Thornton</td>
+      // //       <td>@fat@gmail.com</td>
+      // //       <td><div class="dropdown">
+      // //   <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      // //     &#8942;
+      // //   </button>
+      // //   <ul class="dropdown-menu">
+      // //     <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+      // //     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
+      // //   <i class="fas fa-edit me-2 text-info"></i> Edit
+      // // </a>
+      // //     <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+      // //   </ul>
+      // //     </tr>
+      // //     <tr>
+      // //       <th scope="row">3</th>
+      // //       <td>John</td>
+      // //       <td>Doe</td>
+      // //       <td>@social@gmail.com</td>
+      // //       <td><div class="dropdown">
+      // //   <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      // //     &#8942;
+      // //   </button>
+      // //   <ul class="dropdown-menu">
+      // //     <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+      // //     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
+      // //   <i class="fas fa-edit me-2 text-info"></i> Edit
+      // // </a>
+      // //     <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+      // //   </ul>
+      // //     </tr>
+      // //   </tbody>
+      // //   <!-- Edit User Modal -->
+      // // <!-- Edit User Modal -->
       // <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
       //   <div class="modal-dialog">
       //     <div class="modal-content">
@@ -998,9 +1502,9 @@
       //     </div>
       //   </div>
       // </div>
-      // </table></p>`,
-      //         settings: `<h2></h2><p><div class="cover-photo">
-      //   <img
+      // // </table></p>`,
+      // //         settings: `<h2></h2><p><div class="cover-photo">
+      // //   <img
       //     src="https://randomuser.me/api/portraits/men/75.jpg"
       //     alt="Profile Picture"
       //     class="profile-pic"
