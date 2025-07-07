@@ -354,7 +354,18 @@
 	}
 
 	async function deletePost(id) {
-		if(confirm('Are you sure you want to delete this post?')) {
+		const result = await Swal.fire({
+			title: 'Are you sure you want to delete this post?',
+			text: 'You won\'t be able to revert this!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			cancelButtonColor: '#3085d6',
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'Cancel'
+		})
+
+		if(result.isConfirmed) {
 			const res = await fetch(`${baseUrl}/deletePost/${id}`, {
 				method: 'DELETE',
 				headers: {
