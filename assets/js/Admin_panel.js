@@ -314,7 +314,21 @@
 
 	}
 
+	function checkTokenExpiry() {
+	const tokenExpiry = localStorage.getItem('tokenExpiry');
+	if (!tokenExpiry) return;
+
+	const now = new Date();
+	const expiryDate = new Date(tokenExpiry);
+
+	if (now >= expiryDate) {
+		logout();
+	}
+}
+
+
 	async function logout() {
+		
 		const userId = localStorage.getItem('user')
 
 		const res = await fetch(`${baseUrl}/logout?id=${userId}`, {
@@ -331,6 +345,7 @@
 			localStorage.removeItem('rememberMe')
 			localStorage.removeItem('rememberedEmail');
       		localStorage.removeItem('rememberedPassword');
+			localStorage.removeItem('tokenExpiry');
 
 			Swal.fire({
 				icon: 'success',
@@ -340,6 +355,8 @@
 				showConfirmButton: false,
 				timerProgressBar: true
 			}).then(() => {
+				window.addEventListener('load', checkTokenExpiry);
+				setInterval(checkTokenExpiry, 60 * 1000);
 				window.location.href = '/';
 
 			});
