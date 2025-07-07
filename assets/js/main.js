@@ -148,9 +148,6 @@
     }   
   })
 
-
-
-
   $(document).ready(function () {
     $('#openModal').on('click', function () {
       const ModalHtml = `
@@ -293,6 +290,7 @@ async function login() {
     localStorage.setItem('user', data.user.id);
     localStorage.setItem('email', data.user.email);
     localStorage.setItem('tokenType', data.user.tokenType);
+    localStorage.setItem('tokenExpiry', data.expiresAt);
 
     if (rememberMe) {
       localStorage.setItem('rememberedEmail', email);
