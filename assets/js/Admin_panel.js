@@ -154,7 +154,7 @@
 			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edittagModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
-			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+			<li><a class="dropdown-item" href="#" onclick="deleteTag('${item._id}')"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 		</ul>
 			</tr>
 		`;
@@ -202,7 +202,7 @@
 			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPageModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
-			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+			<li><a class="dropdown-item" href="#" onclick="deletePage('${item._id}')"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 		</ul>
 			</tr>
 		`;
@@ -248,7 +248,7 @@
 			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
-			<li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+			<li><a class="dropdown-item" href="#" onclick="deleteUser('${item._id}')"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 		</ul>
 			</tr>
 		`;
@@ -386,6 +386,153 @@
 				timerProgressBar: true
 				}).then(() => {
 					fetchPost(); 
+				});
+				
+			} else {
+				const err = await res.json();
+				Swal.fire({
+				icon: 'error',
+				title: `Failed to delete post: ${err.error || res.statusText}`,
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				})
+			}
+		}
+	}
+
+	async function deleteTag(id) {
+		const result = await Swal.fire({
+			title: 'Are you sure you want to delete this tag?',
+			text: 'You won\'t be able to revert this!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			cancelButtonColor: '#3085d6',
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'Cancel'
+		})
+
+		if(result.isConfirmed) {
+			const res = await fetch(`${baseUrl}/deleteTag/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `${tokenType} ${access_Token}`
+				}
+			})
+
+			const data = await res.json()
+
+			if (res.ok) {
+				Swal.fire({
+				icon: 'success',
+				title: 'Delete Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				}).then(() => {
+					fetchTag(); 
+				});
+				
+			} else {
+				const err = await res.json();
+				Swal.fire({
+				icon: 'error',
+				title: `Failed to delete post: ${err.error || res.statusText}`,
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				})
+			}
+		}
+	}
+
+	async function deletePage(id) {
+		const result = await Swal.fire({
+			title: 'Are you sure you want to delete this page?',
+			text: 'You won\'t be able to revert this!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			cancelButtonColor: '#3085d6',
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'Cancel'
+		})
+
+		if(result.isConfirmed) {
+			const res = await fetch(`${baseUrl}/deletePage/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `${tokenType} ${access_Token}`
+				}
+			})
+
+			const data = await res.json()
+
+			if (res.ok) {
+				Swal.fire({
+				icon: 'success',
+				title: 'Delete Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				}).then(() => {
+					fetchPage(); 
+				});
+				
+			} else {
+				const err = await res.json();
+				Swal.fire({
+				icon: 'error',
+				title: `Failed to delete post: ${err.error || res.statusText}`,
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				})
+			}
+		}
+	}
+
+	async function deleteUser(id) {
+		const result = await Swal.fire({
+			title: 'Are you sure you want to delete this user?',
+			text: 'You won\'t be able to revert this!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			cancelButtonColor: '#3085d6',
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'Cancel'
+		})
+
+		if(result.isConfirmed) {
+			const res = await fetch(`${baseUrl}/deleteUser/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `${tokenType} ${access_Token}`
+				}
+			})
+
+			const data = await res.json()
+
+			if (res.ok) {
+				Swal.fire({
+				icon: 'success',
+				title: 'Delete Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+				}).then(() => {
+					fetchUser(); 
 				});
 				
 			} else {
