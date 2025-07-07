@@ -59,6 +59,11 @@
   scroll-behavior: smooth;
 }
 
+.error-message {
+  color: red;
+  text-align: left !important;
+}
+
 .btn-close:hover {
   background-color: var(--accent-color) !important;
   color: white !important;
