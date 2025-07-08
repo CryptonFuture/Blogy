@@ -51,44 +51,44 @@
 		window.location.href = '/';
 	}
 
-}) (jQuery);
+})(jQuery);
 
 
-	document.addEventListener('DOMContentLoaded', function () {
-		fetchUser()
-		fetchPage()
-		fetchTag()
-		fetchPost()
-		fetchDashboard()
-		getSideBarRoutes()
+document.addEventListener('DOMContentLoaded', function () {
+	fetchUser()
+	fetchPage()
+	fetchTag()
+	fetchPost()
+	fetchDashboard()
+	getSideBarRoutes()
+})
+
+const prefix = 'api/v1'
+const baseUrl = `http://localhost:8000/${prefix}`
+
+const tokenType = localStorage.getItem('tokenType')
+const access_Token = localStorage.getItem('token')
+
+async function fetchPost() {
+	const res = await fetch(`${baseUrl}/getPost`, {
+		method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		}
 	})
 
-	const prefix = 'api/v1'
-	const baseUrl = `http://localhost:8000/${prefix}`
+	const data = await res.json()
 
-	const tokenType = localStorage.getItem('tokenType')
-	const access_Token = localStorage.getItem('token')
+	const post = data.data
 
-	async function fetchPost() {
-		const res = await fetch(`${baseUrl}/getPost`, {
-			method: "GET",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `${tokenType} ${access_Token}`
-			}
-		})
+	const list = document.getElementById('postlist')
 
-		const data = await res.json()
+	list.innerHTML = '';
 
-		const post = data.data
+	post.forEach((item, index) => {
 
-		const list = document.getElementById('postlist')
-
-		list.innerHTML = '';
-
-		post.forEach((item, index) => {
-
-			list.innerHTML += `
+		list.innerHTML += `
 		<tr>
 			<th scope="row">${index + 1}</th>
 			<td>${item.title}</td>
@@ -102,42 +102,42 @@
 		</button>
 		<ul class="dropdown-menu">
 			<li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
-			<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPostModal">
+			<a onclick="editPost('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPostModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
 			<li><a onclick="deletePost('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 		</ul>
 			</tr>
 		`;
-		})
+	})
 
-	}
+}
 
 
 
-	async function fetchTag() {
-		const res = await fetch(`${baseUrl}/getTag`, {
-			method: "GET",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `${tokenType} ${access_Token}`
-			}
-		})
+async function fetchTag() {
+	const res = await fetch(`${baseUrl}/getTag`, {
+		method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
 
-		const data = await res.json()
+	const data = await res.json()
 
-		const tag = data.data
+	const tag = data.data
 
-		console.log('FETCH TAG',tag);
-		
+	console.log('FETCH TAG', tag);
 
-		const list = document.getElementById('taglist')
 
-		list.innerHTML = '';
+	const list = document.getElementById('taglist')
 
-		tag.forEach((item, index) => {
+	list.innerHTML = '';
 
-			list.innerHTML += `
+	tag.forEach((item, index) => {
+
+		list.innerHTML += `
 		<tr>
 			<th scope="row">${index + 1}</th>
 			<td>${item.tagName}</td>
@@ -158,34 +158,34 @@
 		</ul>
 			</tr>
 		`;
-		})
+	})
 
-	}
+}
 
 
-	async function fetchPage() {
-		const res = await fetch(`${baseUrl}/getPages`, {
-			method: "GET",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `${tokenType} ${access_Token}`
-			}
-		})
+async function fetchPage() {
+	const res = await fetch(`${baseUrl}/getPages`, {
+		method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
 
-		const data = await res.json()
+	const data = await res.json()
 
-		const page = data.data
+	const page = data.data
 
-		console.log('FETCH PAGE',page);
-		
+	console.log('FETCH PAGE', page);
 
-		const list = document.getElementById('pagelist')
 
-		list.innerHTML = '';
+	const list = document.getElementById('pagelist')
 
-		page.forEach((item, index) => {
+	list.innerHTML = '';
 
-			list.innerHTML += `
+	page.forEach((item, index) => {
+
+		list.innerHTML += `
 		<tr>
 			<th scope="row">${index + 1}</th>
 			<td>${item.pageName}</td>
@@ -206,33 +206,33 @@
 		</ul>
 			</tr>
 		`;
-		})
+	})
 
-	}
+}
 
-	async function fetchUser() {
-		const res = await fetch(`${baseUrl}/getUser`, {
-			method: "GET",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `${tokenType} ${access_Token}`
-			}
-		})
+async function fetchUser() {
+	const res = await fetch(`${baseUrl}/getUser`, {
+		method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
 
-		const data = await res.json()
+	const data = await res.json()
 
-		const user = data.data
+	const user = data.data
 
-		console.log('FETCH USER',user);
-		
+	console.log('FETCH USER', user);
 
-		const list = document.getElementById('userlist')
 
-		list.innerHTML = '';
+	const list = document.getElementById('userlist')
 
-		user.forEach((item, index) => {
+	list.innerHTML = '';
 
-			list.innerHTML += `
+	user.forEach((item, index) => {
+
+		list.innerHTML += `
 		<tr>
 			<th scope="row">${index + 1}</th>
 			<td>${item.firstname} ${item.lastname}</td>
@@ -252,26 +252,26 @@
 		</ul>
 			</tr>
 		`;
-		})
+	})
 
-	}
+}
 
 
-	async function fetchDashboard() {
-		const res = await fetch(`${baseUrl}/countAll`, {
-			method: "GET",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `${tokenType} ${access_Token}`
-			}
-		})
+async function fetchDashboard() {
+	const res = await fetch(`${baseUrl}/countAll`, {
+		method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
 
-		const data = await res.json()
+	const data = await res.json()
 
-		const counts = data.count
+	const counts = data.count
 
-		Object.entries(counts).map(([key, item]) => {
-			const card = `
+	Object.entries(counts).map(([key, item]) => {
+		const card = `
 			<div class="col-12 col-lg-3 mb-3">
 				<div class="border-0 shadow-sm card card-body-1" style="background-color: ${item.bgcolor}; border-bottom: 2px solid ${item.borderColor} !important">
 					<div class="card-body rounded">
@@ -281,40 +281,40 @@
 				</div>
 			</div>
 		`;
-			document.getElementById('cardRow').insertAdjacentHTML('beforeend', card)
-		})
-	}
+		document.getElementById('cardRow').insertAdjacentHTML('beforeend', card)
+	})
+}
 
-	async function getSideBarRoutes() {
-		const res = await fetch(`${baseUrl}/getSideBarRoutes`, {
-			method: "GET",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `${tokenType} ${access_Token}`
-			}
-		})
+async function getSideBarRoutes() {
+	const res = await fetch(`${baseUrl}/getSideBarRoutes`, {
+		method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
 
-		const data = await res.json()
+	const data = await res.json()
 
-		const sideBarRoutes = data.data
+	const sideBarRoutes = data.data
 
-		const sideBarRouteslist = document.getElementById('sideBarRoutes')
+	const sideBarRouteslist = document.getElementById('sideBarRoutes')
 
-		sideBarRouteslist.innerHTML = '';
+	sideBarRouteslist.innerHTML = '';
 
-		sideBarRoutes.forEach((item, index) => {
-			sideBarRouteslist.innerHTML += `
+	sideBarRoutes.forEach((item, index) => {
+		sideBarRouteslist.innerHTML += `
 			 <li class="active">
           	  <a onclick="showPage('${item.paramName}')" href="#" class="menu-link" data-content="dashboard"><span
               class="fa ${item.iconName}"></span>${item.routeName}</a>
         	</li>
 			`
-		})
+	})
 
 
-	}
+}
 
-	function checkTokenExpiry() {
+function checkTokenExpiry() {
 	const tokenExpiry = localStorage.getItem('tokenExpiry');
 	if (!tokenExpiry) return;
 
@@ -327,241 +327,351 @@
 }
 
 
-	async function logout() {
-		
-		const userId = localStorage.getItem('user')
+async function logout() {
 
-		const res = await fetch(`${baseUrl}/logout?id=${userId}`, {
-			method: 'POST'
+	const userId = localStorage.getItem('user')
+
+	const res = await fetch(`${baseUrl}/logout?id=${userId}`, {
+		method: 'POST'
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		localStorage.removeItem('email');
+		localStorage.removeItem('tokenType');
+		localStorage.removeItem('rememberMe')
+		localStorage.removeItem('rememberedEmail');
+		localStorage.removeItem('rememberedPassword');
+		localStorage.removeItem('tokenExpiry');
+
+		Swal.fire({
+			icon: 'success',
+			title: 'Logout Successful',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			window.addEventListener('load', checkTokenExpiry);
+			setInterval(checkTokenExpiry, 60 * 1000);
+			window.location.href = '/';
+
+		});
+
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: 'Logout Failed',
+			text: data.error
+		});
+	}
+}
+
+async function deletePost(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this post?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deletePost/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
 		})
 
 		const data = await res.json()
 
 		if (res.ok) {
-			localStorage.removeItem('token');
-			localStorage.removeItem('user');
-			localStorage.removeItem('email');
-			localStorage.removeItem('tokenType');
-			localStorage.removeItem('rememberMe')
-			localStorage.removeItem('rememberedEmail');
-      		localStorage.removeItem('rememberedPassword');
-			localStorage.removeItem('tokenExpiry');
-
 			Swal.fire({
 				icon: 'success',
-				title: 'Logout Successful',
+				title: 'Delete Successfully',
 				text: data.message,
 				timer: 2000,
 				showConfirmButton: false,
 				timerProgressBar: true
 			}).then(() => {
-				window.addEventListener('load', checkTokenExpiry);
-				setInterval(checkTokenExpiry, 60 * 1000);
-				window.location.href = '/';
-
+				fetchPost();
 			});
 
 		} else {
+			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: 'Logout Failed',
-				text: data.error
+				title: `Failed to delete post: ${err.error || res.statusText}`,
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+	}
+}
+
+async function deleteTag(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this tag?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deleteTag/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		})
+
+		const data = await res.json()
+
+		if (res.ok) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Delete Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			}).then(() => {
+				fetchTag();
 			});
-		}
-	}
 
-	async function deletePost(id) {
-		const result = await Swal.fire({
-			title: 'Are you sure you want to delete this post?',
-			text: 'You won\'t be able to revert this!',
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#d33',
-			cancelButtonColor: '#3085d6',
-			confirmButtonText: 'Yes, delete it!',
-			cancelButtonText: 'Cancel'
-		})
-
-		if(result.isConfirmed) {
-			const res = await fetch(`${baseUrl}/deletePost/${id}`, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `${tokenType} ${access_Token}`
-				}
-			})
-
-			const data = await res.json()
-
-			if (res.ok) {
-				Swal.fire({
-				icon: 'success',
-				title: 'Delete Successfully',
-				text: data.message,
-				timer: 2000,
-				showConfirmButton: false,
-				timerProgressBar: true
-				}).then(() => {
-					fetchPost(); 
-				});
-				
-			} else {
-				const err = await res.json();
-				Swal.fire({
+		} else {
+			const err = await res.json();
+			Swal.fire({
 				icon: 'error',
 				title: `Failed to delete post: ${err.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
 				timerProgressBar: true
-				})
-			}
+			})
 		}
 	}
+}
 
-	async function deleteTag(id) {
-		const result = await Swal.fire({
-			title: 'Are you sure you want to delete this tag?',
-			text: 'You won\'t be able to revert this!',
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#d33',
-			cancelButtonColor: '#3085d6',
-			confirmButtonText: 'Yes, delete it!',
-			cancelButtonText: 'Cancel'
+async function deletePage(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this page?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deletePage/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
 		})
 
-		if(result.isConfirmed) {
-			const res = await fetch(`${baseUrl}/deleteTag/${id}`, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `${tokenType} ${access_Token}`
-				}
-			})
+		const data = await res.json()
 
-			const data = await res.json()
-
-			if (res.ok) {
-				Swal.fire({
+		if (res.ok) {
+			Swal.fire({
 				icon: 'success',
 				title: 'Delete Successfully',
 				text: data.message,
 				timer: 2000,
 				showConfirmButton: false,
 				timerProgressBar: true
-				}).then(() => {
-					fetchTag(); 
-				});
-				
-			} else {
-				const err = await res.json();
-				Swal.fire({
+			}).then(() => {
+				fetchPage();
+			});
+
+		} else {
+			const err = await res.json();
+			Swal.fire({
 				icon: 'error',
 				title: `Failed to delete post: ${err.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
 				timerProgressBar: true
-				})
-			}
+			})
 		}
 	}
+}
 
-	async function deletePage(id) {
-		const result = await Swal.fire({
-			title: 'Are you sure you want to delete this page?',
-			text: 'You won\'t be able to revert this!',
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#d33',
-			cancelButtonColor: '#3085d6',
-			confirmButtonText: 'Yes, delete it!',
-			cancelButtonText: 'Cancel'
+async function deleteUser(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this user?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deleteUser/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `${tokenType} ${access_Token}`
+			}
 		})
 
-		if(result.isConfirmed) {
-			const res = await fetch(`${baseUrl}/deletePage/${id}`, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `${tokenType} ${access_Token}`
-				}
-			})
+		const data = await res.json()
 
-			const data = await res.json()
-
-			if (res.ok) {
-				Swal.fire({
+		if (res.ok) {
+			Swal.fire({
 				icon: 'success',
 				title: 'Delete Successfully',
 				text: data.message,
 				timer: 2000,
 				showConfirmButton: false,
 				timerProgressBar: true
-				}).then(() => {
-					fetchPage(); 
-				});
-				
-			} else {
-				const err = await res.json();
-				Swal.fire({
+			}).then(() => {
+				fetchUser();
+			});
+
+		} else {
+			const err = await res.json();
+			Swal.fire({
 				icon: 'error',
 				title: `Failed to delete post: ${err.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
 				timerProgressBar: true
-				})
-			}
-		}
-	}
-
-	async function deleteUser(id) {
-		const result = await Swal.fire({
-			title: 'Are you sure you want to delete this user?',
-			text: 'You won\'t be able to revert this!',
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#d33',
-			cancelButtonColor: '#3085d6',
-			confirmButtonText: 'Yes, delete it!',
-			cancelButtonText: 'Cancel'
-		})
-
-		if(result.isConfirmed) {
-			const res = await fetch(`${baseUrl}/deleteUser/${id}`, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `${tokenType} ${access_Token}`
-				}
 			})
-
-			const data = await res.json()
-
-			if (res.ok) {
-				Swal.fire({
-				icon: 'success',
-				title: 'Delete Successfully',
-				text: data.message,
-				timer: 2000,
-				showConfirmButton: false,
-				timerProgressBar: true
-				}).then(() => {
-					fetchUser(); 
-				});
-				
-			} else {
-				const err = await res.json();
-				Swal.fire({
-				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
-				text: data.error,
-				timer: 2000,
-				showConfirmButton: false,
-				timerProgressBar: true
-				})
-			}
 		}
 	}
+}
+
+async function addPost() {
+	const title = document.getElementById('title').value
+	const description = document.getElementById('description').value
+
+	const res = await fetch(`${baseUrl}/addPost`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ title, description })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Create Post Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPost();
+			$('#exampleModal').modal('hide');
+			document.getElementById('title').value = ""
+			document.getElementById('description').value = ""
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+document.getElementById('editPostForm').addEventListener('submit', function(e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-post-id').value
+	updatePost(id)
+})
+
+async function editPost(id) {
+	const res = await fetch(`${baseUrl}/editPostById/${id}`, {
+		method: 'GET'
+	})
+
+	const data = await res.json()
+
+	if(res.ok && data.success && data.data.length > 0) {
+		const post = data.data[0]
+		document.getElementById('edit-post-id').value = post._id
+		document.getElementById('edit-post-title').value = post.title
+		document.getElementById('edit-post-description').value = post.description
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+async function updatePost(id) {
+	const title = document.getElementById('edit-post-title').value
+	const description = document.getElementById('edit-post-description').value
+
+	const res = await fetch(`${baseUrl}/updatePost/${id}`, {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({title, description})
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Post Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPost();
+			$('#editPostModal').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
