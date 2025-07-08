@@ -73,7 +73,6 @@ async function fetchPost() {
 	const res = await fetch(`${baseUrl}/getPost`, {
 		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		}
 	})
@@ -119,7 +118,6 @@ async function fetchTag() {
 	const res = await fetch(`${baseUrl}/getTag`, {
 		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		}
 	})
@@ -167,7 +165,6 @@ async function fetchPage() {
 	const res = await fetch(`${baseUrl}/getPages`, {
 		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		}
 	})
@@ -214,7 +211,6 @@ async function fetchUser() {
 	const res = await fetch(`${baseUrl}/getUser`, {
 		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		}
 	})
@@ -261,7 +257,6 @@ async function fetchDashboard() {
 	const res = await fetch(`${baseUrl}/countAll`, {
 		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		}
 	})
@@ -289,7 +284,6 @@ async function getSideBarRoutes() {
 	const res = await fetch(`${baseUrl}/getSideBarRoutes`, {
 		method: "GET",
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		}
 	})
@@ -386,7 +380,6 @@ async function deletePost(id) {
 		const res = await fetch(`${baseUrl}/deletePost/${id}`, {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json',
 				'Authorization': `${tokenType} ${access_Token}`
 			}
 		})
@@ -435,7 +428,6 @@ async function deleteTag(id) {
 		const res = await fetch(`${baseUrl}/deleteTag/${id}`, {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json',
 				'Authorization': `${tokenType} ${access_Token}`
 			}
 		})
@@ -484,7 +476,6 @@ async function deletePage(id) {
 		const res = await fetch(`${baseUrl}/deletePage/${id}`, {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json',
 				'Authorization': `${tokenType} ${access_Token}`
 			}
 		})
@@ -533,7 +524,6 @@ async function deleteUser(id) {
 		const res = await fetch(`${baseUrl}/deleteUser/${id}`, {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json',
 				'Authorization': `${tokenType} ${access_Token}`
 			}
 		})
@@ -573,7 +563,8 @@ async function addPost() {
 	const res = await fetch(`${baseUrl}/addPost`, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
 		},
 		body: JSON.stringify({ title, description })
 	})
@@ -615,7 +606,10 @@ document.getElementById('editPostForm').addEventListener('submit', function(e) {
 
 async function editPost(id) {
 	const res = await fetch(`${baseUrl}/editPostById/${id}`, {
-		method: 'GET'
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
 	})
 
 	const data = await res.json()
@@ -644,7 +638,10 @@ async function updatePost(id) {
 
 	const res = await fetch(`${baseUrl}/updatePost/${id}`, {
 		method: 'PUT',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { 
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}` 
+		},
 		body: JSON.stringify({title, description})
 	})
 
