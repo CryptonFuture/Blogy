@@ -619,6 +619,8 @@ async function editPost(id) {
 		document.getElementById('edit-post-id').value = post._id
 		document.getElementById('edit-post-title').value = post.title
 		document.getElementById('edit-post-description').value = post.description
+		document.getElementById('edit-post-status').checked = post.status
+
 	} else {
 		const err = await res.json();
 		Swal.fire({
@@ -635,6 +637,7 @@ async function editPost(id) {
 async function updatePost(id) {
 	const title = document.getElementById('edit-post-title').value
 	const description = document.getElementById('edit-post-description').value
+	const status = document.getElementById('edit-post-status').checked
 
 	const res = await fetch(`${baseUrl}/updatePost/${id}`, {
 		method: 'PUT',
@@ -642,7 +645,7 @@ async function updatePost(id) {
 			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}` 
 		},
-		body: JSON.stringify({title, description})
+		body: JSON.stringify({title, description, status})
 	})
 
 	const data = await res.json()
