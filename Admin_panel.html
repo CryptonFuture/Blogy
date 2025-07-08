@@ -91,14 +91,14 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                          <form>
+                          <form id="btn-form-submit">
                             <div class="mb-3">
                               <label for="recipient-name" class="col-form-label">Title :</label>
-                              <input type="email" class="form-control" id="recipient-name" />
+                              <input type="email" class="form-control" id="title" />
                             </div>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
-                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                              <textarea class="form-control" id="description" rows="3"></textarea>
                             </div>
                           </form>
                         </div>
@@ -106,7 +106,7 @@
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-orange">Submit</button>
+                          <button onclick="addPost()" id="btn-submit" type="button" class="btn btn-orange">Submit</button>
                         </div>
                       </div>
                     </div>
@@ -144,6 +144,11 @@
                           <!-- Modal Body -->
                           <div class="modal-body">
                             <form id="editPostForm">
+                              
+                              <div class="mb-3" style="display: none;">
+                                <input hidden readonly type="text" class="form-control" id="edit-post-id" name="id" value="" />
+                              </div>
+
                               <!-- Title -->
                               <div class="mb-3">
                                 <label for="edit-post-title" class="col-form-label">Title:</label>
@@ -173,7 +178,7 @@
                           <!-- Modal Footer -->
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-orange" form="editPostForm">Update Post</button>
+                            <button id="edit-post-submit" type="submit" class="btn btn-orange" form="editPostForm">Update Post</button>
                           </div>
 
                         </div>
