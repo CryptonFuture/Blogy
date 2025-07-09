@@ -231,13 +231,15 @@
     })
   })
 
-  const accessToken = localStorage.getItem('token')
+ 
+})();
+
+ const accessToken = localStorage.getItem('token')
 
 	if (accessToken) {
 		window.location.href = '/Admin_panel.html';
 	}
 
-})();
 
 const prefix = 'api/v1'
 const baseUrl = `http://localhost:8000/${prefix}`

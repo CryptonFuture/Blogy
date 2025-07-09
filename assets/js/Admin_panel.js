@@ -45,13 +45,15 @@
 	// 	})
 	// })
 
-	const accessToken = localStorage.getItem('token')
+	
+
+})(jQuery);
+
+const accessToken = localStorage.getItem('token')
 
 	if (!accessToken) {
 		window.location.href = '/';
 	}
-
-})(jQuery);
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -100,7 +102,9 @@ async function fetchPost() {
 			&#8942;
 		</button>
 		<ul class="dropdown-menu">
-			<li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+		<a onclick="viewPost('${item._id}')" class="dropdown-item view-btn" href="#" data-bs-toggle="modal" data-bs-target="#viewPostModal">
+			<i class="fas fa-eye me-2 text-warning"></i> View
+		</a>
 			<a onclick="editPost('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPostModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
@@ -633,6 +637,40 @@ async function editPost(id) {
 		})
 	}
 }
+
+async function viewPost(id) {
+	
+	const res = await fetch(`${baseUrl}/viewPostById/${id}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if(res.ok && data.success && data.data.length > 0) {
+		const view = data.data[0]
+
+		document.getElementById('view-post-id').innerHTML = `<strong>ID: </strong> <span> ${view._id} </span>`
+		document.getElementById('view-post-title').innerHTML =  `<strong>Title: </strong> <span> ${view.title} </span>`
+		document.getElementById('view-post-description').innerHTML =  `<strong>Description: </strong> <span> ${view.description} </span>`
+		document.getElementById('view-post-status').innerHTML = `<strong>Status: </strong> <span> ${view.status ? 'Published' : 'unPublished'} </span>`
+		document.getElementById('view-post-createdAt').innerHTML = `<strong>Status: </strong> <span> ${view.createdAt} </span>`
+		document.getElementById('view-post-updatedAt').innerHTML = `<strong>Status: </strong> <span> ${view.updatedAt} </span>`
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
 
 async function updatePost(id) {
 	const title = document.getElementById('edit-post-title').value
