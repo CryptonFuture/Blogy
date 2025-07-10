@@ -312,17 +312,26 @@ async function getSideBarRoutes() {
 
 }
 
-function checkTokenExpiry() {
-	const tokenExpiry = localStorage.getItem('tokenExpiry');
-	if (!tokenExpiry) return;
+function setupAutoLogout() {
+	const expiryTime = localStorage.getItem('tokenExpiry');
+	
+	if (!expiryTime) return;
 
-	const now = new Date();
-	const expiryDate = new Date(tokenExpiry);
+	const timeLeft = expiryTime - Date.now();
 
-	if (now >= expiryDate) {
+	if (timeLeft <= 0) {
 		logout();
+	} else {
+		setTimeout(() => {
+			logout();
+		}, timeLeft);
 	}
 }
+
+window.addEventListener('load', () => {
+	setupAutoLogout();
+});
+
 
 
 async function logout() {
@@ -353,8 +362,7 @@ async function logout() {
 			showConfirmButton: false,
 			timerProgressBar: true
 		}).then(() => {
-			window.addEventListener('load', checkTokenExpiry);
-			setInterval(checkTokenExpiry, 60 * 1000);
+			
 			window.location.href = '/';
 
 		});
@@ -418,7 +426,7 @@ async function deletePost(id) {
 
 async function deleteTag(id) {
 	const result = await Swal.fire({
-		title: 'Are you sure you want to delete this tag?',
+		title: 'Are you sure you want to delete this post?',
 		text: 'You won\'t be able to revert this!',
 		icon: 'warning',
 		showCancelButton: true,
@@ -656,8 +664,8 @@ async function viewPost(id) {
 		document.getElementById('view-post-title').innerHTML =  `<strong>Title: </strong> <span> ${view.title} </span>`
 		document.getElementById('view-post-description').innerHTML =  `<strong>Description: </strong> <span> ${view.description} </span>`
 		document.getElementById('view-post-status').innerHTML = `<strong>Status: </strong> <span> ${view.status ? 'Published' : 'unPublished'} </span>`
-		document.getElementById('view-post-createdAt').innerHTML = `<strong>Status: </strong> <span> ${view.createdAt} </span>`
-		document.getElementById('view-post-updatedAt').innerHTML = `<strong>Status: </strong> <span> ${view.updatedAt} </span>`
+		document.getElementById('view-post-createdAt').innerHTML = `<strong>CreatedAt: </strong> <span> ${new Date(view.createdAt).toISOString().split('T')[0]} </span>`
+		document.getElementById('view-post-updatedAt').innerHTML = `<strong>UpdatedAt: </strong> <span> ${new Date(view.updatedAt).toISOString().split('T')[0]} </span>`
 	} else {
 		const err = await res.json();
 		Swal.fire({
