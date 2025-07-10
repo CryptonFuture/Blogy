@@ -256,11 +256,11 @@
                           <form>
                             <div class="mb-3">
                               <label for="recipient-name" class="col-form-label">TagName:</label>
-                              <input type="email" class="form-control" id="recipient-name" />
+                              <input type="email" class="form-control" id="tag-Name" />
                             </div>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
-                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                              <textarea class="form-control" id="tag-description" rows="3"></textarea>
                             </div>
                           </form>
                         </div>
@@ -268,7 +268,7 @@
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-orange">Submit</button>
+                          <button onclick="addTag()" id="btn-submit"  type="button" class="btn btn-orange">Submit</button>
                         </div>
                       </div>
                     </div>
@@ -380,11 +380,11 @@
                           <form>
                             <div class="mb-3">
                               <label for="recipient-name" class="col-form-label">PageName:</label>
-                              <input type="email" class="form-control" id="recipient-name" />
+                              <input type="email" class="form-control" id="pageName" />
                             </div>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
-                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                              <textarea class="form-control" id="pagedescription" rows="3"></textarea>
                             </div>
                           </form>
                         </div>
@@ -392,7 +392,7 @@
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                           </button>
-                          <button type="button" class="btn btn-orange">Submit</button>
+                          <button onclick="addPage()" id="btn-submit"  type="button" class="btn btn-orange">Submit</button>
                         </div>
                       </div>
                     </div>
@@ -509,11 +509,11 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label class="col-form-label">First Name:</label>
-                  <input type="text" class="form-control" />
+                  <input id="firstName" type="text" class="form-control" />
                 </div>
                 <div class="col-md-6">
                   <label class="col-form-label">Last Name:</label>
-                  <input type="text" class="form-control" />
+                  <input id="lastName" type="text" class="form-control" />
                 </div>
               </div>
 
@@ -521,11 +521,11 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label class="col-form-label">Email:</label>
-                  <input type="email" class="form-control" />
+                  <input id="email" type="email" class="form-control" />
                 </div>
                 <div class="col-md-6">
                   <label class="col-form-label">Password:</label>
-                  <input type="password" class="form-control" />
+                  <input id="password" type="password" class="form-control" />
                 </div>
               </div>
 
@@ -533,7 +533,7 @@
               <div class="row mb-3">
                 <div class="col-md-12">
                   <label class="col-form-label">Confirm Password:</label>
-                  <input type="password" class="form-control" />
+                  <input id="confirmpassword" type="password" class="form-control" />
                 </div>
               </div>
             </form>
@@ -542,7 +542,7 @@
           <!-- Modal Footer with buttons aligned right -->
           <div class="modal-footer justify-content-end">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-orange">Submit</button>
+            <button onclick="addUser()" id="btn-submit" type="submit" class="btn btn-orange">Submit</button>
           </div>
         </div>
       </div>
