@@ -598,10 +598,9 @@ async function addPost() {
 			document.getElementById('description').value = ""
 		});
 	} else {
-		const err = await res.json();
 		Swal.fire({
 			icon: 'error',
-			title: `Failed to delete post: ${err.error || res.statusText}`,
+			title: `Failed to delete post: ${data.error}`,
 			text: data.error,
 			timer: 2000,
 			showConfirmButton: false,
@@ -609,6 +608,137 @@ async function addPost() {
 		})
 	}
 }
+
+async function addTag() {
+	const tagName = document.getElementById('tag-Name').value
+	const description = document.getElementById('tag-description').value
+
+	const res = await fetch(`${baseUrl}/addTag`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ tagName, description })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Create Tag Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchTag();
+			$('#tagModal').modal('hide');
+			document.getElementById('tag-Name').value = ""
+			document.getElementById('tag-description').value = ""
+		});
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete tag: ${data.error}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+async function addPage() {
+	const pageName = document.getElementById('pageName').value
+	const description = document.getElementById('pagedescription').value
+
+	const res = await fetch(`${baseUrl}/addPages`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ pageName, description })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Create Page Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPage();
+			$('#pagesModal').modal('hide');
+			document.getElementById('pageName').value = ""
+			document.getElementById('pagedescription').value = ""
+		});
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete page: ${data.error}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+async function addUser() {
+	const firstname = document.getElementById('firstName').value
+	const lastname = document.getElementById('lastName').value
+	const email = document.getElementById('email').value
+	const password = document.getElementById('password').value
+	const confirmPass = document.getElementById('confirmpassword').value
+
+	const res = await fetch(`${baseUrl}/register`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ firstname, lastname, email, password, confirmPass})
+	})
+
+	const data = await res.json()
+	
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Create User Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchUser();
+			$('#userModal').modal('hide');
+	document.getElementById('firstName').value = " "
+	document.getElementById('lastName').value = " "
+	document.getElementById('email').value = " "
+	document.getElementById('password').value = " "
+	document.getElementById('confirmpassword').value = " "
+		});
+	} else {
+		
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete user: ${data.error}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}	
 
 document.getElementById('editPostForm').addEventListener('submit', function(e) {
 	e.preventDefault()
