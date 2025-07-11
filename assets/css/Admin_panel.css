@@ -85,8 +85,19 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--white) !important;
   }
 
+ thead th {
+    position: sticky;
+    top: 0;
+    background-color: #343a40; /* dark background */
+    color: white;
+    z-index: 2;
+  }
 
 
+  .btn-outline-orange {
+    border:  1px solid var(--accent-color) !important;
+    
+  }
 
 p {
   margin-top: 0;
