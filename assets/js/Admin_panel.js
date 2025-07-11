@@ -71,8 +71,33 @@ const baseUrl = `http://localhost:8000/${prefix}`
 const tokenType = localStorage.getItem('tokenType')
 const access_Token = localStorage.getItem('token')
 
-async function fetchPost() {
-	const res = await fetch(`${baseUrl}/getPost`, {
+let currentPage = 1;
+const limit = 5;
+let totalPages = 1;
+
+let filters = {
+  status: "",
+  startDate: "",
+  endDate: ""
+};
+
+async function fetchPost(page = 1) {
+currentPage = page;
+
+const sortValue = document.getElementById('sortSelect')?.value || "";
+const searchInput = document.getElementById('searchInput')?.value || "";
+
+ const queryParams = new URLSearchParams({
+    search: searchInput,
+    sort: sortValue,
+    page: currentPage,
+    limit,
+    status: filters.status,
+    startDate: filters.startDate,
+    endDate: filters.endDate
+  });
+
+	const res = await fetch(`${baseUrl}/getPost?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -87,11 +112,17 @@ async function fetchPost() {
 
 	list.innerHTML = '';
 
+	if (!data.success || post.length === 0) {
+			list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+			document.getElementById('pagination').innerHTML = '';
+		return;
+	}
+
 	post.forEach((item, index) => {
 
 		list.innerHTML += `
 		<tr>
-			<th scope="row">${index + 1}</th>
+			<th scope="row">${(currentPage - 1) * limit + index + 1}</th>
 			<td>${item.title}</td>
 			<td>${item.description}</td>
 			<td>${item.status ? 'Published' : 'unPublished'}</td>
@@ -114,7 +145,94 @@ async function fetchPost() {
 		`;
 	})
 
+	totalPages = data.pagination.totalPages;
+	renderPaginationButtons(totalPages);
+
 }
+
+function applyFilters() {
+  filters.status = document.getElementById('statusFilter').value;
+  filters.startDate = document.getElementById('startDate').value;
+  filters.endDate = document.getElementById('endDate').value;
+
+  currentPage = 1;
+  fetchPost();
+}
+
+function clearFilters() {
+  document.getElementById('statusFilter').value = "";
+  document.getElementById('startDate').value = "";
+  document.getElementById('endDate').value = "";
+
+  filters.status = "";
+  filters.startDate = "";
+  filters.endDate = "";
+
+  currentPage = 1;
+
+}
+
+function resetFilters() {
+  document.getElementById('statusFilter').value = "";
+  document.getElementById('startDate').value = "";
+  document.getElementById('endDate').value = "";
+
+  filters.status = "";
+  filters.startDate = "";
+  filters.endDate = "";
+
+  currentPage = 1;
+  fetchPost();
+
+  	const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
+	modal.hide();
+}
+
+function renderPaginationButtons(total) {
+	const pagination = document.getElementById('pagination');
+	pagination.innerHTML = '';
+
+	const prev = document.createElement('li');
+	prev.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+	prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+	prev.onclick = (e) => {
+		e.preventDefault();
+		if (currentPage > 1) fetchPost(currentPage - 1);
+	};
+	pagination.appendChild(prev);
+
+	for (let i = 1; i <= total; i++) {
+		const pageBtn = document.createElement('li');
+		pageBtn.className = `page-item ${i === currentPage ? 'active' : ''}`;
+		pageBtn.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+		pageBtn.onclick = (e) => {
+			e.preventDefault();
+			fetchPost(i);
+		};
+		pagination.appendChild(pageBtn);
+	}
+
+	const next = document.createElement('li');
+	next.className = `page-item ${currentPage === total ? 'disabled' : ''}`;
+	next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+	next.onclick = (e) => {
+		e.preventDefault();
+		if (currentPage < total) fetchPost(currentPage + 1);
+	};
+	pagination.appendChild(next);
+}
+
+document.getElementById('searchInput')?.addEventListener('keydown', (e) => {
+	if (e.key === 'Enter') {
+		currentPage = 1;
+		fetchPost();
+	}
+});
+
+document.getElementById('sortSelect')?.addEventListener('change', () => {
+	currentPage = 1;
+	fetchPost();
+});
 
 
 
