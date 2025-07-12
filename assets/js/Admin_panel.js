@@ -77,8 +77,7 @@ let totalPages = 1;
 
 let filters = {
   status: "",
-  startDate: "",
-  endDate: ""
+  date: "",
 };
 
 async function fetchPost(page = 1) {
@@ -93,8 +92,7 @@ const searchInput = document.getElementById('searchInput')?.value || "";
     page: currentPage,
     limit,
     status: filters.status,
-    startDate: filters.startDate,
-    endDate: filters.endDate
+    date: filters.date 
   });
 
 	const res = await fetch(`${baseUrl}/getPost?${queryParams.toString()}`, {
@@ -152,8 +150,7 @@ const searchInput = document.getElementById('searchInput')?.value || "";
 
 function applyFilters() {
   filters.status = document.getElementById('statusFilter').value;
-  filters.startDate = document.getElementById('startDate').value;
-  filters.endDate = document.getElementById('endDate').value;
+  filters.date = document.getElementById('date').value;
 
   currentPage = 1;
   fetchPost();
@@ -161,12 +158,10 @@ function applyFilters() {
 
 function clearFilters() {
   document.getElementById('statusFilter').value = "";
-  document.getElementById('startDate').value = "";
-  document.getElementById('endDate').value = "";
+  document.getElementById('date').value = "";
 
   filters.status = "";
-  filters.startDate = "";
-  filters.endDate = "";
+  filters.date = "";
 
   currentPage = 1;
 
@@ -174,12 +169,10 @@ function clearFilters() {
 
 function resetFilters() {
   document.getElementById('statusFilter').value = "";
-  document.getElementById('startDate').value = "";
-  document.getElementById('endDate').value = "";
+  document.getElementById('date').value = "";
 
   filters.status = "";
-  filters.startDate = "";
-  filters.endDate = "";
+  filters.date = "";
 
   currentPage = 1;
   fetchPost();
