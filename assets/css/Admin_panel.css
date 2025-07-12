@@ -4043,7 +4043,7 @@ input[type="button"].btn-block {
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: #007bff;
+  color: var(--accent-color);
   background-color: #fff;
   border: 1px solid #dee2e6; }
   .page-link:hover {
@@ -4070,8 +4070,8 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 1;
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff; }
+  background-color: var(--accent-color);
+  border-color: var(--accent-color); }
 
 .page-item.disabled .page-link {
   color: #6c757d;
