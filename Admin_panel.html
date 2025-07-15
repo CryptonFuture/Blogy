@@ -370,17 +370,20 @@
 
                           <!-- Modal Body -->
                           <div class="modal-body">
-                            <form id="editPostForm">
+                            <form id="editTagForm">
+                              <div class="mb-3" style="display: none;">
+                                <input hidden readonly type="text" class="form-control" id="edit-tag-id" name="id" value="" />
+                              </div>
                               <!-- Title -->
                               <div class="mb-3">
                                 <label for="edit-post-title" class="col-form-label">TagName:</label>
-                                <input type="text" class="form-control" id="edit-post-title" name="title" value="" />
+                                <input type="text" class="form-control" id="edit-tag-tagName" name="title" value="" />
                               </div>
 
                               <!-- Description -->
                               <div class="mb-3">
                                 <label for="edit-post-description" class="col-form-label">Description:</label>
-                                <textarea class="form-control" id="edit-post-description" name="description"
+                                <textarea class="form-control" id="edit-tag-description" name="description"
                                   rows="3"></textarea>
                               </div>
 
@@ -389,7 +392,7 @@
                                 <label for="edit-post-status" class="col-form-label">Status:</label>
                                 <!-- Checkbox -->
                                 <div class="form-check mb-3">
-                                  <input class="form-check-input" type="checkbox" id="publishCheck" name="publish">
+                                  <input class="form-check-input" type="checkbox" id="edit-tag-status" name="publish">
                                   <label class="form-check-label" for="publishCheck">
                                   </label>
                                 </div>
@@ -400,7 +403,7 @@
                           <!-- Modal Footer -->
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-orange" form="editPostForm">Save Changes</button>
+                            <button type="submit" class="btn btn-orange" form="editTagForm">Save Changes</button>
                           </div>
 
                         </div>
@@ -494,17 +497,18 @@
 
                           <!-- Modal Body -->
                           <div class="modal-body">
-                            <form id="editPostForm">
+                            <form id="editPageForm">
                               <!-- Title -->
                               <div class="mb-3">
+                                <input hidden readonly type="text" class="form-control" id="edit-page-id" name="id" value="" />
                                 <label for="edit-pages-title" class="col-form-label">PageName:</label>
-                                <input type="text" class="form-control" id="edit-pages-title" name="title" value="" />
+                                <input type="text" class="form-control" id="edit-page-pageName" name="title" value="" />
                               </div>
 
                               <!-- Description -->
                               <div class="mb-3">
                                 <label for="edit-post-description" class="col-form-label">Description:</label>
-                                <textarea class="form-control" id="edit-post-description" name="description"
+                                <textarea class="form-control" id="edit-page-description" name="description"
                                   rows="3"></textarea>
                               </div>
 
@@ -513,7 +517,7 @@
                                 <label for="edit-post-status" class="col-form-label">Status:</label>
                                 <!-- Checkbox -->
                                 <div class="form-check mb-3">
-                                  <input class="form-check-input" type="checkbox" id="publishCheck" name="publish">
+                                  <input class="form-check-input" type="checkbox" id="edit-page-status" name="publish">
                                   <label class="form-check-label" for="publishCheck">
                                   </label>
                                 </div>
@@ -524,7 +528,7 @@
                           <!-- Modal Footer -->
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-orange" form="editPostForm">Save Changes</button>
+                            <button type="submit" class="btn btn-orange" form="editPageForm">Save Changes</button>
                           </div>
 
                         </div>
@@ -642,13 +646,14 @@
 
                 <!-- First Row: First Name & Last Name -->
                 <div class="row mb-3">
+                  <input hidden readonly type="text" class="form-control" id="edit-user-id" name="id" value="" />
                   <div class="col-md-6">
                     <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName">
+                    <input type="text" class="form-control" id="edit-user-firstname">
                   </div>
                   <div class="col-md-6">
                     <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName">
+                    <input type="text" class="form-control" id="edit-user-lastname">
                   </div>
                 </div>
 
@@ -656,21 +661,21 @@
                 <div class="row mb-3">
                   <div class="col-md-6">
                     <label for="emailAddress" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="emailAddress">
+                    <input type="email" class="form-control" id="edit-user-email">
                   </div>
-                  <div class="col-md-6">
+                  <!-- <div class="col-md-6">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password">
-                  </div>
+                    <input type="password" class="form-control" id="edit-user-password">
+                  </div> -->
                 </div>
 
                 <!-- Third Row: Confirm Password -->
-                <div class="row mb-3">
+                <!-- <div class="row mb-3">
                   <div class="col-12">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword">
+                    <input type="password" class="form-control" id="edit-user-confirmPass">
                   </div>
-                </div>
+                </div> -->
 
                 <!-- Fourth Row: Status & Admin -->
                 <div class="row mb-3">
@@ -678,7 +683,7 @@
                   <div class="col-md-6">
                     <label class="form-label d-block">Status</label>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="statusCheck">
+                      <input class="form-check-input" type="checkbox" id="edit-user-status">
                     </div>
                   </div>
 
@@ -686,7 +691,7 @@
                   <div class="col-md-6">
                     <label class="form-label d-block">Admin</label>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="adminCheck">
+                      <input class="form-check-input" type="checkbox" id="edit-user-admin">
                     </div>
                   </div>
                 </div>
