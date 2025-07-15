@@ -1080,11 +1080,6 @@ async function updatePost(id) {
 
 }
 
-<<<<<<< Updated upstream
-async function postCount() {
-	const res = await fetch(`${baseUrl}/countPost`, {
-		method: 'GET'
-=======
 async function updateTag(id) {
 	const tagName = document.getElementById('edit-tag-tagName').value
 	const description = document.getElementById('edit-tag-description').value
@@ -1097,16 +1092,10 @@ async function updateTag(id) {
 			'Authorization': `${tokenType} ${access_Token}` 
 		},
 		body: JSON.stringify({tagName, description, status})
->>>>>>> Stashed changes
 	})
 
 	const data = await res.json()
 
-<<<<<<< Updated upstream
-	const postCount = data.count
-
-	document.getElementById('postCount').textContent = `count: ${postCount}`
-=======
 	if (res.ok) {
 		Swal.fire({
 			icon: 'success',
@@ -1217,5 +1206,4 @@ async function updateUser(id) {
 		})
 	}
 
->>>>>>> Stashed changes
 }
