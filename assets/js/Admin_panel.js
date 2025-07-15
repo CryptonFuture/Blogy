@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	fetchPost()
 	fetchDashboard()
 	getSideBarRoutes()
+	postCount() 
 })
 
 const prefix = 'api/v1'
@@ -961,4 +962,16 @@ async function updatePost(id) {
 		})
 	}
 
+}
+
+async function postCount() {
+	const res = await fetch(`${baseUrl}/countPost`, {
+		method: 'GET'
+	})
+
+	const data = await res.json()
+
+	const postCount = data.count
+
+	document.getElementById('postCount').textContent = `count: ${postCount}`
 }
