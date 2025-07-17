@@ -55,6 +55,8 @@ if (!accessToken) {
 	window.location.href = '/';
 }
 
+let postEndpoint  = ''
+
 
 document.addEventListener('DOMContentLoaded', function () {
 	fetchUser()
@@ -64,6 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	fetchDashboard()
 	getSideBarRoutes()
 	countPost()
+})
+
+document.addEventListener('endpointsReady', function(e) {
+	postEndpoint = e.detail.post
+
+	fetchPost()
 })
 
 const prefix = 'api/v1'
@@ -81,7 +89,9 @@ let filters = {
 	date: "",
 };
 
+
 async function fetchPost(page = 1) {
+
 	currentPage = page;
 
 	const sortValue = document.getElementById('sortSelect')?.value || "";
@@ -96,7 +106,7 @@ async function fetchPost(page = 1) {
 		date: filters.date
 	});
 
-	const res = await fetch(`${baseUrl}/getPost?${queryParams.toString()}`, {
+	const res = await fetch(`${baseUrl}/${postEndpoint}?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
