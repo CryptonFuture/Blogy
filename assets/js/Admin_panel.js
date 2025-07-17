@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	fetchUser()
 	fetchPage()
 	fetchTag()
-	fetchPost()
 	fetchDashboard()
 	getSideBarRoutes()
 	countPost()
