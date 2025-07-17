@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	fetchPost()
 	fetchDashboard()
 	getSideBarRoutes()
-	postCount() 
+	countPost()
 })
 
 const prefix = 'api/v1'
@@ -451,7 +451,10 @@ async function logout() {
 	const userId = localStorage.getItem('user')
 
 	const res = await fetch(`${baseUrl}/logout?id=${userId}`, {
-		method: 'POST'
+		method: 'POST',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
 	})
 
 	const data = await res.json()
@@ -1206,4 +1209,20 @@ async function updateUser(id) {
 		})
 	}
 
+}
+
+async function countPost() {
+	const res = await fetch(`${baseUrl}/countPost`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	 document.getElementById('postCount').textContent = `No Of Count: ${count}`
+	
 }
