@@ -45,15 +45,15 @@
 	// 	})
 	// })
 
-	
+
 
 })(jQuery);
 
 const accessToken = localStorage.getItem('token')
 
-	if (!accessToken) {
-		window.location.href = '/';
-	}
+if (!accessToken) {
+	window.location.href = '/';
+}
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -77,24 +77,24 @@ const limit = 5;
 let totalPages = 1;
 
 let filters = {
-  status: "",
-  date: "",
+	status: "",
+	date: "",
 };
 
 async function fetchPost(page = 1) {
-currentPage = page;
+	currentPage = page;
 
-const sortValue = document.getElementById('sortSelect')?.value || "";
-const searchInput = document.getElementById('searchInput')?.value || "";
+	const sortValue = document.getElementById('sortSelect')?.value || "";
+	const searchInput = document.getElementById('searchInput')?.value || "";
 
- const queryParams = new URLSearchParams({
-    search: searchInput,
-    sort: sortValue,
-    page: currentPage,
-    limit,
-    status: filters.status,
-    date: filters.date 
-  });
+	const queryParams = new URLSearchParams({
+		search: searchInput,
+		sort: sortValue,
+		page: currentPage,
+		limit,
+		status: filters.status,
+		date: filters.date
+	});
 
 	const res = await fetch(`${baseUrl}/getPost?${queryParams.toString()}`, {
 		method: "GET",
@@ -112,8 +112,8 @@ const searchInput = document.getElementById('searchInput')?.value || "";
 	list.innerHTML = '';
 
 	if (!data.success || post.length === 0) {
-			list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
-			document.getElementById('pagination').innerHTML = '';
+		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		document.getElementById('pagination').innerHTML = '';
 		return;
 	}
 
@@ -150,35 +150,35 @@ const searchInput = document.getElementById('searchInput')?.value || "";
 }
 
 function applyFilters() {
-  filters.status = document.getElementById('statusFilter').value;
-  filters.date = document.getElementById('date').value;
+	filters.status = document.getElementById('statusFilter').value;
+	filters.date = document.getElementById('date').value;
 
-  currentPage = 1;
-  fetchPost();
+	currentPage = 1;
+	fetchPost();
 }
 
 function clearFilters() {
-  document.getElementById('statusFilter').value = "";
-  document.getElementById('date').value = "";
+	document.getElementById('statusFilter').value = "";
+	document.getElementById('date').value = "";
 
-  filters.status = "";
-  filters.date = "";
+	filters.status = "";
+	filters.date = "";
 
-  currentPage = 1;
+	currentPage = 1;
 
 }
 
 function resetFilters() {
-  document.getElementById('statusFilter').value = "";
-  document.getElementById('date').value = "";
+	document.getElementById('statusFilter').value = "";
+	document.getElementById('date').value = "";
 
-  filters.status = "";
-  filters.date = "";
+	filters.status = "";
+	filters.date = "";
 
-  currentPage = 1;
-  fetchPost();
+	currentPage = 1;
+	fetchPost();
 
-  	const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
+	const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
 	modal.hide();
 }
 
@@ -426,7 +426,7 @@ async function getSideBarRoutes() {
 
 function setupAutoLogout() {
 	const expiryTime = localStorage.getItem('tokenExpiry');
-	
+
 	if (!expiryTime) return;
 
 	const timeLeft = expiryTime - Date.now();
@@ -477,7 +477,7 @@ async function logout() {
 			showConfirmButton: false,
 			timerProgressBar: true
 		}).then(() => {
-			
+
 			window.location.href = '/';
 
 		});
@@ -819,11 +819,11 @@ async function addUser() {
 			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({ firstname, lastname, email, password, confirmPass})
+		body: JSON.stringify({ firstname, lastname, email, password, confirmPass })
 	})
 
 	const data = await res.json()
-	
+
 
 	if (res.ok) {
 		Swal.fire({
@@ -836,14 +836,14 @@ async function addUser() {
 		}).then(() => {
 			fetchUser();
 			$('#userModal').modal('hide');
-	document.getElementById('firstName').value = " "
-	document.getElementById('lastName').value = " "
-	document.getElementById('email').value = " "
-	document.getElementById('password').value = " "
-	document.getElementById('confirmpassword').value = " "
+			document.getElementById('firstName').value = " "
+			document.getElementById('lastName').value = " "
+			document.getElementById('email').value = " "
+			document.getElementById('password').value = " "
+			document.getElementById('confirmpassword').value = " "
 		});
 	} else {
-		
+
 		Swal.fire({
 			icon: 'error',
 			title: `Failed to delete user: ${data.error}`,
@@ -853,9 +853,9 @@ async function addUser() {
 			timerProgressBar: true
 		})
 	}
-}	
+}
 
-document.getElementById('editPostForm').addEventListener('submit', function(e) {
+document.getElementById('editPostForm').addEventListener('submit', function (e) {
 	e.preventDefault()
 	const id = document.getElementById('edit-post-id').value
 	updatePost(id)
@@ -871,7 +871,7 @@ async function editPost(id) {
 
 	const data = await res.json()
 
-	if(res.ok && data.success && data.data.length > 0) {
+	if (res.ok && data.success && data.data.length > 0) {
 		const post = data.data[0]
 		document.getElementById('edit-post-id').value = post._id
 		document.getElementById('edit-post-title').value = post.title
@@ -891,19 +891,19 @@ async function editPost(id) {
 	}
 }
 
-document.getElementById('editTagForm').addEventListener('submit', function(e) {
+document.getElementById('editTagForm').addEventListener('submit', function (e) {
 	e.preventDefault()
 	const id = document.getElementById('edit-tag-id').value
 	updateTag(id)
 })
 
-document.getElementById('editPageForm').addEventListener('submit', function(e) {
+document.getElementById('editPageForm').addEventListener('submit', function (e) {
 	e.preventDefault()
 	const id = document.getElementById('edit-page-id').value
 	updatePage(id)
 })
 
-document.getElementById('editUserForm').addEventListener('submit', function(e) {
+document.getElementById('editUserForm').addEventListener('submit', function (e) {
 	e.preventDefault()
 	const id = document.getElementById('edit-user-id').value
 	updateUser(id)
@@ -921,7 +921,7 @@ async function editTag(id) {
 
 	console.log(data)
 
-	if(res.ok && data.success && data.data.length > 0) {
+	if (res.ok && data.success && data.data.length > 0) {
 		const tag = data.data[0]
 		document.getElementById('edit-tag-id').value = tag._id
 		document.getElementById('edit-tag-tagName').value = tag.tagName
@@ -953,7 +953,7 @@ async function editPage(id) {
 
 	console.log(data)
 
-	if(res.ok && data.success && data.data.length > 0) {
+	if (res.ok && data.success && data.data.length > 0) {
 		const page = data.data[0]
 		document.getElementById('edit-page-id').value = page._id
 		document.getElementById('edit-page-pageName').value = page.pageName
@@ -985,7 +985,7 @@ async function editUser(id) {
 
 	console.log(data)
 
-	if(res.ok && data.success && data.data.length > 0) {
+	if (res.ok && data.success && data.data.length > 0) {
 		const user = data.data[0]
 		document.getElementById('edit-user-id').value = user._id
 		document.getElementById('edit-user-firstname').value = user.firstname
@@ -1008,7 +1008,7 @@ async function editUser(id) {
 }
 
 async function viewPost(id) {
-	
+
 	const res = await fetch(`${baseUrl}/viewPostById/${id}`, {
 		method: 'GET',
 		headers: {
@@ -1018,12 +1018,12 @@ async function viewPost(id) {
 
 	const data = await res.json()
 
-	if(res.ok && data.success && data.data.length > 0) {
+	if (res.ok && data.success && data.data.length > 0) {
 		const view = data.data[0]
 
 		document.getElementById('view-post-id').innerHTML = `<strong>ID: </strong> <span> ${view._id} </span>`
-		document.getElementById('view-post-title').innerHTML =  `<strong>Title: </strong> <span> ${view.title} </span>`
-		document.getElementById('view-post-description').innerHTML =  `<strong>Description: </strong> <span> ${view.description} </span>`
+		document.getElementById('view-post-title').innerHTML = `<strong>Title: </strong> <span> ${view.title} </span>`
+		document.getElementById('view-post-description').innerHTML = `<strong>Description: </strong> <span> ${view.description} </span>`
 		document.getElementById('view-post-status').innerHTML = `<strong>Status: </strong> <span> ${view.status ? 'Published' : 'unPublished'} </span>`
 		document.getElementById('view-post-createdAt').innerHTML = `<strong>CreatedAt: </strong> <span> ${new Date(view.createdAt).toISOString().split('T')[0]} </span>`
 		document.getElementById('view-post-updatedAt').innerHTML = `<strong>UpdatedAt: </strong> <span> ${new Date(view.updatedAt).toISOString().split('T')[0]} </span>`
@@ -1048,11 +1048,11 @@ async function updatePost(id) {
 
 	const res = await fetch(`${baseUrl}/updatePost/${id}`, {
 		method: 'PUT',
-		headers: { 
+		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `${tokenType} ${access_Token}` 
+			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({title, description, status})
+		body: JSON.stringify({ title, description, status })
 	})
 
 	const data = await res.json()
@@ -1090,11 +1090,11 @@ async function updateTag(id) {
 
 	const res = await fetch(`${baseUrl}/updateTag/${id}`, {
 		method: 'PUT',
-		headers: { 
+		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `${tokenType} ${access_Token}` 
+			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({tagName, description, status})
+		body: JSON.stringify({ tagName, description, status })
 	})
 
 	const data = await res.json()
@@ -1132,11 +1132,11 @@ async function updatePage(id) {
 
 	const res = await fetch(`${baseUrl}/updatePages/${id}`, {
 		method: 'PUT',
-		headers: { 
+		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `${tokenType} ${access_Token}` 
+			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({pageName, description, status})
+		body: JSON.stringify({ pageName, description, status })
 	})
 
 	const data = await res.json()
@@ -1176,11 +1176,11 @@ async function updateUser(id) {
 
 	const res = await fetch(`${baseUrl}/updateUser/${id}`, {
 		method: 'PUT',
-		headers: { 
+		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `${tokenType} ${access_Token}` 
+			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({firstname, lastname, email, status, admin})
+		body: JSON.stringify({ firstname, lastname, email, status, admin })
 	})
 
 	const data = await res.json()
@@ -1223,6 +1223,6 @@ async function countPost() {
 
 	const count = data.count
 
-	 document.getElementById('postCount').textContent = `No Of Count: ${count}`
-	
+	document.getElementById('postCount').textContent = `No Of Count: ${count}`
+
 }
