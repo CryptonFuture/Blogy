@@ -241,8 +241,7 @@
 	}
 
 
-const prefix = 'api/v1'
-const baseUrl = `http://localhost:8000/${prefix}`
+
 
 async function login() {
   const email = document.getElementById('email').value
