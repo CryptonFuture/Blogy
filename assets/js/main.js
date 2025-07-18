@@ -241,7 +241,11 @@
 	}
 
 
+const prefix = 'api/v1'
+const baseUrl = `http://localhost:8000/${prefix}`
 
+const tokenType = localStorage.getItem('tokenType')
+const access_Token = localStorage.getItem('token')
 
 async function login() {
   const email = document.getElementById('email').value
