@@ -573,10 +573,9 @@ async function deletePost(id) {
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -621,10 +620,9 @@ async function deleteTag(id) {
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -669,10 +667,9 @@ async function deletePage(id) {
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
