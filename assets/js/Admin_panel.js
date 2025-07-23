@@ -65,7 +65,38 @@ document.addEventListener('DOMContentLoaded', function () {
 	fetchDashboard()
 	getSideBarRoutes()
 	countPost()
+
+	const selectAll = document.getElementById('select-all');
+	const deleteBtn = document.getElementById('delete-all-btn');
+
+	function updateDeleteButtonVisibility() {
+      const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+      if (selectedCheckboxes.length > 0) {
+        deleteBtn.classList.remove('d-none');
+      } else {
+        deleteBtn.classList.add('d-none');
+      }
+    }
+
+    selectAll.addEventListener('change', function () {
+      const checkboxes = document.querySelectorAll('.row-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAll.checked;
+      });
+	  updateDeleteButtonVisibility()
+    });
+
+	 document.addEventListener('change', function (e) {
+      if (e.target.classList.contains('row-checkbox')) {
+        const all = document.querySelectorAll('.row-checkbox');
+        const checked = document.querySelectorAll('.row-checkbox:checked');
+        selectAll.checked = all.length === checked.length;
+
+		  updateDeleteButtonVisibility()
+      }
+    });
 })
+
 
 document.addEventListener('endpointsReady', function(e) {
 	postEndpoint = e.detail.post
@@ -130,6 +161,11 @@ async function fetchPost(page = 1) {
 
 		list.innerHTML += `
 		<tr>
+			<td>
+				<div class="form-check">
+					<input class="form-check-input row-checkbox" type="checkbox" />
+				</div>
+			</td>
 			<th scope="row">${(currentPage - 1) * limit + index + 1}</th>
 			<td>${item.title}</td>
 			<td>${item.description}</td>
@@ -358,6 +394,8 @@ async function fetchUser() {
 			<th scope="row">${index + 1}</th>
 			<td>${item.firstname} ${item.lastname}</td>
 			<td>${item.email}</td>
+			<td>${item.active ? 'active' : 'inActive'}</td>
+			<td>${item.is_admin ? 'admin' : 'notAdmin'}</td>
 			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
 			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
 			<td><div class="dropdown">
@@ -679,10 +717,9 @@ async function deleteUser(id) {
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -1318,6 +1355,7 @@ async function updateUser(id) {
 
 }
 
+ 
 async function countPost() {
 	const res = await fetch(`${baseUrl}/countPost`, {
 		method: 'GET',
