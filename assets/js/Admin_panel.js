@@ -65,6 +65,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	fetchDashboard()
 	getSideBarRoutes()
 	countPost()
+	countTag()
+	countPage()
+	countUser()
 
 	const selectAll = document.getElementById('select-all');
 	const deleteBtn = document.getElementById('delete-all-btn');
@@ -730,6 +733,21 @@ async function addPost() {
 	const title = document.getElementById('title').value
 	const description = document.getElementById('description').value
 
+	document.getElementById('error-title').textContent = ""
+
+	let isValid = true;
+
+	 if (!title) {
+        document.getElementById('error-title').textContent = 'Title is required.';
+        isValid = false;
+    } 
+
+	 if (!isValid) {
+        return;
+    }
+
+
+
 	const res = await fetch(`${baseUrl}/addPost`, {
 		method: 'POST',
 		headers: {
@@ -771,6 +789,21 @@ async function addTag() {
 	const tagName = document.getElementById('tag-Name').value
 	const description = document.getElementById('tag-description').value
 
+	document.getElementById('error-tag-Name').textContent = ""
+
+	let isValid = true;
+
+	 if (!tagName) {
+        document.getElementById('error-tag-Name').textContent = 'TagName is required.';
+        isValid = false;
+    } 
+
+	 if (!isValid) {
+        return;
+    }
+
+	
+
 	const res = await fetch(`${baseUrl}/addTag`, {
 		method: 'POST',
 		headers: {
@@ -811,6 +844,19 @@ async function addTag() {
 async function addPage() {
 	const pageName = document.getElementById('pageName').value
 	const description = document.getElementById('pagedescription').value
+
+	document.getElementById('error-pageName').textContent = ""
+
+	let isValid = true;
+
+	 if (!pageName) {
+        document.getElementById('error-pageName').textContent = 'PageName is required.';
+        isValid = false;
+    } 
+
+	 if (!isValid) {
+        return;
+    }
 
 	const res = await fetch(`${baseUrl}/addPages`, {
 		method: 'POST',
@@ -855,6 +901,51 @@ async function addUser() {
 	const email = document.getElementById('email').value
 	const password = document.getElementById('password').value
 	const confirmPass = document.getElementById('confirmpassword').value
+
+	document.getElementById('firstName-error').textContent = ""
+  	document.getElementById('lastName-error').textContent = ""
+	document.getElementById('email-error').textContent = ""
+  	document.getElementById('password-error').textContent = ""
+	document.getElementById('confirmpassword-error').textContent = ""
+
+  let isValid = true;
+	if (!firstname){
+		document.getElementById('firstName-error').textContent = 'firstName is required.';
+        isValid = false;
+	}
+	if(!lastname){
+		document.getElementById('lastName-error').textContent = 'lastName is required.';
+        isValid = false;
+	}
+    if (!email) {
+        document.getElementById('email-error').textContent = 'Email is required.';
+        isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+        document.getElementById('email-error').textContent = 'Please enter a valid email address.';
+        isValid = false;
+    }
+
+    if (!password) {
+        document.getElementById('password-error').textContent = 'Password is required.';
+        isValid = false;
+    } else if (password.length < 10) {
+        document.getElementById('password-error').textContent = 'Password must be at least 10 characters';
+        isValid = false;
+    }
+	if (!confirmPass) {
+        document.getElementById('confirmpassword-error').textContent = 'Confirmpassword is required.';
+        isValid = false;
+	} else if (password !== confirmPass) {
+        document.getElementById('confirmpassword-error').textContent = "password does'nt match";
+        isValid = false;
+    
+    } else if (password.length < 10) {
+        document.getElementById('confirmpassword-error').textContent = 'Confirmpassword must be at least 10 characters';
+        isValid = false;
+    }
+    if (!isValid) {
+        return;
+    }
 
 	const res = await fetch(`${baseUrl}/register`, {
 		method: 'POST',
@@ -1366,6 +1457,51 @@ async function countPost() {
 	const count = data.count
 
 	document.getElementById('postCount').textContent = `No Of Count: ${count}`
+
+}
+async function countTag() {
+	const res = await fetch(`${baseUrl}/countTag`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('tagCount').textContent = `No Of Count: ${count}`
+
+}
+async function countPage() {
+	const res = await fetch(`${baseUrl}/countPages`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('pageCount').textContent = `No Of Count: ${count}`
+
+}
+async function countUser() {
+	const res = await fetch(`${baseUrl}/countUser`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('userCount').textContent = `No Of Count: ${count}`
 
 }
 

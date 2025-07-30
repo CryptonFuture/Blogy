@@ -149,6 +149,7 @@
                               <label for="recipient-name" class="col-form-label">Title :</label>
                               <input type="email" class="form-control" id="title" />
                             </div>
+                            <small id="error-title" class="text-danger"></small>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
                               <textarea class="form-control" id="description" rows="3"></textarea>
@@ -311,6 +312,7 @@
                     </form>
                   </div>
                   <div>
+                    <span id="tagCount"></span>
                     <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#tagModal"
                       data-bs-whatever="@mdo">
                       Create Tag
@@ -332,6 +334,7 @@
                               <label for="recipient-name" class="col-form-label">TagName:</label>
                               <input type="email" class="form-control" id="tag-Name" />
                             </div>
+                            <small id="error-tag-Name" class="text-danger"></small>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
                               <textarea class="form-control" id="tag-description" rows="3"></textarea>
@@ -470,6 +473,7 @@
                     </form>
                   </div>
                   <div>
+                    <span id="pageCount"></span>
                     <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#pagesModal"
                       data-bs-whatever="@mdo">
                       Create Page
@@ -491,6 +495,7 @@
                               <label for="recipient-name" class="col-form-label">PageName:</label>
                               <input type="email" class="form-control" id="pageName" />
                             </div>
+                            <small id="error-pageName" class="text-danger"></small>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
                               <textarea class="form-control" id="pagedescription" rows="3"></textarea>
@@ -632,6 +637,7 @@
                     </form>
                   </div>
                   <div>
+                    <span id="userCount"></span>
                     <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#userModal"
                       data-bs-whatever="@mdo">
                       Create User
@@ -652,32 +658,37 @@
                 <div class="col-md-6">
                   <label class="col-form-label">First Name:</label>
                   <input id="firstName" type="text" class="form-control" />
-                </div>
+                  <small id="firstName-error" class="text-danger"></small>
+                </div>                
                 <div class="col-md-6">
                   <label class="col-form-label">Last Name:</label>
                   <input id="lastName" type="text" class="form-control" />
-                </div>
-              </div>
+                  <small id="lastName-error" class="text-danger"></small>
+                </div>                
+              </div>              
 
               <!-- Second Row: Email and Password -->
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label class="col-form-label">Email:</label>
                   <input id="email" type="email" class="form-control" />
-                </div>
+                  <small id="email-error" class="text-danger"></small>
+                </div>                
                 <div class="col-md-6">
                   <label class="col-form-label">Password:</label>
                   <input id="password" type="password" class="form-control" />
-                </div>
-              </div>
+                  <small id="password-error" class="text-danger"></small>
+                </div>                
+              </div>              
 
               <!-- Third Row: Confirm Password -->
               <div class="row mb-3">
                 <div class="col-md-12">
                   <label class="col-form-label">Confirm Password:</label>
                   <input id="confirmpassword" type="password" class="form-control" />
+                  <small id="confirmpassword-error" class="text-danger"></small>
                 </div>
-              </div>
+              </div>              
             </form>
           </div>
 
