@@ -1368,3 +1368,90 @@ async function countPost() {
 	document.getElementById('postCount').textContent = `No Of Count: ${count}`
 
 }
+
+async function deleteSelectedPosts() {
+  const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+  const ids = [];
+
+  checkboxes.forEach((checkbox, index) => {
+    const row = checkbox.closest('tr');
+    const titleCell = row.querySelector('td:nth-child(3)');
+    const title = titleCell?.innerText;
+
+    const editBtn = row.querySelector('.dropdown-menu a[onclick^="editPost"]');
+    const idMatch = editBtn?.getAttribute('onclick')?.match(/'([^']+)'/);
+    if (idMatch) {
+      ids.push(idMatch[1]);
+    }
+  });
+
+  if (ids.length === 0) {
+		Swal.fire({
+			icon: 'info',
+			title: 'Please select at least one post to delete.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+    	return;
+  }
+
+  const result = await Swal.fire({
+		title: `Are you sure you want to delete ${ids.length} selected post(s)?`,
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		try {
+		const res = await fetch(`${baseUrl}/deleteMultiplePost?ids=${ids.join(',')}`, {
+			method: "DELETE",
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+    	const data = await res.json();
+
+		if (data.success) {
+			Swal.fire({
+				icon: 'success',
+				title: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		fetchPost(currentPage);
+		document.querySelectorAll('.row-checkbox:checked').forEach(cb => cb.checked = false);
+		const headerCheckbox = document.querySelector('#select-all'); // **Assumes your header checkbox has an ID of 'selectAllCheckbox'**
+        if (headerCheckbox) {
+          headerCheckbox.checked = false;
+        }
+
+		} else {
+			Swal.fire({
+				icon: 'success',
+				title: data.error || 'Failed to delete posts.',
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+  } catch (err) {
+	 Swal.fire({
+			icon: 'success',
+			title: err || 'An error occurred while deleting posts.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+  }
+	}
+
+ 
+}

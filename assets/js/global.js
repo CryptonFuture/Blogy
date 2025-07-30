@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchGlobalEndPoints()
 })
 
+
 async function fetchGlobalEndPoints() {
     const res = await fetch(`${baseUrl}/getEndPoint`, {
         method: 'GET',
