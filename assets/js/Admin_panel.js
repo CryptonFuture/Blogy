@@ -225,9 +225,7 @@ function resetFilters() {
 
 	currentPage = 1;
 	fetchPost();
-
-	const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
-	modal.hide();
+	countPost()	
 }
 
 function renderPaginationButtons(total) {
@@ -1447,9 +1445,35 @@ async function updateUser(id) {
 
 }
 
+// document.getElementById('searchInput').addEventListener('input', function () {
+//   const search = this.value.trim();
+//   countPost(search);
+// });
+
+function getSearchParamsAndCount() {
+  const search = document.getElementById('searchInput').value.trim();
+  const status = document.getElementById('statusFilter')?.value || "";
+  const date = document.getElementById('date')?.value || "";
+
+  countPost(search, status, date);
+}
+
+document.getElementById('searchInput').addEventListener('input', getSearchParamsAndCount);
+
+document.getElementById('statusFilter').addEventListener('change', getSearchParamsAndCount);
+
+document.getElementById('date').addEventListener('change', getSearchParamsAndCount);
+
  
-async function countPost() {
-	const res = await fetch(`${baseUrl}/countPost`, {
+async function countPost(search = "", status = "", date = "") {
+	
+	const queryParams = new URLSearchParams();
+
+	if (search) queryParams.append("search", search);
+	if (status) queryParams.append("status", status);
+	if (date) queryParams.append("date", date);
+
+	const res = await fetch(`${baseUrl}/countPost?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
