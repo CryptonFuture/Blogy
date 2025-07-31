@@ -573,6 +573,7 @@ async function deletePost(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchPost();
+				countPost();
 			});
 
 		} else {
@@ -620,6 +621,7 @@ async function deleteTag(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchTag();
+				countTag()
 			});
 
 		} else {
@@ -667,6 +669,7 @@ async function deletePage(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchPage();
+				countPage()
 			});
 
 		} else {
@@ -714,6 +717,7 @@ async function deleteUser(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchUser();
+				countUser()
 			});
 
 		} else {
@@ -1459,6 +1463,7 @@ async function countPost() {
 	document.getElementById('postCount').textContent = `No Of Count: ${count}`
 
 }
+
 async function countTag() {
 	const res = await fetch(`${baseUrl}/countTag`, {
 		method: 'GET',
@@ -1562,7 +1567,9 @@ async function deleteSelectedPosts() {
 				showConfirmButton: false,
 				timerProgressBar: true
 			})
-		fetchPost(currentPage);
+		fetchPost(currentPage)
+		countPost()
+		document.getElementById('delete-all-btn').classList.add('d-none');
 		document.querySelectorAll('.row-checkbox:checked').forEach(cb => cb.checked = false);
 		const headerCheckbox = document.querySelector('#select-all'); // **Assumes your header checkbox has an ID of 'selectAllCheckbox'**
         if (headerCheckbox) {
