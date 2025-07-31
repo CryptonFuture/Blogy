@@ -771,6 +771,7 @@ async function addPost() {
 			timerProgressBar: true
 		}).then(() => {
 			fetchPost();
+			countPost()
 			$('#exampleModal').modal('hide');
 			document.getElementById('title').value = ""
 			document.getElementById('description').value = ""
