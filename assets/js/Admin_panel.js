@@ -367,6 +367,10 @@ async function fetchPage() {
 	const list = document.getElementById('pagelist')
 
 	list.innerHTML = '';
+	if (!data.success || tag.length === 0) {
+		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		return;
+	}
 
 	page.forEach((item, index) => {
 
@@ -418,6 +422,10 @@ async function fetchUser() {
 	const list = document.getElementById('userlist')
 
 	list.innerHTML = '';
+	if (!data.success || tag.length === 0) {
+		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		return;
+	}
 
 	user.forEach((item, index) => {
 
