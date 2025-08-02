@@ -288,10 +288,12 @@ document.getElementById('sortSelect')?.addEventListener('change', () => {
 
 
 async function fetchTag() {
+	const sortValue = document.getElementById('sortSelectTag')?.value || "";
 	const searchInputTag = document.getElementById('searchInputTag')?.value || "";
 
 	const queryParams = new URLSearchParams({
-		search: searchInputTag 
+		search: searchInputTag,
+		sort: sortValue,
 	})
 
 	const res = await fetch(`${baseUrl}/getTag?${queryParams.toString()}`, {
@@ -345,10 +347,12 @@ async function fetchTag() {
 
 
 async function fetchPage() {
+	const sortValue = document.getElementById('sortSelectPage')?.value || "";
 	const searchInputpage = document.getElementById('searchInputpage')?.value || "";
 
 	const queryParams = new URLSearchParams({
-		search: searchInputpage 
+		search: searchInputpage,
+		sort: sortValue,
 	})
 	const res = await fetch(`${baseUrl}/getPages?${queryParams.toString()}`, {
 		method: "GET",
@@ -400,10 +404,12 @@ async function fetchPage() {
 }
 
 async function fetchUser() {
+	const sortValue = document.getElementById('sortSelectUser')?.value || "";
 	const searchInputuser = document.getElementById('searchInputuser')?.value || "";
 
 	const queryParams = new URLSearchParams({
-		search: searchInputuser 
+		search: searchInputuser,
+		sort: sortValue,
 	})
 	const res = await fetch(`${baseUrl}/getUser?${queryParams.toString()}`, {
 		method: "GET",

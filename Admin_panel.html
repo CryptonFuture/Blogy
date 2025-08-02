@@ -310,6 +310,13 @@
                     <form class="form-inline">
                       <input id="searchInputTag" oninput="searchfilter()" class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
+                    <select class="form-select" id="sortSelectTag" onchange="fetchTag()">
+                      <option value="">Sort By</option>
+                      <option value="title:asc">Title (A-Z)</option>
+                      <option value="title:desc">Title (Z-A)</option>
+                      <option value="createdAt:asc">Oldest First</option>
+                      <option value="createdAt:desc" selected>Newest First</option>
+                    </select>
                   </div>
                   <div>
                     <span id="tagCount"></span>
@@ -471,6 +478,13 @@
                     <form class="form-inline">
                       <input id="searchInputpage" oninput="searchfilterPage()" class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
+                    <select class="form-select" id="sortSelectPage" onchange="fetchPage()">
+                      <option value="">Sort By</option>
+                      <option value="title:asc">Title (A-Z)</option>
+                      <option value="title:desc">Title (Z-A)</option>
+                      <option value="createdAt:asc">Oldest First</option>
+                      <option value="createdAt:desc" selected>Newest First</option>
+                    </select>
                   </div>
                   <div>
                     <span id="pageCount"></span>
@@ -635,6 +649,13 @@
                     <form class="form-inline">
                       <input id="searchInputuser" oninput="searchfilterUser()" class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
+                    <select class="form-select" id="sortSelectUser" onchange="fetchUser()">
+                      <option value="">Sort By</option>
+                      <option value="title:asc">Title (A-Z)</option>
+                      <option value="title:desc">Title (Z-A)</option>
+                      <option value="createdAt:asc">Oldest First</option>
+                      <option value="createdAt:desc" selected>Newest First</option>
+                    </select>
                   </div>
                   <div>
                     <span id="userCount"></span>
