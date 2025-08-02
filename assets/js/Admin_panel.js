@@ -205,6 +205,17 @@ function applyFilters() {
 	fetchPost();
 }
 
+function searchfilter(){
+	fetchTag();
+}
+function searchfilterPage(){
+	fetchPage();
+}
+
+function searchfilterUser(){
+	fetchUser();
+}
+
 function clearFilters() {
 	document.getElementById('statusFilter').value = "";
 	document.getElementById('date').value = "";
@@ -277,7 +288,13 @@ document.getElementById('sortSelect')?.addEventListener('change', () => {
 
 
 async function fetchTag() {
-	const res = await fetch(`${baseUrl}/getTag`, {
+	const searchInputTag = document.getElementById('searchInputTag')?.value || "";
+
+	const queryParams = new URLSearchParams({
+		search: searchInputTag 
+	})
+
+	const res = await fetch(`${baseUrl}/getTag?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -294,6 +311,10 @@ async function fetchTag() {
 	const list = document.getElementById('taglist')
 
 	list.innerHTML = '';
+	if (!data.success || tag.length === 0) {
+		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		return;
+	}
 
 	tag.forEach((item, index) => {
 
@@ -324,7 +345,12 @@ async function fetchTag() {
 
 
 async function fetchPage() {
-	const res = await fetch(`${baseUrl}/getPages`, {
+	const searchInputpage = document.getElementById('searchInputpage')?.value || "";
+
+	const queryParams = new URLSearchParams({
+		search: searchInputpage 
+	})
+	const res = await fetch(`${baseUrl}/getPages?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -370,7 +396,12 @@ async function fetchPage() {
 }
 
 async function fetchUser() {
-	const res = await fetch(`${baseUrl}/getUser`, {
+	const searchInputuser = document.getElementById('searchInputuser')?.value || "";
+
+	const queryParams = new URLSearchParams({
+		search: searchInputuser 
+	})
+	const res = await fetch(`${baseUrl}/getUser?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -1465,7 +1496,28 @@ document.getElementById('statusFilter').addEventListener('change', getSearchPara
 
 document.getElementById('date').addEventListener('change', getSearchParamsAndCount);
 
- 
+function getSearchParamsAndCountTag(){
+	const search = document.getElementById('searchInputTag').value.trim();
+
+	countTag(search)	
+}
+document.getElementById('searchInputTag').addEventListener('input', getSearchParamsAndCountTag);
+
+function getSearchParamsAndCountPage(){
+	const search = document.getElementById('searchInputpage').value.trim();
+
+	countPage(search)	
+}
+document.getElementById('searchInputpage').addEventListener('input', getSearchParamsAndCountPage);
+
+function getSearchParamsAndCountUser(){
+	const search = document.getElementById('searchInputuser').value.trim();
+
+	countUser(search)	
+}
+document.getElementById('searchInputuser').addEventListener('input', getSearchParamsAndCountUser);
+
+
 async function countPost(search = "", status = "", date = "") {
 	
 	const queryParams = new URLSearchParams();
@@ -1489,8 +1541,11 @@ async function countPost(search = "", status = "", date = "") {
 
 }
 
-async function countTag() {
-	const res = await fetch(`${baseUrl}/countTag`, {
+async function countTag(search = "") {
+	const queryParams = new URLSearchParams();
+
+	if (search) queryParams.append("search", search);
+	const res = await fetch(`${baseUrl}/countTag?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -1504,8 +1559,10 @@ async function countTag() {
 	document.getElementById('tagCount').textContent = `No Of Count: ${count}`
 
 }
-async function countPage() {
-	const res = await fetch(`${baseUrl}/countPages`, {
+async function countPage(search = "") {
+	const queryParams = new URLSearchParams();
+	if (search) queryParams.append("search", search);
+	const res = await fetch(`${baseUrl}/countPages?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -1519,8 +1576,10 @@ async function countPage() {
 	document.getElementById('pageCount').textContent = `No Of Count: ${count}`
 
 }
-async function countUser() {
-	const res = await fetch(`${baseUrl}/countUser`, {
+async function countUser(search = "") {
+	const queryParams = new URLSearchParams();
+	if (search) queryParams.append("search", search);
+	const res = await fetch(`${baseUrl}/countUser?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
