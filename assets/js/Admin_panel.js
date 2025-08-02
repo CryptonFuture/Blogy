@@ -65,7 +65,41 @@ document.addEventListener('DOMContentLoaded', function () {
 	fetchDashboard()
 	getSideBarRoutes()
 	countPost()
+	countTag()
+	countPage()
+	countUser()
+
+	const selectAll = document.getElementById('select-all');
+	const deleteBtn = document.getElementById('delete-all-btn');
+
+	function updateDeleteButtonVisibility() {
+      const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+      if (selectedCheckboxes.length > 0) {
+        deleteBtn.classList.remove('d-none');
+      } else {
+        deleteBtn.classList.add('d-none');
+      }
+    }
+
+    selectAll.addEventListener('change', function () {
+      const checkboxes = document.querySelectorAll('.row-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAll.checked;
+      });
+	  updateDeleteButtonVisibility()
+    });
+
+	 document.addEventListener('change', function (e) {
+      if (e.target.classList.contains('row-checkbox')) {
+        const all = document.querySelectorAll('.row-checkbox');
+        const checked = document.querySelectorAll('.row-checkbox:checked');
+        selectAll.checked = all.length === checked.length;
+
+		  updateDeleteButtonVisibility()
+      }
+    });
 })
+
 
 document.addEventListener('endpointsReady', function(e) {
 	postEndpoint = e.detail.post
@@ -130,6 +164,11 @@ async function fetchPost(page = 1) {
 
 		list.innerHTML += `
 		<tr>
+			<td>
+				<div class="form-check">
+					<input class="form-check-input row-checkbox" type="checkbox" />
+				</div>
+			</td>
 			<th scope="row">${(currentPage - 1) * limit + index + 1}</th>
 			<td>${item.title}</td>
 			<td>${item.description}</td>
@@ -186,9 +225,7 @@ function resetFilters() {
 
 	currentPage = 1;
 	fetchPost();
-
-	const modal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
-	modal.hide();
+	countPost()	
 }
 
 function renderPaginationButtons(total) {
@@ -358,6 +395,8 @@ async function fetchUser() {
 			<th scope="row">${index + 1}</th>
 			<td>${item.firstname} ${item.lastname}</td>
 			<td>${item.email}</td>
+			<td>${item.active ? 'active' : 'inActive'}</td>
+			<td>${item.is_admin ? 'admin' : 'notAdmin'}</td>
 			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
 			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
 			<td><div class="dropdown">
@@ -532,13 +571,13 @@ async function deletePost(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchPost();
+				countPost();
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -580,13 +619,13 @@ async function deleteTag(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchTag();
+				countTag()
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -628,13 +667,13 @@ async function deletePage(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchPage();
+				countPage()
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -676,13 +715,13 @@ async function deleteUser(id) {
 				timerProgressBar: true
 			}).then(() => {
 				fetchUser();
+				countUser()
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error || res.statusText}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -695,6 +734,21 @@ async function deleteUser(id) {
 async function addPost() {
 	const title = document.getElementById('title').value
 	const description = document.getElementById('description').value
+
+	document.getElementById('error-title').textContent = ""
+
+	let isValid = true;
+
+	 if (!title) {
+        document.getElementById('error-title').textContent = 'Title is required.';
+        isValid = false;
+    } 
+
+	 if (!isValid) {
+        return;
+    }
+
+
 
 	const res = await fetch(`${baseUrl}/addPost`, {
 		method: 'POST',
@@ -717,6 +771,7 @@ async function addPost() {
 			timerProgressBar: true
 		}).then(() => {
 			fetchPost();
+			countPost()
 			$('#exampleModal').modal('hide');
 			document.getElementById('title').value = ""
 			document.getElementById('description').value = ""
@@ -736,6 +791,21 @@ async function addPost() {
 async function addTag() {
 	const tagName = document.getElementById('tag-Name').value
 	const description = document.getElementById('tag-description').value
+
+	document.getElementById('error-tag-Name').textContent = ""
+
+	let isValid = true;
+
+	 if (!tagName) {
+        document.getElementById('error-tag-Name').textContent = 'TagName is required.';
+        isValid = false;
+    } 
+
+	 if (!isValid) {
+        return;
+    }
+
+	
 
 	const res = await fetch(`${baseUrl}/addTag`, {
 		method: 'POST',
@@ -777,6 +847,19 @@ async function addTag() {
 async function addPage() {
 	const pageName = document.getElementById('pageName').value
 	const description = document.getElementById('pagedescription').value
+
+	document.getElementById('error-pageName').textContent = ""
+
+	let isValid = true;
+
+	 if (!pageName) {
+        document.getElementById('error-pageName').textContent = 'PageName is required.';
+        isValid = false;
+    } 
+
+	 if (!isValid) {
+        return;
+    }
 
 	const res = await fetch(`${baseUrl}/addPages`, {
 		method: 'POST',
@@ -821,6 +904,51 @@ async function addUser() {
 	const email = document.getElementById('email').value
 	const password = document.getElementById('password').value
 	const confirmPass = document.getElementById('confirmpassword').value
+
+	document.getElementById('firstName-error').textContent = ""
+  	document.getElementById('lastName-error').textContent = ""
+	document.getElementById('email-error').textContent = ""
+  	document.getElementById('password-error').textContent = ""
+	document.getElementById('confirmpassword-error').textContent = ""
+
+  let isValid = true;
+	if (!firstname){
+		document.getElementById('firstName-error').textContent = 'firstName is required.';
+        isValid = false;
+	}
+	if(!lastname){
+		document.getElementById('lastName-error').textContent = 'lastName is required.';
+        isValid = false;
+	}
+    if (!email) {
+        document.getElementById('email-error').textContent = 'Email is required.';
+        isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+        document.getElementById('email-error').textContent = 'Please enter a valid email address.';
+        isValid = false;
+    }
+
+    if (!password) {
+        document.getElementById('password-error').textContent = 'Password is required.';
+        isValid = false;
+    } else if (password.length < 10) {
+        document.getElementById('password-error').textContent = 'Password must be at least 10 characters';
+        isValid = false;
+    }
+	if (!confirmPass) {
+        document.getElementById('confirmpassword-error').textContent = 'Confirmpassword is required.';
+        isValid = false;
+	} else if (password !== confirmPass) {
+        document.getElementById('confirmpassword-error').textContent = "password does'nt match";
+        isValid = false;
+    
+    } else if (password.length < 10) {
+        document.getElementById('confirmpassword-error').textContent = 'Confirmpassword must be at least 10 characters';
+        isValid = false;
+    }
+    if (!isValid) {
+        return;
+    }
 
 	const res = await fetch(`${baseUrl}/register`, {
 		method: 'POST',
@@ -1318,8 +1446,35 @@ async function updateUser(id) {
 
 }
 
-async function countPost() {
-	const res = await fetch(`${baseUrl}/countPost`, {
+// document.getElementById('searchInput').addEventListener('input', function () {
+//   const search = this.value.trim();
+//   countPost(search);
+// });
+
+function getSearchParamsAndCount() {
+  const search = document.getElementById('searchInput').value.trim();
+  const status = document.getElementById('statusFilter')?.value || "";
+  const date = document.getElementById('date')?.value || "";
+
+  countPost(search, status, date);
+}
+
+document.getElementById('searchInput').addEventListener('input', getSearchParamsAndCount);
+
+document.getElementById('statusFilter').addEventListener('change', getSearchParamsAndCount);
+
+document.getElementById('date').addEventListener('change', getSearchParamsAndCount);
+
+ 
+async function countPost(search = "", status = "", date = "") {
+	
+	const queryParams = new URLSearchParams();
+
+	if (search) queryParams.append("search", search);
+	if (status) queryParams.append("status", status);
+	if (date) queryParams.append("date", date);
+
+	const res = await fetch(`${baseUrl}/countPost?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -1332,4 +1487,139 @@ async function countPost() {
 
 	document.getElementById('postCount').textContent = `No Of Count: ${count}`
 
+}
+
+async function countTag() {
+	const res = await fetch(`${baseUrl}/countTag`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('tagCount').textContent = `No Of Count: ${count}`
+
+}
+async function countPage() {
+	const res = await fetch(`${baseUrl}/countPages`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('pageCount').textContent = `No Of Count: ${count}`
+
+}
+async function countUser() {
+	const res = await fetch(`${baseUrl}/countUser`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('userCount').textContent = `No Of Count: ${count}`
+
+}
+
+async function deleteSelectedPosts() {
+  const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+  const ids = [];
+
+  checkboxes.forEach((checkbox, index) => {
+    const row = checkbox.closest('tr');
+    const titleCell = row.querySelector('td:nth-child(3)');
+    const title = titleCell?.innerText;
+
+    const editBtn = row.querySelector('.dropdown-menu a[onclick^="editPost"]');
+    const idMatch = editBtn?.getAttribute('onclick')?.match(/'([^']+)'/);
+    if (idMatch) {
+      ids.push(idMatch[1]);
+    }
+  });
+
+  if (ids.length === 0) {
+		Swal.fire({
+			icon: 'info',
+			title: 'Please select at least one post to delete.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+    	return;
+  }
+
+  const result = await Swal.fire({
+		title: `Are you sure you want to delete ${ids.length} selected post(s)?`,
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		try {
+		const res = await fetch(`${baseUrl}/deleteMultiplePost?ids=${ids.join(',')}`, {
+			method: "DELETE",
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+    	const data = await res.json();
+
+		if (data.success) {
+			Swal.fire({
+				icon: 'success',
+				title: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		fetchPost(currentPage)
+		countPost()
+		document.getElementById('delete-all-btn').classList.add('d-none');
+		document.querySelectorAll('.row-checkbox:checked').forEach(cb => cb.checked = false);
+		const headerCheckbox = document.querySelector('#select-all'); // **Assumes your header checkbox has an ID of 'selectAllCheckbox'**
+        if (headerCheckbox) {
+          headerCheckbox.checked = false;
+        }
+
+		} else {
+			Swal.fire({
+				icon: 'success',
+				title: data.error || 'Failed to delete posts.',
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+  } catch (err) {
+	 Swal.fire({
+			icon: 'success',
+			title: err || 'An error occurred while deleting posts.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+  }
+	}
+
+ 
 }

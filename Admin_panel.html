@@ -149,6 +149,7 @@
                               <label for="recipient-name" class="col-form-label">Title :</label>
                               <input type="email" class="form-control" id="title" />
                             </div>
+                            <small id="error-title" class="text-danger"></small>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
                               <textarea class="form-control" id="description" rows="3"></textarea>
@@ -171,6 +172,11 @@
                     <caption></caption>
                     <thead class="table-dark">
                       <tr>
+                        <th>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all" />
+                          </div>
+                        </th>
                         <th scope="col">So.#</th>
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
@@ -274,9 +280,7 @@
                     </div>
                   </div>
                 </table>
-                <nav>
-                  <ul  id="pagination" class="pagination justify-content-center mt-3"></ul>
-                </nav>
+                
                 <!-- <div class="d-flex justify-content-between align-items-center mt-1 mb-3">
                       <div id="pageInfo" class="fw-bold"></div>
                         <div>
@@ -285,6 +289,12 @@
                         </div>
                 </div> -->
               </div>
+                <button onclick="deleteSelectedPosts()" id="delete-all-btn" class="btn btn-danger mb-3 d-none">
+                  Delete Selected
+                </button>
+                <nav>
+                  <ul  id="pagination" class="pagination justify-content-center mt-3"></ul>
+                </nav>
             </div>
           </div>
         </div>
@@ -302,6 +312,7 @@
                     </form>
                   </div>
                   <div>
+                    <span id="tagCount"></span>
                     <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#tagModal"
                       data-bs-whatever="@mdo">
                       Create Tag
@@ -323,6 +334,7 @@
                               <label for="recipient-name" class="col-form-label">TagName:</label>
                               <input type="email" class="form-control" id="tag-Name" />
                             </div>
+                            <small id="error-tag-Name" class="text-danger"></small>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
                               <textarea class="form-control" id="tag-description" rows="3"></textarea>
@@ -461,6 +473,7 @@
                     </form>
                   </div>
                   <div>
+                    <span id="pageCount"></span>
                     <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#pagesModal"
                       data-bs-whatever="@mdo">
                       Create Page
@@ -482,6 +495,7 @@
                               <label for="recipient-name" class="col-form-label">PageName:</label>
                               <input type="email" class="form-control" id="pageName" />
                             </div>
+                            <small id="error-pageName" class="text-danger"></small>
                             <div class="mb-3">
                               <label for="message-text" class="col-form-label">Description :</label>
                               <textarea class="form-control" id="pagedescription" rows="3"></textarea>
@@ -623,6 +637,7 @@
                     </form>
                   </div>
                   <div>
+                    <span id="userCount"></span>
                     <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#userModal"
                       data-bs-whatever="@mdo">
                       Create User
@@ -643,32 +658,37 @@
                 <div class="col-md-6">
                   <label class="col-form-label">First Name:</label>
                   <input id="firstName" type="text" class="form-control" />
-                </div>
+                  <small id="firstName-error" class="text-danger"></small>
+                </div>                
                 <div class="col-md-6">
                   <label class="col-form-label">Last Name:</label>
                   <input id="lastName" type="text" class="form-control" />
-                </div>
-              </div>
+                  <small id="lastName-error" class="text-danger"></small>
+                </div>                
+              </div>              
 
               <!-- Second Row: Email and Password -->
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label class="col-form-label">Email:</label>
                   <input id="email" type="email" class="form-control" />
-                </div>
+                  <small id="email-error" class="text-danger"></small>
+                </div>                
                 <div class="col-md-6">
                   <label class="col-form-label">Password:</label>
                   <input id="password" type="password" class="form-control" />
-                </div>
-              </div>
+                  <small id="password-error" class="text-danger"></small>
+                </div>                
+              </div>              
 
               <!-- Third Row: Confirm Password -->
               <div class="row mb-3">
                 <div class="col-md-12">
                   <label class="col-form-label">Confirm Password:</label>
                   <input id="confirmpassword" type="password" class="form-control" />
+                  <small id="confirmpassword-error" class="text-danger"></small>
                 </div>
-              </div>
+              </div>              
             </form>
           </div>
 
@@ -688,6 +708,8 @@
                         <th scope="col">So.#</th>
                         <th scope="col">Full Name</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Admin</th>
                         <th scope="col">Created_at</th>
                         <th scope="col">Update_at</th>                        
                         <th scope="col">action</th>
