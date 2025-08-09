@@ -122,6 +122,20 @@ let filters = {
 	date: "",
 };
 
+let filterTag = {
+	statusTag: "",
+	dateTag: "",
+};
+
+let filterPage = {
+	statusPage: "",
+	datePage: "",
+};
+
+let filterUser = {
+	statusUser: "",
+	dateUser: "",
+};
 
 async function fetchPost(page = 1) {
 
@@ -206,13 +220,20 @@ function applyFilters() {
 }
 
 function searchfilter(){
+	filterTag.statusTag = document.getElementById('TagstatusFilter').value;
+	filterTag.dateTag = document.getElementById('Tagdate').value;
+
 	fetchTag();
 }
 function searchfilterPage(){
+	filterPage.statusPage = document.getElementById('PageStatusFilter').value;
+	filterPage.datePage = document.getElementById('PageDate').value;
 	fetchPage();
 }
 
 function searchfilterUser(){
+	filterUser.statusUser = document.getElementById('UserStatusFilter').value;
+	filterUser.dateUser = document.getElementById('dateUser').value;
 	fetchUser();
 }
 
@@ -227,6 +248,33 @@ function clearFilters() {
 
 }
 
+function TagClearFilters() {
+	document.getElementById('TagstatusFilter').value = "";
+	document.getElementById('Tagdate').value = "";
+
+	filterTag.statusTag = "";
+	filterTag.dateTag = "";
+
+}
+
+function PageClearFilters() {
+	document.getElementById('PageStatusFilter').value = "";
+	document.getElementById('PageDate').value = "";
+
+	filterPage.statusPage = "";
+	filterPage.datePage = "";
+
+}
+
+function UserclearFilters() {
+	document.getElementById('UserStatusFilter').value = "";
+	document.getElementById('dateUser').value = "";
+
+	filterUser.statusUser = "";
+	filterUser.dateUser = "";
+
+}
+
 function resetFilters() {
 	document.getElementById('statusFilter').value = "";
 	document.getElementById('date').value = "";
@@ -237,6 +285,39 @@ function resetFilters() {
 	currentPage = 1;
 	fetchPost();
 	countPost()	
+}
+
+function TagResetFilters() {
+	document.getElementById('TagstatusFilter').value = "";
+	document.getElementById('Tagdate').value = "";
+
+	filterTag.statusTag = "";
+	filterTag.dateTag = "";
+
+	fetchTag();
+	countTag()	
+}
+
+function PageResetFilters() {
+	document.getElementById('PageStatusFilter').value = "";
+	document.getElementById('PageDate').value = "";
+
+	filterPage.statusPage = "";
+	filterPage.datePage = "";
+
+	fetchPage();
+	countPage()	
+}
+
+function UserResetFilters() {
+	document.getElementById('UserStatusFilter').value = "";
+	document.getElementById('dateUser').value = "";
+
+	filterUser.statusUser = "";
+	filterUser.dateUser = "";
+
+	fetchUser();
+	countUser()	
 }
 
 function renderPaginationButtons(total) {
@@ -294,6 +375,8 @@ async function fetchTag() {
 	const queryParams = new URLSearchParams({
 		search: searchInputTag,
 		sort: sortValue,
+		status: filterTag.statusTag,
+		date: filterTag.dateTag
 	})
 
 	const res = await fetch(`${baseUrl}/getTag?${queryParams.toString()}`, {
@@ -353,6 +436,8 @@ async function fetchPage() {
 	const queryParams = new URLSearchParams({
 		search: searchInputpage,
 		sort: sortValue,
+		status: filterPage.statusPage,
+		date: filterPage.datePage
 	})
 	const res = await fetch(`${baseUrl}/getPages?${queryParams.toString()}`, {
 		method: "GET",
@@ -410,6 +495,8 @@ async function fetchUser() {
 	const queryParams = new URLSearchParams({
 		search: searchInputuser,
 		sort: sortValue,
+		active: filterUser.statusUser,
+		date: filterUser.dateUser
 	})
 	const res = await fetch(`${baseUrl}/getUser?${queryParams.toString()}`, {
 		method: "GET",
@@ -1512,23 +1599,39 @@ document.getElementById('date').addEventListener('change', getSearchParamsAndCou
 
 function getSearchParamsAndCountTag(){
 	const search = document.getElementById('searchInputTag').value.trim();
-
-	countTag(search)	
+ 	const status = document.getElementById('TagstatusFilter')?.value || "";
+  	const date = document.getElementById('Tagdate')?.value || "";
+	countTag(search,status,date)	
 }
 document.getElementById('searchInputTag').addEventListener('input', getSearchParamsAndCountTag);
+document.getElementById('TagstatusFilter').addEventListener('change', getSearchParamsAndCountTag);
+
+document.getElementById('Tagdate').addEventListener('change', getSearchParamsAndCountTag);
 
 function getSearchParamsAndCountPage(){
 	const search = document.getElementById('searchInputpage').value.trim();
+	const status = document.getElementById('PageStatusFilter')?.value || "";
+  	const date = document.getElementById('PageDate')?.value || "";
 
-	countPage(search)	
+	countPage(search,status,date)	
 }
+
+document.getElementById('PageStatusFilter').addEventListener('change', getSearchParamsAndCountPage);
+
+document.getElementById('PageDate').addEventListener('change', getSearchParamsAndCountPage);
 document.getElementById('searchInputpage').addEventListener('input', getSearchParamsAndCountPage);
 
 function getSearchParamsAndCountUser(){
+	const status = document.getElementById('UserStatusFilter')?.value || "";
+  	const date = document.getElementById('dateUser')?.value || "";
 	const search = document.getElementById('searchInputuser').value.trim();
 
-	countUser(search)	
+	countUser(search,status,date)	
 }
+
+document.getElementById('UserStatusFilter').addEventListener('change', getSearchParamsAndCountUser);
+
+document.getElementById('dateUser').addEventListener('change', getSearchParamsAndCountUser);
 document.getElementById('searchInputuser').addEventListener('input', getSearchParamsAndCountUser);
 
 
@@ -1555,10 +1658,12 @@ async function countPost(search = "", status = "", date = "") {
 
 }
 
-async function countTag(search = "") {
+async function countTag(search = "", status = "", date = "") {
 	const queryParams = new URLSearchParams();
 
-	if (search) queryParams.append("search", search);
+	if (search) queryParams.append("search", search );
+	if (status) queryParams.append("status", status);
+	if (date) queryParams.append("date", date);
 	const res = await fetch(`${baseUrl}/countTag?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
@@ -1573,9 +1678,11 @@ async function countTag(search = "") {
 	document.getElementById('tagCount').textContent = `No Of Count: ${count}`
 
 }
-async function countPage(search = "") {
+async function countPage(search = "", status = "", date = "") {
 	const queryParams = new URLSearchParams();
 	if (search) queryParams.append("search", search);
+	if (status) queryParams.append("status", status);
+	if (date) queryParams.append("date", date);
 	const res = await fetch(`${baseUrl}/countPages?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
@@ -1590,9 +1697,11 @@ async function countPage(search = "") {
 	document.getElementById('pageCount').textContent = `No Of Count: ${count}`
 
 }
-async function countUser(search = "") {
+async function countUser(search = "", active = "", date = "") {
 	const queryParams = new URLSearchParams();
 	if (search) queryParams.append("search", search);
+	if (active) queryParams.append("active", active);
+	if (date) queryParams.append("date", date);
 	const res = await fetch(`${baseUrl}/countUser?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
