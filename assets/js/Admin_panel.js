@@ -117,6 +117,18 @@ let currentPage = 1;
 const limit = 5;
 let totalPages = 1;
 
+let currentTagPage = 1;
+const tagLimit = 5;
+let totalTagPages = 1;
+
+let currentPagePage = 1;
+const pageLimit = 5;
+let totalPagePages = 1;
+
+let currentUserPage = 1;
+const userLimit = 5;
+let totalUserPages = 1;
+
 let filters = {
 	status: "",
 	date: "",
@@ -223,11 +235,14 @@ function searchfilter(){
 	filterTag.statusTag = document.getElementById('TagstatusFilter').value;
 	filterTag.dateTag = document.getElementById('Tagdate').value;
 
+	currentTagPage = 1;
 	fetchTag();
 }
 function searchfilterPage(){
 	filterPage.statusPage = document.getElementById('PageStatusFilter').value;
 	filterPage.datePage = document.getElementById('PageDate').value;
+
+	currentPagePage = 1;
 	fetchPage();
 }
 
@@ -254,6 +269,7 @@ function TagClearFilters() {
 
 	filterTag.statusTag = "";
 	filterTag.dateTag = "";
+	currentTagPage = 1;
 
 }
 
@@ -263,6 +279,7 @@ function PageClearFilters() {
 
 	filterPage.statusPage = "";
 	filterPage.datePage = "";
+	currentPagePage = 1;
 
 }
 
@@ -272,6 +289,7 @@ function UserclearFilters() {
 
 	filterUser.statusUser = "";
 	filterUser.dateUser = "";
+	currentUserPage = 1;
 
 }
 
@@ -294,6 +312,7 @@ function TagResetFilters() {
 	filterTag.statusTag = "";
 	filterTag.dateTag = "";
 
+	currentTagPage = 1;
 	fetchTag();
 	countTag()	
 }
@@ -305,6 +324,7 @@ function PageResetFilters() {
 	filterPage.statusPage = "";
 	filterPage.datePage = "";
 
+	currentPagePage = 1;
 	fetchPage();
 	countPage()	
 }
@@ -316,6 +336,7 @@ function UserResetFilters() {
 	filterUser.statusUser = "";
 	filterUser.dateUser = "";
 
+	currentUserPage = 1;
 	fetchUser();
 	countUser()	
 }
@@ -354,10 +375,118 @@ function renderPaginationButtons(total) {
 	pagination.appendChild(next);
 }
 
+function renderTagPaginationButtons(total) {
+	const pagination = document.getElementById('tagPagination');
+	pagination.innerHTML = '';
+
+	const prev = document.createElement('li');
+	prev.className = `page-item ${currentTagPage === 1 ? 'disabled' : ''}`;
+	prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+	prev.onclick = (e) => {
+		e.preventDefault();
+		if (currentTagPage > 1) fetchTag(currentTagPage - 1);
+	};
+	pagination.appendChild(prev);
+
+	for (let i = 1; i <= total; i++) {
+		const pageBtn = document.createElement('li');
+		pageBtn.className = `page-item ${i === currentTagPage ? 'active' : ''}`;
+		pageBtn.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+		pageBtn.onclick = (e) => {
+			e.preventDefault();
+			fetchTag(i);
+		};
+		pagination.appendChild(pageBtn);
+	}
+
+	const next = document.createElement('li');
+	next.className = `page-item ${currentTagPage === total ? 'disabled' : ''}`;
+	next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+	next.onclick = (e) => {
+		e.preventDefault();
+		if (currentTagPage < total) fetchTag(currentTagPage + 1);
+	};
+	pagination.appendChild(next);
+}
+
+function renderpagePaginationButtons(total) {
+	const pagination = document.getElementById('pagePagination');
+	pagination.innerHTML = '';
+
+	const prev = document.createElement('li');
+	prev.className = `page-item ${currentPagePage === 1 ? 'disabled' : ''}`;
+	prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+	prev.onclick = (e) => {
+		e.preventDefault();
+		if (currentPagePage > 1) fetchPage(currentPagePage - 1);
+	};
+	pagination.appendChild(prev);
+
+	for (let i = 1; i <= total; i++) {
+		const pageBtn = document.createElement('li');
+		pageBtn.className = `page-item ${i === currentPagePage ? 'active' : ''}`;
+		pageBtn.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+		pageBtn.onclick = (e) => {
+			e.preventDefault();
+			fetchPage(i);
+		};
+		pagination.appendChild(pageBtn);
+	}
+
+	const next = document.createElement('li');
+	next.className = `page-item ${currentPagePage === total ? 'disabled' : ''}`;
+	next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+	next.onclick = (e) => {
+		e.preventDefault();
+		if (currentPagePage < total) fetchPage(currentPagePage + 1);
+	};
+	pagination.appendChild(next);
+}
+function renderUserPaginationButtons(total) {
+	const pagination = document.getElementById('userPagination');
+	pagination.innerHTML = '';
+
+	const prev = document.createElement('li');
+	prev.className = `page-item ${currentUserPage === 1 ? 'disabled' : ''}`;
+	prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+	prev.onclick = (e) => {
+		e.preventDefault();
+		if (currentUserPage > 1) fetchUser(currentUserPage - 1);
+	};
+	pagination.appendChild(prev);
+
+	for (let i = 1; i <= total; i++) {
+		const pageBtn = document.createElement('li');
+		pageBtn.className = `page-item ${i === currentUserPage ? 'active' : ''}`;
+		pageBtn.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+		pageBtn.onclick = (e) => {
+			e.preventDefault();
+			fetchUser(i);
+		};
+		pagination.appendChild(pageBtn);
+	}
+
+	const next = document.createElement('li');
+	next.className = `page-item ${currentUserPage === total ? 'disabled' : ''}`;
+	next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+	next.onclick = (e) => {
+		e.preventDefault();
+		if (currentUserPage < total) fetchUser(currentUserPage + 1);
+	};
+	pagination.appendChild(next);
+}
+
 document.getElementById('searchInput')?.addEventListener('keydown', (e) => {
 	if (e.key === 'Enter') {
 		currentPage = 1;
 		fetchPost();
+	}
+});
+
+document.getElementById('searchInput')?.addEventListener('keydown', (e) => {
+	if (e.key === 'Enter') {
+		currentTagPage = 1;
+		fetchTag();
 	}
 });
 
@@ -366,15 +495,47 @@ document.getElementById('sortSelect')?.addEventListener('change', () => {
 	fetchPost();
 });
 
+document.getElementById('sortSelect')?.addEventListener('change', () => {
+	currentTagPage = 1;
+	fetchTag();
+});
+
+document.getElementById('searchInput')?.addEventListener('keydown', (e) => {
+	if (e.key === 'Enter') {
+		currentPagePage = 1;
+		fetchPage();
+	}
+});
+
+document.getElementById('sortSelect')?.addEventListener('change', () => {
+	currentPagePage = 1;
+	fetchPage();
+});
+
+document.getElementById('sortSelect')?.addEventListener('change', () => {
+	currentUserPage = 1;
+	fetchUser();
+});
+
+document.getElementById('searchInput')?.addEventListener('keydown', (e) => {
+	if (e.key === 'Enter') {
+		currentUserPage = 1;
+		fetchUser();
+	}
+});
 
 
-async function fetchTag() {
+async function fetchTag(page = 1) {
+
+	currentTagPage = page;
 	const sortValue = document.getElementById('sortSelectTag')?.value || "";
 	const searchInputTag = document.getElementById('searchInputTag')?.value || "";
 
 	const queryParams = new URLSearchParams({
 		search: searchInputTag,
 		sort: sortValue,
+		page: currentTagPage,
+		limit,
 		status: filterTag.statusTag,
 		date: filterTag.dateTag
 	})
@@ -398,6 +559,7 @@ async function fetchTag() {
 	list.innerHTML = '';
 	if (!data.success || tag.length === 0) {
 		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		document.getElementById('tagPagination').innerHTML = '';
 		return;
 	}
 
@@ -405,7 +567,7 @@ async function fetchTag() {
 
 		list.innerHTML += `
 		<tr>
-			<th scope="row">${index + 1}</th>
+			<th scope="row">${(currentTagPage - 1) * limit + index + 1}</th>
 			<td>${item.tagName}</td>
 			<td>${item.description}</td>
 			<td>${item.status ? 'Active' : 'InActive'}</td>
@@ -425,17 +587,24 @@ async function fetchTag() {
 			</tr>
 		`;
 	})
+	totalTagPages = data.pagination.totalPages;
+	renderTagPaginationButtons(totalTagPages);
 
 }
 
 
-async function fetchPage() {
+async function fetchPage(page = 1) {
+	
+	currentPagePage = page;
+
 	const sortValue = document.getElementById('sortSelectPage')?.value || "";
 	const searchInputpage = document.getElementById('searchInputpage')?.value || "";
 
 	const queryParams = new URLSearchParams({
 		search: searchInputpage,
 		sort: sortValue,
+		page: currentPagePage,
+		limit,
 		status: filterPage.statusPage,
 		date: filterPage.datePage
 	})
@@ -448,7 +617,7 @@ async function fetchPage() {
 
 	const data = await res.json()
 
-	const page = data.data
+	const pages = data.data
 
 	console.log('FETCH PAGE', page);
 
@@ -458,14 +627,15 @@ async function fetchPage() {
 	list.innerHTML = '';
 	if (!data.success || tag.length === 0) {
 		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		document.getElementById('pagePagination').innerHTML = '';
 		return;
 	}
 
-	page.forEach((item, index) => {
+	pages.forEach((item, index) => {
 
 		list.innerHTML += `
 		<tr>
-			<th scope="row">${index + 1}</th>
+			<th scope="row">${(currentPagePage - 1) * limit + index + 1}</th>
 			<td>${item.pageName}</td>
 			<td>${item.description}</td>
 			<td>${item.status ? 'Active' : 'InActive'}</td>
@@ -485,16 +655,22 @@ async function fetchPage() {
 			</tr>
 		`;
 	})
+	totalPagePages = data.pagination.totalPages;
+	renderpagePaginationButtons(totalPagePages);
 
 }
 
-async function fetchUser() {
+async function fetchUser(page = 1) {
+
+	currentUserPage = page;
 	const sortValue = document.getElementById('sortSelectUser')?.value || "";
 	const searchInputuser = document.getElementById('searchInputuser')?.value || "";
 
 	const queryParams = new URLSearchParams({
 		search: searchInputuser,
 		sort: sortValue,
+		page: currentUserPage,
+		limit,
 		active: filterUser.statusUser,
 		date: filterUser.dateUser
 	})
@@ -517,6 +693,7 @@ async function fetchUser() {
 	list.innerHTML = '';
 	if (!data.success || tag.length === 0) {
 		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		document.getElementById('userpagination').innerHTML = '';
 		return;
 	}
 
@@ -524,7 +701,7 @@ async function fetchUser() {
 
 		list.innerHTML += `
 		<tr>
-			<th scope="row">${index + 1}</th>
+			<th scope="row">${(currentUserPage - 1) * limit + index + 1}</th>
 			<td>${item.firstname} ${item.lastname}</td>
 			<td>${item.email}</td>
 			<td>${item.active ? 'active' : 'inActive'}</td>
@@ -545,6 +722,8 @@ async function fetchUser() {
 			</tr>
 		`;
 	})
+	totalUserPages = data.pagination.totalPages;
+	renderUserPaginationButtons(totalUserPages);
 
 }
 
@@ -960,6 +1139,7 @@ async function addTag() {
 			timerProgressBar: true
 		}).then(() => {
 			fetchTag();
+			countTag()
 			$('#tagModal').modal('hide');
 			document.getElementById('tag-Name').value = ""
 			document.getElementById('tag-description').value = ""
@@ -1014,6 +1194,7 @@ async function addPage() {
 			timerProgressBar: true
 		}).then(() => {
 			fetchPage();
+			countPage();
 			$('#pagesModal').modal('hide');
 			document.getElementById('pageName').value = ""
 			document.getElementById('pagedescription').value = ""
