@@ -401,6 +401,11 @@
                     <caption></caption>
                     <thead class="table-dark">
                       <tr>
+                        <th>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all-tag" />
+                          </div>
+                        </th>
                         <th scope="col">So.#</th>
                         <th scope="col">TagName</th>
                         <th scope="col">Description</th>
@@ -501,6 +506,9 @@
                 </div>
                 </table>
               </div>
+              <button onclick="deleteSelectedTag()" id="delete-all-btn-tag" class="btn btn-danger mb-3 d-none">
+                  Delete Selected
+                </button>
               <nav>
                   <ul  id="tagPagination" class="pagination justify-content-center mt-3"></ul>
                 </nav>              
@@ -609,6 +617,11 @@
                     <caption></caption>
                     <thead class="table-dark">
                       <tr>
+                        <th>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all-page" />
+                          </div>
+                        </th>
                         <th scope="col">So.#</th>
                         <th scope="col">PageName</th>
                         <th scope="col">Description</th>
@@ -707,6 +720,9 @@
                 </div>
                 </table>
               </div>
+              <button onclick="deleteSelectedPage()" id="delete-all-btn-page" class="btn btn-danger mb-3 d-none">
+                  Delete Selected
+                </button>
               <nav>
                   <ul  id="pagePagination" class="pagination justify-content-center mt-3"></ul>
                 </nav>              
@@ -844,6 +860,11 @@
                     <caption></caption>
                     <thead class="table-dark">
                       <tr>
+                        <th>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all-user" />
+                          </div>
+                        </th>
                         <th scope="col">So.#</th>
                         <th scope="col">Full Name</th>
                         <th scope="col">Email</th>
@@ -969,6 +990,9 @@
                 </div>
                 </table>
               </div>
+              <button onclick="deleteSelectedUser()" id="delete-all-btn-user" class="btn btn-danger mb-3 d-none">
+                  Delete Selected
+                </button>
               <nav>
                   <ul  id="userPagination" class="pagination justify-content-center mt-3"></ul>
                 </nav>              
