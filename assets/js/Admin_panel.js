@@ -98,6 +98,96 @@ document.addEventListener('DOMContentLoaded', function () {
 		  updateDeleteButtonVisibility()
       }
     });
+
+	const selectAllTag = document.getElementById('select-all-tag');
+	const deleteBtnTag = document.getElementById('delete-all-btn-tag');
+
+	function updateTagDeleteButtonVisibility() {
+      const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+      if (selectedCheckboxes.length > 0) {
+        deleteBtnTag.classList.remove('d-none');
+      } else {
+        deleteBtnTag.classList.add('d-none');
+      }
+    }
+
+    selectAllTag.addEventListener('change', function () {
+      const checkboxes = document.querySelectorAll('.row-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllTag.checked;
+      });
+	  updateTagDeleteButtonVisibility()
+    });
+
+	 document.addEventListener('change', function (e) {
+      if (e.target.classList.contains('row-checkbox')) {
+        const all = document.querySelectorAll('.row-checkbox');
+        const checked = document.querySelectorAll('.row-checkbox:checked');
+        selectAllTag.checked = all.length === checked.length;
+
+		  updateTagDeleteButtonVisibility()
+      }
+    });
+
+	const selectAllPage = document.getElementById('select-all-page');
+	const deleteBtnPage = document.getElementById('delete-all-btn-page');
+
+	function updatePageDeleteButtonVisibility() {
+      const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+      if (selectedCheckboxes.length > 0) {
+        deleteBtnPage.classList.remove('d-none');
+      } else {
+        deleteBtnPage.classList.add('d-none');
+      }
+    }
+
+    selectAllPage.addEventListener('change', function () {
+      const checkboxes = document.querySelectorAll('.row-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllPage.checked;
+      });
+	  updatePageDeleteButtonVisibility()
+    });
+
+	 document.addEventListener('change', function (e) {
+      if (e.target.classList.contains('row-checkbox')) {
+        const all = document.querySelectorAll('.row-checkbox');
+        const checked = document.querySelectorAll('.row-checkbox:checked');
+        selectAllPage.checked = all.length === checked.length;
+
+		  updatePageDeleteButtonVisibility()
+      }
+    });
+
+		const selectAllUser = document.getElementById('select-all-user');
+	const deleteBtnUser = document.getElementById('delete-all-btn-user');
+
+	function updateUserDeleteButtonVisibility() {
+      const selectedCheckboxes = document.querySelectorAll('.row-checkbox:checked');
+      if (selectedCheckboxes.length > 0) {
+        deleteBtnUser.classList.remove('d-none');
+      } else {
+        deleteBtnUser.classList.add('d-none');
+      }
+    }
+
+    selectAllUser.addEventListener('change', function () {
+      const checkboxes = document.querySelectorAll('.row-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllUser.checked;
+      });
+	  updateUserDeleteButtonVisibility()
+    });
+
+	 document.addEventListener('change', function (e) {
+      if (e.target.classList.contains('row-checkbox')) {
+        const all = document.querySelectorAll('.row-checkbox');
+        const checked = document.querySelectorAll('.row-checkbox:checked');
+        selectAllUser.checked = all.length === checked.length;
+
+		  updateUserDeleteButtonVisibility()
+      }
+    });
 })
 
 
@@ -567,6 +657,11 @@ async function fetchTag(page = 1) {
 
 		list.innerHTML += `
 		<tr>
+		<td>
+				<div class="form-check">
+					<input class="form-check-input row-checkbox" type="checkbox" />
+				</div>
+			</td>
 			<th scope="row">${(currentTagPage - 1) * limit + index + 1}</th>
 			<td>${item.tagName}</td>
 			<td>${item.description}</td>
@@ -635,6 +730,11 @@ async function fetchPage(page = 1) {
 
 		list.innerHTML += `
 		<tr>
+		<td>
+				<div class="form-check">
+					<input class="form-check-input row-checkbox" type="checkbox" />
+				</div>
+			</td>
 			<th scope="row">${(currentPagePage - 1) * limit + index + 1}</th>
 			<td>${item.pageName}</td>
 			<td>${item.description}</td>
@@ -701,6 +801,11 @@ async function fetchUser(page = 1) {
 
 		list.innerHTML += `
 		<tr>
+		<td>
+				<div class="form-check">
+					<input class="form-check-input row-checkbox" type="checkbox" />
+				</div>
+			</td>
 			<th scope="row">${(currentUserPage - 1) * limit + index + 1}</th>
 			<td>${item.firstname} ${item.lastname}</td>
 			<td>${item.email}</td>
@@ -1977,6 +2082,273 @@ async function deleteSelectedPosts() {
 	 Swal.fire({
 			icon: 'success',
 			title: err || 'An error occurred while deleting posts.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+  }
+	}
+
+ 
+}
+
+async function deleteSelectedTag() {
+  const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+  const ids = [];
+
+  checkboxes.forEach((checkbox, index) => {
+    const row = checkbox.closest('tr');
+    const titleCell = row.querySelector('td:nth-child(3)');
+    const title = titleCell?.innerText;
+
+    const editBtn = row.querySelector('.dropdown-menu a[onclick^="editTag"]');
+    const idMatch = editBtn?.getAttribute('onclick')?.match(/'([^']+)'/);
+    if (idMatch) {
+      ids.push(idMatch[1]);
+    }
+  });
+
+  if (ids.length === 0) {
+		Swal.fire({
+			icon: 'info',
+			title: 'Please select at least one tag to delete.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+    	return;
+  }
+
+  const result = await Swal.fire({
+		title: `Are you sure you want to delete ${ids.length} selected tag(s)?`,
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		try {
+		const res = await fetch(`${baseUrl}/deleteMultipleTags?ids=${ids.join(',')}`, {
+			method: "DELETE",
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+    	const data = await res.json();
+
+		if (data.success) {
+			Swal.fire({
+				icon: 'success',
+				title: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		fetchTag(currentPage)
+		countTag()
+		document.getElementById('delete-all-btn-tag').classList.add('d-none');
+		document.querySelectorAll('.row-checkbox:checked').forEach(cb => cb.checked = false);
+		const headerCheckbox = document.querySelector('#select-all-tag'); // **Assumes your header checkbox has an ID of 'selectAllCheckbox'**
+        if (headerCheckbox) {
+          headerCheckbox.checked = false;
+        }
+
+		} else {
+			Swal.fire({
+				icon: 'success',
+				title: data.error || 'Failed to delete tag.',
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+  } catch (err) {
+	 Swal.fire({
+			icon: 'success',
+			title: err || 'An error occurred while deleting tag.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+  }
+	}
+
+ 
+}
+
+async function deleteSelectedPage() {
+  const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+  const ids = [];
+
+  checkboxes.forEach((checkbox, index) => {
+    const row = checkbox.closest('tr');
+    const titleCell = row.querySelector('td:nth-child(3)');
+    const title = titleCell?.innerText;
+
+    const editBtn = row.querySelector('.dropdown-menu a[onclick^="editPage"]');
+    const idMatch = editBtn?.getAttribute('onclick')?.match(/'([^']+)'/);
+    if (idMatch) {
+      ids.push(idMatch[1]);
+    }
+  });
+
+  if (ids.length === 0) {
+		Swal.fire({
+			icon: 'info',
+			title: 'Please select at least one page to delete.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+    	return;
+  }
+
+  const result = await Swal.fire({
+		title: `Are you sure you want to delete ${ids.length} selected page(s)?`,
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		try {
+		const res = await fetch(`${baseUrl}/deleteMultiplePages?ids=${ids.join(',')}`, {
+			method: "DELETE",
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+    	const data = await res.json();
+
+		if (data.success) {
+			Swal.fire({
+				icon: 'success',
+				title: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		fetchPage(currentPage)
+		countPage()
+		document.getElementById('delete-all-btn-page').classList.add('d-none');
+		document.querySelectorAll('.row-checkbox:checked').forEach(cb => cb.checked = false);
+		const headerCheckbox = document.querySelector('#select-all-page'); // **Assumes your header checkbox has an ID of 'selectAllCheckbox'**
+        if (headerCheckbox) {
+          headerCheckbox.checked = false;
+        }
+
+		} else {
+			Swal.fire({
+				icon: 'success',
+				title: data.error || 'Failed to delete page.',
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+  } catch (err) {
+	 Swal.fire({
+			icon: 'success',
+			title: err || 'An error occurred while deleting page.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+  }
+	}
+
+ 
+}
+
+async function deleteSelectedUser() {
+  const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+  const ids = [];
+
+  checkboxes.forEach((checkbox, index) => {
+    const row = checkbox.closest('tr');
+    const titleCell = row.querySelector('td:nth-child(3)');
+    const title = titleCell?.innerText;
+
+    const editBtn = row.querySelector('.dropdown-menu a[onclick^="editUser"]');
+    const idMatch = editBtn?.getAttribute('onclick')?.match(/'([^']+)'/);
+    if (idMatch) {
+      ids.push(idMatch[1]);
+    }
+  });
+
+  if (ids.length === 0) {
+		Swal.fire({
+			icon: 'info',
+			title: 'Please select at least one user to delete.',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+    	return;
+  }
+
+  const result = await Swal.fire({
+		title: `Are you sure you want to delete ${ids.length} selected user(s)?`,
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
+
+	if (result.isConfirmed) {
+		try {
+		const res = await fetch(`${baseUrl}/deleteMultipleUsers?ids=${ids.join(',')}`, {
+			method: "DELETE",
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+    	const data = await res.json();
+
+		if (data.success) {
+			Swal.fire({
+				icon: 'success',
+				title: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		fetchUser(currentPage)
+		countUser()
+		document.getElementById('delete-all-btn-user').classList.add('d-none');
+		document.querySelectorAll('.row-checkbox:checked').forEach(cb => cb.checked = false);
+		const headerCheckbox = document.querySelector('#select-all-user'); // **Assumes your header checkbox has an ID of 'selectAllCheckbox'**
+        if (headerCheckbox) {
+          headerCheckbox.checked = false;
+        }
+
+		} else {
+			Swal.fire({
+				icon: 'success',
+				title: data.error || 'Failed to delete user.',
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+  } catch (err) {
+	 Swal.fire({
+			icon: 'success',
+			title: err || 'An error occurred while deleting user.',
 			timer: 2000,
 			showConfirmButton: false,
 			timerProgressBar: true
