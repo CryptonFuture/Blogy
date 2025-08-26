@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	countTag()
 	countPage()
 	countUser()
+	viewProfile()
 
 	const selectAll = document.getElementById('select-all');
 	const deleteBtn = document.getElementById('delete-all-btn');
@@ -1587,6 +1588,38 @@ async function viewPost(id) {
 		Swal.fire({
 			icon: 'error',
 			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+async function viewProfile() {
+	const userId = localStorage.getItem('user')
+	const res = await fetch(`${baseUrl}/viewProfileById/${userId}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const view = data.data[0]
+
+		
+		document.getElementById('view-profile-fullname').innerHTML = `<span> ${view.firstname} ${view.lastname} </span>`
+		document.getElementById('view-profile-email').innerHTML = `<span> ${view.email} </span>`
+		document.getElementById('view-profile-phone').innerHTML = `<span> ${view.phone ? view.phone : '----------' } </span>`
+		document.getElementById('view-profile-address').innerHTML = `<span> ${view.address ? view.address : '----------'} </span>`
+		
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete profile: ${data.error || res.statusText}`,
 			text: data.error,
 			timer: 2000,
 			showConfirmButton: false,
