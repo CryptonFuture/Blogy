@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	countPage()
 	countUser()
 	viewProfile()
+	editProfile()
 
 	const selectAll = document.getElementById('select-all');
 	const deleteBtn = document.getElementById('delete-all-btn');
@@ -1629,6 +1630,41 @@ async function viewProfile() {
 		})
 	}
 }
+
+async function editProfile() {
+	const userId = localStorage.getItem('user')
+
+	const res = await fetch(`${baseUrl}/editProfileById/${userId}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const view = data.data[0]
+
+		document.getElementById('edit-profile-firstname').value = view.firstname
+		document.getElementById('edit-profile-lastname').value = view.lastname
+		document.getElementById('edit-profile-email').value = view.email
+		document.getElementById('edit-profile-phone').value = view.phone
+		document.getElementById('edit-profile-address').value = view.address
+
+	
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to edit profile: ${data.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
 
 async function viewTag(id) {
 	
