@@ -135,93 +135,42 @@
     selector: '.glightbox'
   });
 
+})();
 
-
-  $(document).ready(function () {
-    $('#openModal').on('click', function () {
-      const ModalHtml = `
-                <div
-        class="modal fade"
-        id="Modal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Login Form
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form id="form-submit">
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label"
-                    >Email:</label
-                  >
-                  <input
-                    id="email"
-                    type="email"
-                    class="form-control"
-                  />
-                </div>
-                <small id="email-error" class="text-danger"></small>
-                <div class="mb-3">
-                  <label for="message-text" class="col-form-label"
-                    >Password:</label
-                  >
-                  <input
-                    id="password"
-                    type="password"
-                    class="form-control"
-                  />
-                </div>
-                 <small id="password-error" class="text-danger"></small>
-                 <div class="mb-3">
-                    <label for="edit-post-status" class="col-form-label">Remember me:</label>
-                      <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="rememberMe" name="publish">
-                          <label class="form-check-label" for="publishCheck">
-                          </label>
-                        </div>
-                        </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button id="submit" onclick="login()" type="button" class="btn btn-primary">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>
-        `;
-
-      $('body').append(ModalHtml)
-
-      const modal = new bootstrap.Modal(document.getElementById('Modal'))
-      modal.show()
-
-      $('#Modal').on('hidden.bs.modal', function () {
-        $(this).remove()
-      })
-    })
+  document.addEventListener('DOMContentLoaded', function () {
+    getRole()
   })
 
- 
-})();
+
+  async function getRole() {
+	
+	const res = await fetch(`${baseUrl}/getRoles`, {
+		method: 'GET'
+	})
+
+	const data = await res.json()
+
+	const role = data.data
+
+	const rolelist = document.getElementById('role')
+
+	rolelist.innerHTML = '';
+
+	if (!data.success || !data.data || data.data.length === 0) {
+			 const errorRow = `<option disabled selected>${data.error || "No record found"}</option>`;
+			  rolelist.innerHTML = errorRow
+			return ;
+	}
+
+  rolelist.innerHTML = `<option value="" disabled selected>Select Role</option>`;
+
+	role.forEach((item, index) => {
+		rolelist.innerHTML += `
+				<option value="${item.role}">${item.name}</option>
+			`
+	})
+}
+
 
   const secretKey = "0192384756";
 
@@ -254,6 +203,7 @@ const access_Token = localStorage.getItem('token')
 async function login() {
   const email = document.getElementById('email').value
   const password = document.getElementById('password').value
+  const role = document.getElementById('role').value
   const rememberMe = document.getElementById('rememberMe').checked;
 
   document.getElementById('email-error').textContent = ""
@@ -287,7 +237,8 @@ async function login() {
     },
     body: JSON.stringify({
       email,
-      password
+      password,
+      role
     })
   })
 
@@ -304,6 +255,7 @@ async function login() {
     localStorage.setItem('email', data.user.email);
     localStorage.setItem('tokenType', data.user.tokenType);
     // localStorage.setItem('tokenExpiry', data.expiresAt);
+    localStorage.setItem('role', data.user.role)
 
     if (rememberMe) {
       const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
