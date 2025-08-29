@@ -933,6 +933,8 @@ async function logout() {
 		localStorage.removeItem('rememberedEmail');
 		localStorage.removeItem('rememberedPassword');
 		localStorage.removeItem('tokenExpiry');
+		localStorage.removeItem('role')
+
 
 		Swal.fire({
 			icon: 'success',
