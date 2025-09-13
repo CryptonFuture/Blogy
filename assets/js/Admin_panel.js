@@ -257,7 +257,7 @@ async function fetchPost(page = 1) {
 		date: filters.date
 	});
 
-	const res = await fetch(`${baseUrl}/${postEndpoint}?${queryParams.toString()}`, {
+	const res = await fetch(`${baseUrl}/getPublishedPost?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -290,9 +290,17 @@ async function fetchPost(page = 1) {
 			<th scope="row">${(currentPage - 1) * limit + index + 1}</th>
 			<td>${item.title}</td>
 			<td>${item.description}</td>
+			<td>
+				<img 
+					src="${item.image}" 
+					alt="User Image" 
+					width="50" 
+					height="50" 
+					style="object-fit: cover; border-radius: 50%;" 
+					/>
+			</td>
 			<td>${item.status ? 'Published' : 'unPublished'}</td>
 			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
-			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
 			<td><div class="dropdown">
 		<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			&#8942;
@@ -1154,6 +1162,14 @@ async function deleteUser(id) {
 async function addPost() {
 	const title = document.getElementById('title').value
 	const description = document.getElementById('description').value
+	const image = document.getElementById('PostImageInput').files[0]; 
+
+	const formData = new FormData();
+	formData.append("title", title);
+	formData.append("description", description);
+	if (image) {
+		formData.append("image", image);
+	}
 
 	document.getElementById('error-title').textContent = ""
 
@@ -1173,10 +1189,9 @@ async function addPost() {
 	const res = await fetch(`${baseUrl}/addPost`, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({ title, description })
+		body: formData
 	})
 
 	const data = await res.json()
@@ -1436,6 +1451,27 @@ async function editPost(id) {
 		document.getElementById('edit-post-title').value = post.title
 		document.getElementById('edit-post-description').value = post.description
 		document.getElementById('edit-post-status').checked = post.status
+			const postimagePreview = document.getElementById("edit-post-image-preview");
+		if (post.image) {
+			postimagePreview.src = `${post.image.replace(/\\/g, "/")}`;
+		} else {
+			postimagePreview.src = "assets/default-user.png"; 
+		}
+
+		const fileInputPost = document.getElementById("edit-post-image");
+		
+		fileInputPost.value = ""; 
+
+		fileInputPost.addEventListener("change", function (e) {
+			const postfile = e.target.files[0];
+			if (postfile) {
+				const postReader = new FileReader();
+				postReader.onload = function (e) {
+					postimagePreview.src = e.target.result; 
+				};
+				postReader.readAsDataURL(postfile);
+			}
+		});
 
 	} else {
 		const err = await res.json();
@@ -1768,15 +1804,25 @@ async function viewUser(id) {
 async function updatePost(id) {
 	const title = document.getElementById('edit-post-title').value
 	const description = document.getElementById('edit-post-description').value
+	const postImageFile = document.getElementById('edit-post-image').files[0];
 	const status = document.getElementById('edit-post-status').checked
+
+	const formData = new FormData();
+	formData.append("title", title);
+	formData.append("description", description);
+	formData.append("status", status);
+
+	if (postImageFile) {
+		formData.append("image", postImageFile); 
+	}
+
 
 	const res = await fetch(`${baseUrl}/updatePost/${id}`, {
 		method: 'PUT',
 		headers: {
-			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({ title, description, status })
+		body: formData
 	})
 
 	const data = await res.json()
