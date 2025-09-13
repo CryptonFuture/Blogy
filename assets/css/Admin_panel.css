@@ -85,6 +85,15 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--white) !important;
   }
 
+  .preview img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover; /* crop maintain karega */
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+
  thead th {
     position: sticky;
     top: 0;
