@@ -196,6 +196,7 @@
                     
                   </select>
                  </div>
+                 
                  <div class="mb-3">
                     <label for="edit-post-status" class="col-form-label">Remember me:</label>
                       <div class="form-check mb-3">
@@ -206,8 +207,13 @@
                         </div>
               </form>
             </div>
-            <div class="modal-footer">
-              <button
+            <div class="modal-footer googlebutton">
+              <a class="google-btn" onclick="googleAuthLogin()">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
+                    <span>Sign in with Google</span>
+                </a>
+                <div>
+                  <button
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
@@ -215,6 +221,7 @@
                 Close
               </button>
               <button id="submit" onclick="login()" type="button" class="btn btn-primary">Submit</button>
+                </div>              
             </div>
           </div>
         </div>

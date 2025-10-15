@@ -59,9 +59,11 @@ let postEndpoint  = ''
 
 
 document.addEventListener('DOMContentLoaded', function () {
-	fetchUser()
+	fetchActiveUser()
+	fetchInActiveUser()
 	fetchPage()
 	fetchTag()
+	fetchLogs()
 	fetchDashboard()
 	getSideBarRoutes()
 	countPost()
@@ -70,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	countUser()
 	viewProfile()
 	editProfile()
+	fetchRole('.add-user-role')
+	fetchRole('.edit-user-role')
 
 	const selectAll = document.getElementById('select-all');
 	const deleteBtn = document.getElementById('delete-all-btn');
@@ -220,6 +224,10 @@ let totalPagePages = 1;
 let currentUserPage = 1;
 const userLimit = 5;
 let totalUserPages = 1;
+
+let currentLogsPage = 1;
+const logsLimit = 5;
+let totallogsPages = 1;
 
 let filters = {
 	status: "",
@@ -697,6 +705,137 @@ async function fetchTag(page = 1) {
 
 }
 
+async function fetchLogs(page = 1) {	
+	 currentLogsPage = page;
+	 const queryParams = new URLSearchParams({
+        page: currentLogsPage,
+        limit       
+    });
+
+	const res = await fetch(`${baseUrl}/getLogs?${queryParams.toString()}`, {
+		method: "GET",
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	const loglist = data.data
+
+	console.log('FETCH LOG', loglist);
+
+
+	const listlog = document.getElementById('loglist')
+	const pagination = document.getElementById('logsPagination');
+
+	listlog.innerHTML = '';
+	if (!data.success || !loglist || loglist.length === 0) {
+                listlog.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center text-danger fw-bold">
+                            ${data.error || "No logs found"}
+                        </td>
+                    </tr>
+                `;
+                pagination.innerHTML = '';
+                return;
+            }
+
+	loglist.forEach((item, index) => {
+
+		listlog.innerHTML += `
+		<tr>
+		
+			<th scope="row">${(currentLogsPage - 1) * limit + index + 1}</th>
+			<td>${item.user_id && item.user_id.firstname ? item.user_id.firstname : '----------'}</td>
+            <td>${item.login_time ? new Date(item.login_time).toLocaleTimeString() : '----------'}</td>
+            <td>${item.logout_time ? new Date(item.logout_time).toLocaleTimeString() : '----------'}</td>
+			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+			
+		
+			</tr>
+		`;
+	})
+
+	 totalPagePages = data.pagination.totalPages;
+    renderLogsPaginationButtons(totalPagePages);
+
+}
+
+function renderLogsPaginationButtons(total) {
+    const pagination = document.getElementById('logsPagination');
+    pagination.innerHTML = '';
+
+    const prev = document.createElement('li');
+    prev.className = `page-item ${currentLogsPage === 1 ? 'disabled' : ''}`;
+    prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+    prev.onclick = (e) => {
+        e.preventDefault();
+        if (currentLogsPage > 1) fetchLogs(currentLogsPage - 1);
+    };
+    pagination.appendChild(prev);
+
+    function createPageButton(page) {
+        const pageBtn = document.createElement('li');
+        pageBtn.className = `page-item ${page === currentLogsPage ? 'active' : ''}`;
+        pageBtn.innerHTML = `<a class="page-link" href="#">${page}</a>`;
+        pageBtn.onclick = (e) => {
+            e.preventDefault();
+            fetchLogs(page);
+        };
+        pagination.appendChild(pageBtn);
+    }
+
+    let maxVisible = 5;
+    let startPage = Math.max(1, currentLogsPage - 2);
+    let endPage = Math.min(total, currentLogsPage + 2);
+
+    if (endPage - startPage < maxVisible - 1) {
+        if (startPage === 1) {
+            endPage = Math.min(total, startPage + maxVisible - 1);
+        } else if (endPage === total) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+    }
+
+    if (startPage > 1) {
+        createPageButton(1);
+        if (startPage > 2) {
+            const dots = document.createElement('li');
+            dots.className = 'page-item disabled';
+            dots.innerHTML = `<a class="page-link">...</a>`;
+            pagination.appendChild(dots);
+        }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        createPageButton(i);
+    }
+
+    if (endPage < total) {
+        if (endPage < total - 1) {
+            const dots = document.createElement('li');
+            dots.className = 'page-item disabled';
+            dots.innerHTML = `<a class="page-link">...</a>`;
+            pagination.appendChild(dots);
+        }
+        createPageButton(total);
+    }
+
+    const next = document.createElement('li');
+    next.className = `page-item ${currentLogsPage === total ? 'disabled' : ''}`;
+    next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+    next.onclick = (e) => {
+        e.preventDefault();
+        if (currentLogsPage < total) fetchLogs(currentLogsPage + 1);
+    };
+    pagination.appendChild(next);
+}
+
+
+
 
 async function fetchPage(page = 1) {
 	
@@ -770,21 +909,9 @@ async function fetchPage(page = 1) {
 
 }
 
-async function fetchUser(page = 1) {
+async function fetchActiveUser() {
 
-	currentUserPage = page;
-	const sortValue = document.getElementById('sortSelectUser')?.value || "";
-	const searchInputuser = document.getElementById('searchInputuser')?.value || "";
-
-	const queryParams = new URLSearchParams({
-		search: searchInputuser,
-		sort: sortValue,
-		page: currentUserPage,
-		limit,
-		active: filterUser.statusUser,
-		date: filterUser.dateUser
-	})
-	const res = await fetch(`${baseUrl}/getUser?${queryParams.toString()}`, {
+	const res = await fetch(`${baseUrl}/getActiveUser`, {
 		method: "GET",
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -798,12 +925,11 @@ async function fetchUser(page = 1) {
 	console.log('FETCH USER', user);
 
 
-	const list = document.getElementById('userlist')
+	const list = document.getElementById('ActiveUserList')
 
 	list.innerHTML = '';
 	if (!data.success || tag.length === 0) {
 		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
-		document.getElementById('userpagination').innerHTML = '';
 		return;
 	}
 
@@ -821,6 +947,7 @@ async function fetchUser(page = 1) {
 			<td>${item.email}</td>
 			<td>${item.active ? 'active' : 'inActive'}</td>
 			<td>${item.is_admin ? 'admin' : 'notAdmin'}</td>
+			<td>${item.role}</td>
 			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
 			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
 			<td><div class="dropdown">
@@ -828,8 +955,8 @@ async function fetchUser(page = 1) {
 			&#8942;
 		</button>
 		<ul class="dropdown-menu">
-			<li><a onclick="viewUser('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewUserModal"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
-			<a onclick="editUser('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserModal">
+			<li><a onclick="viewUser('${item._id}')" class="dropdown-item" href="#"  data-bs-toggle="modal" data-bs-target="#viewUserModal"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+			<a onclick="editUser('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserActiveModal">
 		<i class="fas fa-edit me-2 text-info"></i> Edit
 		</a>
 			<li><a class="dropdown-item" href="#" onclick="deleteUser('${item._id}')"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
@@ -837,8 +964,68 @@ async function fetchUser(page = 1) {
 			</tr>
 		`;
 	})
-	totalUserPages = data.pagination.totalPages;
-	renderUserPaginationButtons(totalUserPages);
+	
+
+}
+
+async function fetchInActiveUser() {
+
+	
+	
+	const res = await fetch(`${baseUrl}/getInActiveUser`, {
+		method: "GET",
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	const user = data.data
+
+	console.log('FETCH USER', user);
+
+
+	const list = document.getElementById('InActiveUserList')
+
+	list.innerHTML = '';
+	if (!data.success || tag.length === 0) {
+		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		return;
+	}
+
+	user.forEach((item, index) => {
+
+		list.innerHTML += `
+		<tr>
+		<td>
+				<div class="form-check">
+					<input class="form-check-input row-checkbox" type="checkbox" />
+				</div>
+			</td>
+			<th scope="row">${(currentUserPage - 1) * limit + index + 1}</th>
+			<td>${item.firstname} ${item.lastname}</td>
+			<td>${item.email}</td>
+			<td>${item.active ? 'active' : 'inActive'}</td>
+			<td>${item.is_admin ? 'admin' : 'notAdmin'}</td>
+			<td>${item.role}</td>
+			<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+			<td><div class="dropdown">
+		<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			&#8942;
+		</button>
+		<ul class="dropdown-menu">
+			<li><a  onclick="viewUser('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewUserModal"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+			<a onclick="editUser('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editUserActiveModal">
+		<i class="fas fa-edit me-2 text-info"></i> Edit
+		</a>
+			<li><a class="dropdown-item" href="#" onclick="deleteUser('${item._id}')"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+		</ul>
+			</tr>
+		`;
+	})
+	
 
 }
 
@@ -880,13 +1067,23 @@ async function getSideBarRoutes() {
 
 	const data = await res.json()
 
-	const sideBarRoutes = data.data
+	const role = Number(localStorage.getItem('role')) || 0
+
+	const sideBarRoutes = data.data || []
 
 	const sideBarRouteslist = document.getElementById('sideBarRoutes')
 
 	sideBarRouteslist.innerHTML = '';
 
-	sideBarRoutes.forEach((item, index) => {
+	const filteredRoutes = (sideBarRoutes || []).filter(route => {
+	const routeRole = route?.role;
+	if (!routeRole) return false;
+	return Array.isArray(routeRole)
+		? routeRole.includes(role)
+		: Number(routeRole) === role;
+	});
+
+	filteredRoutes.forEach((item, index) => {
 		sideBarRouteslist.innerHTML += `
 			 <li class="active">
           	  <a onclick="showPage('${item.paramName}')" href="#" class="menu-link" data-content="dashboard"><span
@@ -1142,7 +1339,8 @@ async function deleteUser(id) {
 				showConfirmButton: false,
 				timerProgressBar: true
 			}).then(() => {
-				fetchUser();
+				fetchActiveUser();
+				fetchInActiveUser()
 				countUser()
 			});
 
@@ -1341,6 +1539,7 @@ async function addUser() {
 	const email = document.getElementById('email').value
 	const password = document.getElementById('password').value
 	const confirmPass = document.getElementById('confirmpassword').value
+	const role = document.querySelector('.add-user-role').value;
 
 	document.getElementById('firstName-error').textContent = ""
   	document.getElementById('lastName-error').textContent = ""
@@ -1393,7 +1592,7 @@ async function addUser() {
 			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({ firstname, lastname, email, password, confirmPass })
+		body: JSON.stringify({ firstname, lastname, email, password, confirmPass,role })
 	})
 
 	const data = await res.json()
@@ -1408,7 +1607,8 @@ async function addUser() {
 			showConfirmButton: false,
 			timerProgressBar: true
 		}).then(() => {
-			fetchUser();
+			fetchActiveUser();
+			fetchInActiveUser()
 			$('#userModal').modal('hide');
 			document.getElementById('firstName').value = " "
 			document.getElementById('lastName').value = " "
@@ -1586,8 +1786,9 @@ async function editUser(id) {
 		document.getElementById('edit-user-firstname').value = user.firstname
 		document.getElementById('edit-user-lastname').value = user.lastname
 		document.getElementById('edit-user-email').value = user.email
-		document.getElementById('edit-user-status').checked = user.status
-		document.getElementById('edit-user-admin').checked = user.admin
+		document.getElementById('edit-user-status').checked = user.active
+		document.getElementById('edit-user-admin').checked = user.is_admin
+		document.querySelector('.edit-user-role').value = user.role
 
 	} else {
 		const err = await res.json();
@@ -1941,8 +2142,9 @@ async function updateUser(id) {
 	const firstname = document.getElementById('edit-user-firstname').value
 	const lastname = document.getElementById('edit-user-lastname').value
 	const email = document.getElementById('edit-user-email').value
-	const status = document.getElementById('edit-user-status').checked
-	const admin = document.getElementById('edit-user-admin').checked
+	const active = document.getElementById('edit-user-status').checked
+	const is_admin = document.getElementById('edit-user-admin').checked
+	const role = document.querySelector('.edit-user-role').value
 
 	const res = await fetch(`${baseUrl}/updateUser/${id}`, {
 		method: 'PUT',
@@ -1950,7 +2152,7 @@ async function updateUser(id) {
 			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({ firstname, lastname, email, status, admin })
+		body: JSON.stringify({ firstname, lastname, email, active, is_admin,role })
 	})
 
 	const data = await res.json()
@@ -1964,8 +2166,9 @@ async function updateUser(id) {
 			showConfirmButton: false,
 			timerProgressBar: true
 		}).then(() => {
-			fetchUser();
-			$('#editUserModal').modal('hide');
+			fetchActiveUser();
+			fetchInActiveUser()
+			$('#editUserActiveModal').modal('hide');
 		});
 	} else {
 		const err = await res.json();
@@ -2444,7 +2647,8 @@ async function deleteSelectedUser() {
 				showConfirmButton: false,
 				timerProgressBar: true
 			})
-		fetchUser(currentPage)
+		fetchActiveUser()
+		fetchInActiveUser()
 		countUser()
 		document.getElementById('delete-all-btn-user').classList.add('d-none');
 		document.querySelectorAll('.row-checkbox:checked').forEach(cb => cb.checked = false);
@@ -2474,4 +2678,36 @@ async function deleteSelectedUser() {
 	}
 
  
+}
+
+async function fetchRole(dropdownSelector) {
+	
+	const res = await fetch(`${baseUrl}/getRole`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	const userRole = data.data
+
+	const dataRoleList = document.querySelector(dropdownSelector)
+
+	dataRoleList.innerHTML = '';
+
+	if (!data.success || !data.data || data.data.length === 0) {
+			 const errorRow = `<option disabled selected>${data.error || "No record found"}</option>`;
+			  dataRoleList.innerHTML = errorRow
+			return ;
+	}
+
+  dataRoleList.innerHTML = `<option value="" disabled selected>Select Role</option>`;
+
+	userRole.forEach((item, index) => {
+		dataRoleList.innerHTML += `
+				<option value="${item.role}">${item.name}</option>
+			`
+	})
 }

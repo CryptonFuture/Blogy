@@ -296,7 +296,70 @@ async function login() {
       });
     }
   
+}
 
 
 
+async function addContact() {
+	const name = document.getElementById('contact-name').value
+	const email = document.getElementById('contact-email').value
+  const contact_no = document.getElementById('contact-phone').value
+	const subject = document.getElementById('contact-message').value
+	
+
+	
+	const res = await fetch(`${baseUrl}/contactUs`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ name,email,contact_no,subject })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Create ContactUs Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			
+			document.getElementById('contact-name').value = ""
+			document.getElementById('contact-email').value = ""
+      document.getElementById('contact-phone').value = ""
+			document.getElementById('contact-message').value = ""
+		});
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete Contact: ${data.error}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+async function googleAuthLogin() {
+   const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/dashboard_real.html";
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const newToken = params.get("token");
+    if (newToken) {
+      localStorage.setItem("token", newToken);
+      window.location.href = "/dashboard_real.html";
+    }
+
+   window.location.href = 'http://localhost:8000/auth/google'
+
+  
 }
