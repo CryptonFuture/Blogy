@@ -8429,3 +8429,18 @@ body {
       margin-top: 20px;
     }
     
+    /* .nav-pills .nav-link.active {
+  background-color: #f75815 !important;
+  color: #fff !important;
+} */
+
+/* sab nav-link ka default text black */
+.nav-pills .nav-link {
+  color: #000 !important;
+}
+
+/* active wale ka background orange + text black */
+.nav-pills .nav-link.active {
+  background-color: #f75815 !important; /* Orange */
+  color: white !important;               /* Black */
+}
